@@ -72,7 +72,7 @@ def main():
         "--prompt",
         type=str,
         nargs="?",
-        default="An angry pug with a birthday cake",
+        default="A cartoon jellyfish",
         help="the prompt to render"
     )
     parser.add_argument(
@@ -155,7 +155,7 @@ def main():
     parser.add_argument("--train_la_data_size", type=int, default=1000)
     parser.add_argument("--timesteps", type=int, default= 50)
     parser.add_argument('--device', type=int, default=0)
-    parser.add_argument('--total_n_samples', type=int, default=4)
+    parser.add_argument('--total_n_samples', type=int, default=2)
 
     # NOTE: added for tuning the parameters of the LLLA
     parser.add_argument('--sigma_noise', type=float, default=1.0, help='Noise level for Laplace approximation.')
