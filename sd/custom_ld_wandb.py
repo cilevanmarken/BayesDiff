@@ -19,7 +19,7 @@ class CustomLD(nn.Module):
         if opt.hessian_mode == 'Diag':
             # Diagonal Hessian Approximation: original
             self.conv_out_la = DiagLaplace(nn.Sequential(self.conv_out, nn.Flatten(1, -1)), likelihood='regression', 
-                                        sigma_noise=opt.sigma_noise, prior_precision=opt.prior_precicsion, prior_mean=opt.prior_mean, temperature=1.0,
+                                        sigma_noise=opt.sigma_noise, prior_precision=opt.prior_precision, prior_mean=opt.prior_mean, temperature=1.0,
                                     backend=BackPackEF)
             
         else:

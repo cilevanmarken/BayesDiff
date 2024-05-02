@@ -27,7 +27,7 @@ def load_model_from_config(config, ckpt, verbose=False):
     return model
 
 
-def get_dev_x_from_z(dev,exp,N):
+def get_dev_x_from_z(dev,exp,N, model, device):
      #get n samples from z distribution
     z_list = []
     for _ in range(N):
@@ -44,37 +44,39 @@ def get_dev_x_from_z(dev,exp,N):
     return dev_x
 
 
-# search for a device
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
-config = OmegaConf.load(r"configs/stable-diffusion/v1-inference.yaml")
-model = load_model_from_config(config, r"C:\Users\cilev\Documents\DL2\external_utils\SD\v1-5-pruned-emaonly.ckpt").to(device)
+def visualize_uncertainty(exp_dir, id):
 
-#get z
-z_dev_list = []
-z_exp_list = []
+    # clear cache
+    torch.cuda.empty_cache() 
 
-# load directories
-exp_dir = r"C:\Users\cilev\Documents\DL2\BayesDiff\sd\ddim_exp\skipUQ\cfg3.0_A person in a hot-dog costume lying in a tub filled with mayonaisse_train1000_step50_S10"
-os.makedirs(f'{exp_dir}/x_dev',exist_ok=True)
+    # search for a device
+    device = 'cpu' #'cuda' if torch.cuda.is_available() else 
+    config = OmegaConf.load(r"configs/stable-diffusion/v1-inference.yaml")
+    model = load_model_from_config(config, r"C:\Users\cilev\Documents\DL2\external_utils\SD\v1-5-pruned-emaonly.ckpt").to(device)
 
-# make uncertanty map per image
+    #get z
+    z_dev_list = []
+    z_exp_list = []
 
+    # load directories
+    # exp_dir = r"C:\Users\cilev\Documents\DL2\BayesDiff\sd\ddim_exp\skipUQ\cfg3.0_A person in a hot-dog costume lying in a tub filled with mayonaisse_train1000_step50_S10"
+    os.makedirs(f'{exp_dir}/x_dev',exist_ok=True)
 
-id = 1000000
-z_var_i = torch.load(f'{exp_dir}/z_var/{id}.pth')
-z_exp_i = torch.load(f'{exp_dir}/z_exp/{id}.pth')
-z_dev_i = torch.clamp(z_var_i,min=0)**0.5
-z_dev_list.append(z_dev_i)
-z_exp_list.append(z_exp_i)
+    # make uncertanty map per image
 
 
+    # id = 1000000
+    z_var_i = torch.load(f'{exp_dir}/z_var/{id}.pth')
+    z_exp_i = torch.load(f'{exp_dir}/z_exp/{id}.pth')
+    z_dev_i = torch.clamp(z_var_i,min=0)**0.5
+    z_dev_list.append(z_dev_i)
+    z_exp_list.append(z_exp_i)
 
+    N = 10
+    for index in range(1):
+        z_dev = z_dev_list[index]
+        z_exp = z_exp_list[index]
+        dev_x = get_dev_x_from_z(z_dev,z_exp,N, model, device)
+        tvu.save_image(dev_x*100,f'{exp_dir}/x_dev/{id}.jpg' )
 
-
-
-N = 10
-for index in range(1):
-    z_dev = z_dev_list[index]
-    z_exp = z_exp_list[index]
-    dev_x = get_dev_x_from_z(z_dev,z_exp,N)
-    tvu.save_image(dev_x*100,f'{exp_dir}/x_dev/{id}.jpg' )
+    return dev_x*100

@@ -1,2 +1,5 @@
 ddpm_and_guided
 uvit
+ddim_exp\skipUQ\cfg3.0_A person in a hot-dog costume lying in a tub filled with mayonaisse_train1000_step50_S10
+ddim_exp\skipUQ\cfg3.0_An image of a Dutch person_train1000_step50_S10
+wandb

@@ -14,6 +14,8 @@ from ldm.util import instantiate_from_config
 from utils import NoiseScheduleVP, get_model_input_time
 from ddimUQ_utils import compute_alpha, singlestep_ddim_sample, var_iteration, exp_iteration, \
     sample_from_gaussion
+from visualize import visualize_uncertainty
+import wandb
 
 def load_model_from_config(config, ckpt, verbose=False):
     print(f"Loading model from {ckpt}")
@@ -70,7 +72,7 @@ def main():
         "--prompt",
         type=str,
         nargs="?",
-        default="a painting of a cheetah drinking an espresso",
+        default="An angry pug with a birthday cake",
         help="the prompt to render"
     )
     parser.add_argument(
@@ -100,7 +102,7 @@ def main():
     parser.add_argument(
         "--scale",
         type=float,
-        default=7.5,
+        default=3,
         help="unconditional guidance scale: eps = eps(x, empty) + scale * (eps(x, cond) - eps(x, empty))",
     )
     parser.add_argument(
@@ -112,7 +114,7 @@ def main():
     parser.add_argument(
         "--ckpt",
         type=str,
-        default="models/ldm/stable-diffusion-v1/v1-5-pruned-emaonly.ckpt",
+        default=r"C:\Users\cilev\Documents\DL2\external_utils\SD\v1-5-pruned-emaonly.ckpt",
         help="path to checkpoint of model",
     )
     parser.add_argument(
@@ -141,17 +143,19 @@ def main():
     )
     parser.add_argument(
         "--laion_art_path",
-        type=str,)
+        type=str,
+        default=r"C:\Users\cilev\Documents\DL2\external_utils\SD\laion-art.parquet")
     parser.add_argument(
         "--local_image_path",
-        type=str,)
+        type=str,
+        default=r"C:\Users\cilev\Documents\DL2\external_utils\SD\Images")
     parser.add_argument("--mc_size", type=int, default=10)
-    parser.add_argument("--sample_batch_size", type=int, default=8)
-    parser.add_argument("--train_la_batch_size", type=int, default=4)
-    parser.add_argument("--train_la_data_size", type=int, default=16)
+    parser.add_argument("--sample_batch_size", type=int, default=2)
+    parser.add_argument("--train_la_batch_size", type=int, default=6)
+    parser.add_argument("--train_la_data_size", type=int, default=1000)
     parser.add_argument("--timesteps", type=int, default= 50)
     parser.add_argument('--device', type=int, default=0)
-    parser.add_argument('--total_n_samples', type=int, default=80)
+    parser.add_argument('--total_n_samples', type=int, default=4)
 
     # NOTE: added for tuning the parameters of the LLLA
     parser.add_argument('--sigma_noise', type=float, default=1.0, help='Noise level for Laplace approximation.')
@@ -162,6 +166,9 @@ def main():
     opt = parser.parse_args()
     print(opt)
     seed_everything(opt.seed)
+
+    # initiate WANDB
+    wandb.init(project="HyperparamTuning", entity="BayesDiff", config=opt)
 
     config = OmegaConf.load(f"{opt.config}")
     model = load_model_from_config(config, f"{opt.ckpt}")
@@ -322,13 +329,20 @@ def main():
                             print("Saving Exp and Var at Z0")
                             for i in range(opt.sample_batch_size):
 
+                                # save image
+                                path = os.path.join(exp_dir, f"{img_id}.png")
+                                tvu.save_image(x[i].cpu().float(), path)
+
+                                # log to wandb
+                                wandb.log({f"sample_image_{i}": wandb.Image(path)})
+
                                 # create directories
                                 os.makedirs(os.path.join(exp_dir, "z_exp"), exist_ok=True)
                                 os.makedirs(os.path.join(exp_dir, "z_var"), exist_ok=True)
 
                                 # save as .pth file
-                                torch.save(exp_xt_next[i], os.path.join(exp_dir, f"z_exp/{img_id}.pth"))
-                                torch.save(var_xt_next[i], os.path.join(exp_dir, f"z_var/{img_id}.pth"))
+                                torch.save(exp_xt_next[i], os.path.join(exp_dir, f"z_exp/{img_id}_{opt.sigma_noise}_{opt.prior_precision}.pth"))
+                                torch.save(var_xt_next[i], os.path.join(exp_dir, f"z_var/{img_id}_{opt.sigma_noise}_{opt.prior_precision}.pth"))
 
                                 img_id += 1
 
@@ -344,6 +358,17 @@ def main():
 
                     print(f'Sampling {total_n_samples} images in {exp_dir}')
                     torch.save(var_sum.cpu(), os.path.join(exp_dir, 'var_sum.pt'))
+
+
+    # loop over ids and visualize and save uncertainty map per sample
+    for f in os.listdir(os.path.join(exp_dir, "z_exp")):
+        id = f.strip(".pth")
+        img = visualize_uncertainty(exp_dir, id)
+
+        wandb.log({f"uncertainty_map_{id.split()[-1]}": wandb.Image(img)})
+
+    wandb.finish()
+
 
 if __name__ == "__main__":
     main()
