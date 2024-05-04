@@ -5,7 +5,7 @@ from laplace.curvature.backpack import BackPackEF
 from torch.nn.utils import parameters_to_vector
 import copy
 
-class CustomModel(nn.Module):
+class CustomModel(nn.Module, args):
     def __init__(self, diff_model, dataloader, args, config):
         super().__init__()
         self.args = args
@@ -18,16 +18,16 @@ class CustomModel(nn.Module):
             self.feature_extractor = diff_model
             self.feature_extractor.conv_out = nn.Identity()
             
-            if opt.hessian_mode == 'Diag':
+            if args.hessian_mode == 'Diag':
                 # Diagonal Hessian Approximation: original
                 self.conv_out_la = DiagLaplace(nn.Sequential(self.conv_out, nn.Flatten(1, -1)), likelihood='regression', 
-                                            sigma_noise=opt.sigma_noise, prior_precision=opt.prior_precision, prior_mean=opt.prior_mean, temperature=1.0,
+                                            sigma_noise=args.sigma_noise, prior_precision=args.prior_precision, prior_mean=args.prior_mean, temperature=1.0,
                                         backend=BackPackEF)
                 
             else:
                 # KFAC Hessian Approximation
                 self.conv_out_la = KronLaplace(nn.Sequential(self.conv_out, nn.Flatten(1, -1)), likelihood='regression', 
-                                            sigma_noise=opt.sigma_noise, prior_precision=opt.prior_precicsion, prior_mean=opt.prior_mean, temperature=1.0,
+                                            sigma_noise=args.sigma_noise, prior_precision=args.prior_precicsion, prior_mean=args.prior_mean, temperature=1.0,
                                         backend=BackPackEF, hessian_mode='KFAC')
 
             self.fit(dataloader)

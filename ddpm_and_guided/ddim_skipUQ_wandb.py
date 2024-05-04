@@ -16,7 +16,7 @@ import time
 import tqdm
 from ddimUQ_utils import inverse_data_transform, compute_alpha, singlestep_ddim_sample, \
 var_iteration, exp_iteration, sample_from_gaussion, parse_args_and_config
-import wandb
+# import wandb
 
 def conditioned_exp_iteration(diffusion, exp_xt, seq, timestep, pre_wuq, mc_eps_exp_t=None, acc_eps_t = None):
     if pre_wuq == True:
@@ -241,19 +241,20 @@ def main():
             # save E(z0) and Var(Z0) for each sample
             if timestep == 1:
 
-                print("Saving Exp and Var at Z0")
+                # print("Saving Exp and Var at Z0")
                 for i in range(args.sample_batch_size):
-
-                    # save image
-                    path = os.path.join(exp_dir, f"{img_id}.png")
-                    tvu.save_image(x[i].cpu().float(), path)
-
-                    # log to wandb
-                    # wandb.log({f"sample_image_{i}": wandb.Image(path)})
 
                     # create directories
                     os.makedirs(os.path.join(exp_dir, "z_exp"), exist_ok=True)
                     os.makedirs(os.path.join(exp_dir, "z_var"), exist_ok=True)
+                    os.makedirs(os.path.join(exp_dir, "imgs"), exist_ok=True)
+
+                    # save image
+                    path = os.path.join(exp_dir, f"imgs/{img_id}.png")
+                    tvu.save_image(x[i].cpu().float(), path)
+
+                    # log to wandb
+                    # wandb.log({f"sample_image_{i}": wandb.Image(path)})
 
                     # save as .pth file
                     torch.save(exp_xt_next[i], os.path.join(exp_dir, f"z_exp/{img_id}_{args.sigma_noise}_{args.prior_precision}.pth"))
