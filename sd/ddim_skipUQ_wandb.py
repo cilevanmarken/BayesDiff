@@ -72,7 +72,7 @@ def main():
         "--prompt",
         type=str,
         nargs="?",
-        default="A cartoon jellyfish",
+        default="An angry pug with a birthday cake",
         help="the prompt to render"
     )
     parser.add_argument(
