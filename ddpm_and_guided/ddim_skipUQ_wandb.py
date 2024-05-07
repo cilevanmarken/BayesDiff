@@ -14,6 +14,8 @@ from torchvision.utils import make_grid
 import logging
 import time
 import tqdm
+import wandb
+from visualize import visualize_uncertainty
 from ddimUQ_utils import inverse_data_transform, compute_alpha, singlestep_ddim_sample, \
 var_iteration, exp_iteration, sample_from_gaussion, parse_args_and_config
 # import wandb
@@ -40,6 +42,9 @@ def conditioned_var_iteration(diffusion, var_xt, cov_xt_epst, var_epst, seq, tim
     
 def main():
     args, config = parse_args_and_config()
+
+    # initiate WANDB
+    wandb.init(project="HyperparamTuning", entity="BayesDiff", config=args)
 
     device = f'cuda:{args.device}' if torch.cuda.is_available() else 'cpu'
     device = torch.device(device)
@@ -254,7 +259,7 @@ def main():
                     tvu.save_image(x[i].cpu().float(), path)
 
                     # log to wandb
-                    # wandb.log({f"sample_image_{i}": wandb.Image(path)})
+                    wandb.log({f"sample_image_{i}": wandb.Image(path)})
 
                     # save as .pth file
                     torch.save(exp_xt_next[i], os.path.join(exp_dir, f"z_exp/{img_id}_{args.sigma_noise}_{args.prior_precision}.pth"))
@@ -271,6 +276,15 @@ def main():
         reordered_sample_x = torch.index_select(sample_x, dim=0, index=sorted_indices.int())
         grid_sample_x = make_grid(reordered_sample_x, nrow=12, padding=1)
         tvu.save_image(grid_sample_x.cpu().float(), os.path.join(exp_dir, "sorted_sample.png"))
+
+    # loop over ids and visualize and save uncertainty map per sample
+    for f in os.listdir(os.path.join(exp_dir, "z_exp")):
+        id = f.strip(".pth")
+        img = visualize_uncertainty(exp_dir, id)
+
+        wandb.log({f"uncertainty_map_{id.split('_')}": wandb.Image(img)})
+
+    wandb.finish()
 
 
 if __name__ == "__main__":

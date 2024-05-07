@@ -1,3 +1,4 @@
 ddpm_and_guided/exp
+ddpm_and_guided/wandb
 sd/ddim_exp/skipUQ
 sd/wandb
