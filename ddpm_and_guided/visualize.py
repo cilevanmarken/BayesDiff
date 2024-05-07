@@ -7,7 +7,8 @@ import os
 import importlib
 from runners.diffusion import Diffusion
 from models.guided_diffusion.unet import UNetModel as GuidedDiffusion_Model
-from ddimUQ_utils import parse_args_and_config
+from ddimUQ_utils import parse_args_and_config, inverse_data_transform, dict2namespace
+import yaml
 
 to_pil = transforms.ToPILImage()
 
@@ -58,7 +59,7 @@ def instantiate_from_config(config, args):
 
 
 
-def get_dev_x_from_z(dev,exp,N, model, device):
+def get_dev_x_from_z(dev,exp,N, config, device):
      #get n samples from z distribution
     z_list = []
     for _ in range(N):
@@ -68,22 +69,27 @@ def get_dev_x_from_z(dev,exp,N, model, device):
     
     #### decode z into x
     Z = torch.stack(z_list,dim = 0)
-    X = model.decode_first_stage(Z.to(device))
+    X = inverse_data_transform(config, Z.to(device))
     var_x = torch.var(X,dim = 0)
     exp_x = torch.mean(X,dim=0)
     dev_x = (var_x)**0.5
-    return dev_x
+    return var_x, exp_x, dev_x
 
 
-def visualize_uncertainty(exp_dir, id, args):
+def visualize_uncertainty(exp_dir, id):
 
     # clear cache
     torch.cuda.empty_cache() 
 
     # search for a device
     device = 'cpu' #'cuda' if torch.cuda.is_available() else 
-    config = OmegaConf.load(r"configs\imagenet128_guided.yml")
-    model = load_model_from_config(config, r"C:\Users\cilev\Documents\DL2\external_utils\DDPM\128x128_diffusion.pt", args)#.to(device)
+
+    # load config
+    with open("configs\imagenet128_guided.yml", "r") as f:
+        conf = yaml.safe_load(f)
+    config = dict2namespace(conf)
+
+    # model = load_model_from_config(config, r"C:\Users\cilev\Documents\DL2\external_utils\DDPM\128x128_diffusion.pt", args)#.to(device)
 
     #get z
     z_dev_list = []
@@ -103,22 +109,24 @@ def visualize_uncertainty(exp_dir, id, args):
     z_dev_list.append(z_dev_i)
     z_exp_list.append(z_exp_i)
 
+
     N = 10
     for index in range(1):
         z_dev = z_dev_list[index]
         z_exp = z_exp_list[index]
-        dev_x = get_dev_x_from_z(z_dev,z_exp,N, model, device)
-        tvu.save_image(dev_x*100,f'{exp_dir}/x_dev/{id}.jpg' )
+        var_x, exp_x, dev_x = get_dev_x_from_z(z_dev,z_exp,N, config, device)
+        # tvu.save_image(dev_x*100,f'{exp_dir}/x_dev/{id}.jpg' )
 
-    return dev_x*100
+    tvu.save_image(dev_x*100,f'{exp_dir}/x_dev/{id}.jpg' )
+
+    # return dev_x*100
 
 
 def main():
 
     # parse args
-    args, config = parse_args_and_config()
     path = r"C:\Users\cilev\Documents\DL2\BayesDiff\ddpm_and_guided\exp\IMAGENET128\ddim_fixed_class51_train%200_step50_S10"
-    visualize_uncertainty(path, "1000000_1.0_1.0", args)
+    visualize_uncertainty(path, "1000004_1.0_1.0")
 
 
 if __name__ == "__main__":
