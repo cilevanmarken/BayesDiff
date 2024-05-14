@@ -191,7 +191,7 @@ def parse_args_and_config():
         help="eta used to control the variances of sigma",
     )
     parser.add_argument(
-        "--fixed_class", type=int, default=738, help="fixed class label for conditional sampling"
+        "--fixed_class", type=int, default=910, help="fixed class label for conditional sampling"
     )
     parser.add_argument(
         "--dpm_solver_atol", type=float, default=0.0078, help="atol for adaptive step size algorithm"

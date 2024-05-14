@@ -246,6 +246,10 @@ def main():
             # save E(z0) and Var(Z0) for each sample
             if timestep == 1:
 
+                # convert E(z0) and Var(Z0) to float16
+                exp_xt_next = exp_xt_next.to(torch.float16)
+                var_xt_next = var_xt_next.to(torch.float16)
+
                 # print("Saving Exp and Var at Z0")
                 for i in range(args.sample_batch_size):
 
@@ -261,7 +265,7 @@ def main():
                     # log to wandb
                     wandb.log({f"sample_image_{i}": wandb.Image(path)})
 
-                    # save as .pth file
+                    # save as .pt file
                     torch.save(exp_xt_next[i], os.path.join(exp_dir, f"z_exp/{img_id}_{args.sigma_noise}_{args.prior_precision}.pth"))
                     torch.save(var_xt_next[i], os.path.join(exp_dir, f"z_var/{img_id}_{args.sigma_noise}_{args.prior_precision}.pth"))
 
@@ -272,17 +276,24 @@ def main():
         for j in range(n_rounds):
             var.append(var_sum[:, j])
         var = torch.concat(var, dim=0)
+
+        # sort images based on variance
         sorted_var, sorted_indices = torch.sort(var, descending=True)
-        reordered_sample_x = torch.index_select(sample_x, dim=0, index=sorted_indices.int())
-        grid_sample_x = make_grid(reordered_sample_x, nrow=12, padding=1)
-        tvu.save_image(grid_sample_x.cpu().float(), os.path.join(exp_dir, "sorted_sample.png"))
+
+        # save sorted indeces
+        torch.save(sorted_indices, os.path.join(exp_dir, "sorted_indices.pt"))
+
+        # reordered_sample_x = torch.index_select(sample_x, dim=0, index=sorted_indices.int())
+        # grid_sample_x = make_grid(reordered_sample_x, nrow=12, padding=1)
+        # tvu.save_image(grid_sample_x.cpu().float(), os.path.join(exp_dir, "sorted_sample.png"))
 
     # loop over ids and visualize and save uncertainty map per sample
     for f in os.listdir(os.path.join(exp_dir, "z_exp")):
         id = f.strip(".pth")
+        print(id)
         img = visualize_uncertainty(exp_dir, id)
 
-        wandb.log({f"uncertainty_map_{id.split('_')}": wandb.Image(img)})
+        # wandb.log({f"uncertainty_map_{id.split('_')[0]}": wandb.Image(img)})
 
     wandb.finish()
 

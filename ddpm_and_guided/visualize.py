@@ -26,8 +26,8 @@ def get_dev_x_from_z(dev, exp, N, config, device):
     # decode z into x
     Z = torch.stack(z_list,dim = 0)
     X = inverse_data_transform(config, Z.to(device))
-    var_x = torch.var(X,dim = 0)
-    exp_x = torch.mean(X,dim=0)
+    var_x = torch.var(X, dim = 0)
+    exp_x = torch.mean(X, dim=0)
     dev_x = (var_x)**0.5
 
     return var_x, exp_x, dev_x
@@ -56,44 +56,36 @@ def visualize_uncertainty(exp_dir, id):
     # make uncertanty map for image
     z_var_i = torch.load(f'{exp_dir}/z_var/{id}.pth')
     z_exp_i = torch.load(f'{exp_dir}/z_exp/{id}.pth')
+
     z_dev_i = torch.clamp(z_var_i,min=0)**0.5
     z_dev_list.append(z_dev_i)
     z_exp_list.append(z_exp_i)
-
 
     N = 10
     for index in range(1):
         z_dev = z_dev_list[index]
         z_exp = z_exp_list[index]
-        var_x, exp_x, dev_x = get_dev_x_from_z(z_dev,z_exp,N, config, device)
+        _, _, dev_x = get_dev_x_from_z(z_dev, z_exp, N, config, device)
         # tvu.save_image(dev_x*255,f'{exp_dir}/x_dev/{id}.jpg')
-        img = TF.to_grayscale(TF.to_pil_image(dev_x*100))
+        img = TF.to_grayscale(TF.to_pil_image(dev_x*10))
         img.save(f'{exp_dir}/x_dev/{id}.jpg')
-    
-    # # convert image to grayscale
-    # img = TF.to_grayscale(TF.to_pil_image(dev_x*255))
-    # img.show()
-    # img.save(f'{exp_dir}/x_dev/{id}_gray255.jpg')
-
-    # img = TF.to_grayscale(TF.to_pil_image(dev_x*100))
-    # img.show()
-    # img.save(f'{exp_dir}/x_dev/{id}_gray100.jpg')
-
-    
-
-    # # normalize dev_x
-    # dev_x = dev_x - torch.min(dev_x)
-
-    # # print max value of dev_x
-    # print(torch.max(dev_x))
-    # print(torch.min(dev_x))
 
 
 def main():
 
     # parse args
-    path = r"C:\Users\cilev\Documents\DL2\BayesDiff\ddpm_and_guided\exp\IMAGENET128\ddim_fixed_class51_train%200_step50_S10"
+    path = r"C:\Users\cilev\Documents\DL2\BayesDiff\ddpm_and_guided\exp\IMAGENET128\ddim_fixed_class2_train%200_step50_S10"
+    visualize_uncertainty(path, "1000000_1.0_1.0")
+    visualize_uncertainty(path, "1000001_1.0_1.0")
+    visualize_uncertainty(path, "1000002_1.0_1.0")
+    visualize_uncertainty(path, "1000003_1.0_1.0")
     visualize_uncertainty(path, "1000004_1.0_1.0")
+    visualize_uncertainty(path, "1000005_1.0_1.0")
+    visualize_uncertainty(path, "1000006_1.0_1.0")
+    visualize_uncertainty(path, "1000007_1.0_1.0")
+    visualize_uncertainty(path, "1000008_1.0_1.0")
+    visualize_uncertainty(path, "1000009_1.0_1.0")
+    visualize_uncertainty(path, "1000010_1.0_1.0")
 
 
 if __name__ == "__main__":
