@@ -71,20 +71,6 @@ The Frechet Inception Distance (FID) is a widely used evaluation metric for asse
 
 First, we propose to do hyperparameter tuning on the LLLA. The code provided with the paper shows that the authors have fixed the parameters for the prior precision and the prior mean of the LLLA on 1 and 0, respectively. These two hyperparameters influence the behavior of the LLLA and should thus be fine-tuned. In the case that changing these hyperparameters doesn’t have a large impact on the resulting uncertainty maps, the question can be raised as to if a Bayesian approach to uncertainty in DMs is a good one.
 
-<table align="center">
-  <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/hyperparameter_DDIM_guided.jpg" width=600></td>
-  </tr>
-  <tr align="left">
-    <td colspan=2><b>Figure 3.</b>  Hyperparameter tuning on the DDIM model.</td>
-  </tr>
-</table>
-
-
-
-
-
-
 #### *Approximating the Hessian:* 
 
 A computational bottleneck of LLLA lies in computing the inverted Hessian. To make this computationally less heavy, the authors make use of diagonal factorization, ignoring all off-diagonal elements of the Hessian. However, diagonal approximations of the Hessian are outperformed significantly by the Kronecker-Factored Approximation Curvature (KFAC) approach, which offers greater expressiveness as mentioned by (Daxberger et al., 2022). As this might enhance the resulting uncertainty maps, we propose replacing diagonal factorization of the Hessian with KFAC factorization. Additionally, (McInerney & Kallus, 2024) demonstrates that computing the Hessian might not even be necessary using the Hessian-free Laplace (HFL). Should the HFL lead to similar results as the LLLA, computing the pixel-wise uncertainty could be achieved with significantly less computation.
@@ -108,6 +94,21 @@ One of the most popular evaluation metrics for evaluating generated images is FI
 
 
 ## Results and Analysis
+
+The Bayesian approach to uncertainty in generated images is an interesting one. Before we can extend on this idea, it is key to check whether this approach is a viable one. The Last Layer Laplacian, which is used for the uncertainty estimation, is computed using an approximation of the Hessian matrix. The authors have chosen to do a diagonal approximation of the Hessian for this. Additionally, they have fixed the following parameters of this approximation on the following values: sigma_noise: 1, prior_precision: 1. 
+However, the authors have not specified why these specific values are used. The authors elaborate: “In our experiment, we just set both the noise and the precision as the default value 1 used in Laplace library in our experiment. Empirical results show that the pixel-wise variance of image do not change much when we adjust the value of prior precision. We have not tested the sensitivity to the choice of observation noise yet and will experiment with this interesting question in our future work.” 
+However, one would expect that the uncertainty maps would differ, when these parameters are changed. When this is not the case, one could raise the question as to if the Bayesian approach is a valid one.
+
+We ran a hyperparameter search over the variables sigma_noise (0-1) and prior_precision (0-1000). The results are shown below. The uncertainty maps show miniscule changes when different parameters are used. One would expect that uncertainty maps with a higher precision would be very dark compared to uncertainty maps with a lower precision, as the model is more certain with the strong prior.
+
+<table align="center">
+  <tr align="center">
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/hyperparameter_DDIM_guided.jpg" width=600></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 3.</b>  Hyperparameter tuning on the DDIM model.</td>
+  </tr>
+</table>
 
 
 ### Stable diffusion
