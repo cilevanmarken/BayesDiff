@@ -18,15 +18,22 @@ Diffusion Models have shown to be capable of generating realistic samples across
 <img src="https://github.com/cilevanmarken/BayesDiff/raw/main/intro_00.png" alt="Alt text" width="600"/>
 
 
-
-
-
-
-
-
 ### How do diffusion models work?
 
-Diffusion models are a family of probabilistic generative models that progressively destruct data by injecting noise, then learn to reverse this process for sample generation (Yang et al., 2023). First, a Denoising Diffusion Probabilistic Model (DDPM), which is the original diffusion approach, makes use of two Markov chains: a forward chain that perturbs data to noise, and a reverse chain that converts noise back to data. Building upon DDPMs, Song, Meng, and Ermon (2022) proposed a different approach namely, Denoising Diffusion Implicit Models (DDIMs). DDIMs provides a more efficient class of iterative implicit probabilistic models with the same training procedure.
+#### DDIM
+
+Diffusion models are a family of probabilistic generative models that progressively destruct data by injecting noise, then learn to reverse this process for sample generation (Yang et al., 2023). First, a Denoising Diffusion Probabilistic Model (DDPM), which is the original diffusion approach, makes use of two Markov chains: a forward chain that perturbs data to noise, and a reverse chain that converts noise back to data. 
+
+<img src="https://github.com/cilevanmarken/BayesDiff/raw/main/intro_00.png" alt="Alt text" width="600"/>
+
+#### DDPM
+
+Building upon DDPMs, Song, Meng, and Ermon (2022) proposed a different approach namely, Denoising Diffusion Implicit Models (DDIMs). DDIMs provides a more efficient class of iterative implicit probabilistic models with the same training procedure.
+
+#### DPM
+
+
+
 
 ### Bayesian inference
 
