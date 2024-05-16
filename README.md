@@ -42,13 +42,11 @@ Diffusion models are a family of probabilistic generative models that progressiv
 
 
 
-
-
-#### DDPM
+#### DDPM (niet doen)
 
 Building upon DDPMs, Song, Meng, and Ermon (2022) proposed a different approach namely, Denoising Diffusion Implicit Models (DDIMs). DDIMs provides a more efficient class of iterative implicit probabilistic models with the same training procedure.
 
-#### DPM
+#### DPM (niet doen)
 
 
 
