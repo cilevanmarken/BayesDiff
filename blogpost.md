@@ -65,6 +65,13 @@ One of the most popular evaluation metrics for evaluating generated images is FI
 ## Results and Analysis
 
 
+### Stable diffusion
+
+
+### DDIM
+
+
+
 
 ## Conclusion
 
