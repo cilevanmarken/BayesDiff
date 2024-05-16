@@ -15,7 +15,8 @@ In this blogpost we discuss our findings on enhancing the quality of images gene
 Diffusion Models have shown to be capable of generating realistic samples across diverse domains, but are also prone to producing low-quality images. Evaluation metrics such as FID and Inception Scores are not perfect to evaluate generated images, since they fall short in capturing nuanced aspects of image quality. This inherent shortcoming prompts the search for more effective methods to enhance DMs, aiming to improve diversity and rectify artifacts in generated images. This paper tries to address these shortcomings by introducing pixel-wise uncertainty as a means to improve DMs. By incorporating uncertainty estimation, the model can identify and potentially discard the most uncertain images, or even improve generated images and enhancing diversity in the generated samples.
 
 
-![OpenAI Logo](intro__.png)
+<img src="https://github.com/cilevanmarken/BayesDiff/raw/main/intro_00.png" alt="Alt text" width="600"/>
+
 
 
 
