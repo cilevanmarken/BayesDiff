@@ -14,9 +14,16 @@ In this blogpost we discuss our findings on enhancing the quality of images gene
 
 Diffusion Models have shown to be capable of generating realistic samples across diverse domains, but are also prone to producing low-quality images. Evaluation metrics such as FID and Inception Scores are not perfect to evaluate generated images, since they fall short in capturing nuanced aspects of image quality. This inherent shortcoming prompts the search for more effective methods to enhance DMs, aiming to improve diversity and rectify artifacts in generated images. This paper tries to address these shortcomings by introducing pixel-wise uncertainty as a means to improve DMs. By incorporating uncertainty estimation, the model can identify and potentially discard the most uncertain images, or even improve generated images and enhancing diversity in the generated samples.
 
-<p align="center">
-<img src="https://github.com/cilevanmarken/BayesDiff/raw/main/intro_00.png" alt="Alt text" width="600"/>
-</p>
+<table align="center">
+  <tr align="center">
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/intro_00.png" width=600></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 1.</b>  BayesDiff architecture.</td>
+  </tr>
+</table>
+
+
 
 ### How do diffusion models work?
 
@@ -24,9 +31,18 @@ Diffusion Models have shown to be capable of generating realistic samples across
 
 Diffusion models are a family of probabilistic generative models that progressively destruct data by injecting noise, then learn to reverse this process for sample generation (Yang et al., 2023). First, a Denoising Diffusion Probabilistic Model (DDPM), which is the original diffusion approach, makes use of two Markov chains: a forward chain that perturbs data to noise, and a reverse chain that converts noise back to data. 
 
-<p align="center">
-<img src="https://github.com/cilevanmarken/BayesDiff/raw/main/DDPM.png" alt="Alt text" width="600"/>
-</p>
+<table align="center">
+  <tr align="center">
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/DDPM.png" width=600></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 2.</b>  The Markov chain of forward (reverse) diffusion process (Ho et al. 2020).</td>
+  </tr>
+</table>
+
+
+
+
 
 #### DDPM
 
@@ -55,9 +71,19 @@ The Frechet Inception Distance (FID) is a widely used evaluation metric for asse
 
 First, we propose to do hyperparameter tuning on the LLLA. The code provided with the paper shows that the authors have fixed the parameters for the prior precision and the prior mean of the LLLA on 1 and 0, respectively. These two hyperparameters influence the behavior of the LLLA and should thus be fine-tuned. In the case that changing these hyperparameters doesn’t have a large impact on the resulting uncertainty maps, the question can be raised as to if a Bayesian approach to uncertainty in DMs is a good one.
 
-<p align="center">
-<img src="https://github.com/cilevanmarken/BayesDiff/raw/main/hyperparameter_DDIM_guided.jpg" alt="Alt text" width="600"/>
-</p>
+<table align="center">
+  <tr align="center">
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/hyperparameter_DDIM_guided.jpg" width=600></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 3.</b>  Hyperparameter tuning on the DDIM model.</td>
+  </tr>
+</table>
+
+
+
+
+
 
 #### *Approximating the Hessian:* 
 
