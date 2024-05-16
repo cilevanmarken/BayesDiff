@@ -1,4 +1,4 @@
 ddpm_and_guided/exp
 ddpm_and_guided/wandb
-sd/ddim_exp/skipUQ
-sd/wandb
+ddpm_and_guided/exp/IMAGENET128/ddim_fixed_class51_train%200_step50_S10
+sd/
