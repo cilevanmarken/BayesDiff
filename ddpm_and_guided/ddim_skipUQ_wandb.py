@@ -14,11 +14,10 @@ from torchvision.utils import make_grid
 import logging
 import time
 import tqdm
-import wandb
+# import wandb
 from visualize import visualize_uncertainty
 from ddimUQ_utils import inverse_data_transform, compute_alpha, singlestep_ddim_sample, \
 var_iteration, exp_iteration, sample_from_gaussion, parse_args_and_config
-# import wandb
 
 def conditioned_exp_iteration(diffusion, exp_xt, seq, timestep, pre_wuq, mc_eps_exp_t=None, acc_eps_t = None):
     if pre_wuq == True:
@@ -44,7 +43,7 @@ def main():
     args, config = parse_args_and_config()
 
     # initiate WANDB
-    wandb.init(project="HyperparamTuning", entity="BayesDiff", config=args)
+    # wandb.init(project="HyperparamTuning", entity="BayesDiff", config=args)
 
     device = f'cuda:{args.device}' if torch.cuda.is_available() else 'cpu'
     device = torch.device(device)
@@ -263,7 +262,7 @@ def main():
                     tvu.save_image(x[i].cpu().float(), path)
 
                     # log to wandb
-                    wandb.log({f"sample_image_{i}": wandb.Image(path)})
+                    # wandb.log({f"sample_image_{i}": wandb.Image(path)})
 
                     # save as .pt file
                     torch.save(exp_xt_next[i], os.path.join(exp_dir, f"z_exp/{img_id}_{args.sigma_noise}_{args.prior_precision}.pth"))
@@ -295,7 +294,7 @@ def main():
 
         # wandb.log({f"uncertainty_map_{id.split('_')[0]}": wandb.Image(img)})
 
-    wandb.finish()
+    # wandb.finish()
 
 
 if __name__ == "__main__":
