@@ -17,7 +17,7 @@ In addition, the paper highlights the challenge of filtering out these low-quali
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/intro_00.png" width=600></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 1.</b>  BayesDiff architecture.</td>
+    <td colspan=2><b>Figure 1.</b>  Given an initial point $x_T \sim \mathcal{N}(0,I)$, the BayesDiff framework incorporates uncertainty into the denoising process and generates images with pixel-wise uncertainty estimates.</td>
   </tr>
 </table>
 
@@ -56,15 +56,18 @@ Building upon DDPMs, Song et al. (2020) propose a different approach namely, Den
 
 #### Laplace & Hessian
 
-Bayesian approaches can be used for uncertainty quantification in Diffusion Models. One such Bayesian approach is Last Layer Laplace Approximation (LLLA), which can be applied to models post-hoc and is very cost-efficient. LLLA approximates the predictive posterior using a Gaussian distribution centered at a local maximum denoted by $\theta_{MAP}$ and a covariance matrix corresponding to the local curvature. 
-
-This covariance matrix is computed by approximating the inverse of the Hessian. Using the variance of the predictive posterior, the pixel-wise uncertainty can be computed (Daxberger et al., 2022).
+Bayesian approaches can be used for uncertainty quantification in Diffusion Models. One such Bayesian approach that is used in the 'BayesDiff" paper is Last Layer Laplace Approximation (LLLA)(Daxberger et al., 2022). This approach can be applied to models post-hoc and is very cost-efficient. In order to get the posterior of the weight of the last layer, LLLA is performed by a Laplace approximation of the weight of the last layer $w$ while assuming the previous layer to be fixed. Let us denote $p(w|\mathcal{D}) = \mathcal{N}(w|w_{MAP}, H-1)$
 
 
 
 
+In the case of LLLA, we simply perform a Laplace approximation to get the posterior of the weight of the last layer w while assuming the previous layer to be fixed. I.e. we infer p(w|D) = N (w|wMAP, H−1) where H is the Hessian of the negative log-posterior w.r.t. w at wMAP. This Hessian could be easily obtained via automatic differentiation. We emphasize that we only deal with the weight at the last layer and not the weight of the whole network, thus the inversion of H is rarely a problem. For instance, even for large models such as DenseNet-201 (Huang et al., 2017) and ResNet-152 (He et al., 2016) have d = 1920 and d = 2048 respectively,7 implying that we only need to do the inversion of a single 1920 × 1920 or 2048 × 2048 matrix once.
+In the case of multi-class classification, we now have f : Rd → Rk definedbyφ 􏰀→ WMAPφ. Weobtainthe posterior over a random matrix W ∈ Rk×d in the form N (vec(W)|vec(WMAP), Σ) for some Σ ∈ Rdk×dk SPD. The procedure is still similar to the one described above, since the exact Hessian of the linear multi-class classifier can still be easily and efficiently obtained via automatic differentiation. Note that in this case we need to invert a dk × dk matrix, which, depending on the size of k, can be quite large.8
 
 
+LLLA approximates the predictive posterior using a Gaussian distribution centered at a local maximum denoted by $\theta_{MAP}$ and a covariance matrix corresponding to the local curvature. 
+
+This covariance matrix is computed by approximating the inverse of the Hessian. Using the variance of the predictive posterior, the pixel-wise uncertainty can be computed.
 
 
 #### Hessian free Laplace
