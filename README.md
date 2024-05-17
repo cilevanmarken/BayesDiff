@@ -43,11 +43,8 @@ As step $t$ becomes larger the data sample $x_0$ gradually loses its distinguish
   </tr>
 </table>
 
+Building upon DDPMs, Song, Meng, and Ermon (2022) proposed a different approach namely, Denoising Diffusion Implicit Models (DDIMs), which is the main DM that is used in this blogpost. DDIMs provides a more efficient class of iterative implicit probabilistic models with the same training procedure. 
 
-#### DDIM
-Building upon DDPMs, Song, Meng, and Ermon (2022) proposed a different approach namely, Denoising Diffusion Implicit Models (DDIMs). DDIMs provides a more efficient class of iterative implicit probabilistic models with the same training procedure.
-
-#### DPM (niet doen)
 
 
 
