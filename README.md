@@ -24,7 +24,14 @@ In this blogpost we discuss our findings on enhancing the quality of images gene
 
 ### How do diffusion models work?
 
-Diffusion models are a family of probabilistic generative models that progressively destruct data by injecting noise, then learn to reverse this process for sample generation (Yang et al., 2023). This forward process uses datapoints $x_0 \sim q(x)$, sampled from a real data distribution in which a small ammount of Gaussian noise, with a variance of $\beta_t \in (0,1)$, is added in $T$ steps. This results in a sequence of noisy samples $x_1,...x_T$. As step $t$ becomes larger the data sample $x_0$ gradually loses its distinguishable features and becomes equivalent to an isotrophic Gaussian function namely, a noisy image. *Figure 2* points out both the forward diffusion process that gradually adds noise to the image as well as the reverse process.
+Diffusion models are a family of probabilistic generative models that progressively destruct data by injecting noise, then learn to reverse this process for sample generation (Yang et al., 2023). This forward process ,parameterizd by $q$ in the left equation, uses datapoints $x_0 \sim q(x)$, sampled from a real data distribution in which a small ammount of Gaussian noise, with a variance of $\beta_t \in (0,1)$, is added in $T$ steps. This results in a sequence of noisy samples $x_1,...,x_T$ parameterized by the right equation below. 
+
+$$\begin{align} 
+q\left( x_1, \ldots, x_T \mid x_0 \right) := \prod_{t=1}^T q \left( x_t \mid x_{t-1} \right) & \qquad \qquad 
+q\left( x_t \mid x_{t-1} \right) := \mathcal{N}\left( x_t ; \sqrt{1-\beta_t} x_{t-1}, \beta_t \mathbf{I} \right) & \qquad \qquad
+\end{align}$$
+
+As step $t$ becomes larger the data sample $x_0$ gradually loses its distinguishable features and becomes equivalent to an isotrophic Gaussian function namely, a noisy image. *Figure 2* points out both the forward diffusion process that gradually adds noise to the image as well as the reverse process.
 
 
 <table align="center">
@@ -35,11 +42,6 @@ Diffusion models are a family of probabilistic generative models that progressiv
     <td colspan=2><b>Figure 2.</b>  The Markov chain of forward (and reverse) diffusion process (Ho et al. 2020).</td>
   </tr>
 </table>
-
-
-
-#### DDPM (niet doen)
-First, a Denoising Diffusion Probabilistic Model (DDPM), which is the original diffusion approach, makes use of two Markov chains: a forward chain that perturbs data to noise, and a reverse chain that converts noise back to data. 
 
 
 #### DDIM
