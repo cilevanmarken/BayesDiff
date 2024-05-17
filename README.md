@@ -66,8 +66,22 @@ p\left( \epsilon_t \mid x_t, t, \mathcal{D} \right) \approx \mathcal{N} \left( \
 
 
 #### Hessian free Laplace
+In conducting our research we propose a Hessian free approach instead of the diagonal Hessian that is used in the "BayesDiff" paper.....
 
-
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
 
 ## Evaluating images 
 
