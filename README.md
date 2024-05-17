@@ -56,9 +56,17 @@ Building upon DDPMs, Song et al. (2020) propose a different approach namely, Den
 
 #### Laplace & Hessian
 
-Bayesian inference can be used for uncertainty quantification in Diffusion Models by turning a deterministic neural network into a Bayesian Neural Network (BNN). One such Bayesian approach that is used in the "BayesDiff" paper is Last Layer Laplace Approximation (LLLA)(Daxberger et al., 2022) This approach can be applied to models post-hoc and is very cost-efficient. In order to get the posterior of the weight of the last layer, LLLA is performed by a Laplace approximation of the weight of the last layer $\theta$, while assuming the previous layer to be fixed. Let us denote $p(\theta|\mathcal{D}) = \mathcal{N}(\theta|\theta_{MAP}, H^{-1})$ where $H$ is the Hessian of the negative log-posterior w.r.t. $\theta$ at $\theta_{MAP}$ (Kristiadi et al., 2020). LLLA approximates the predictive posterior using a Gaussian distribution centered at a local maximum denoted by $w_{MAP}$ and a covariance matrix corresponding to the local curvature. This covariance matrix is computed by approximating the inverse of the Hessian denoted by $H^{-1}$. Using the variance of the predictive posterior, the pixel-wise uncertainty can be computed.
+Bayesian inference can be used for uncertainty quantification in Diffusion Models by turning a deterministic neural network into a Bayesian Neural Network (BNN). One such Bayesian approach that is used in the "BayesDiff" paper is Last Layer Laplace Approximation (LLLA)(Daxberger et al., 2022). This approach can be applied to models post-hoc and is very cost-efficient. In order to get the posterior of the weight of the last layer, LLLA is performed by a Laplace approximation of the weight of the last layer $\theta$, while assuming the previous layer to be fixed. Let us denote $p(\theta|\mathcal{D}) = \mathcal{N}(\theta|\theta_{MAP}, H^{-1})$ where $H$ is the Hessian of the negative log-posterior w.r.t. $\theta$ at $\theta_{MAP}$ (Kristiadi et al., 2020). 
 
-In the context of our research, LLLA is incorporated into the noise prediction model in DMs for uncertainty measurements at a single timestep. 
+LLLA approximates the predictive posterior using a Gaussian distribution centered at a local maximum denoted by $\theta_{MAP}$ and a covariance matrix corresponding to the local curvature. This covariance matrix is computed by approximating the inverse of the Hessian denoted by $H^{-1}$. Using the variance of the predictive posterior, the pixel-wise uncertainty can be computed. In the context of our research, LLLA is incorporated into the noise prediction model in DMs for uncertainty measurements at a single timestep. The noise prediction model is trained to minimize, 
+
+$$\begin{align} 
+p\left( \epsilon_t \mid x_t, t, \mathcal{D} \right) \approx \mathcal{N} \left( \epsilon_{\theta}(x_t, t), diag(\gamma^2_{\theta}(x_t,t)) \right) & \qquad \qquad 
+\end{align}$$
+
+under a weight decay reguralizer that corresponds to the Gaussian prior on the NN parameters.
+
+
 
 
 #### Hessian free Laplace
