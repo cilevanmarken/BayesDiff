@@ -33,7 +33,7 @@ q\left( x_t \mid x_{t-1} \right) := \mathcal{N}\left( x_t ; \sqrt{1-\beta_t} x_{
 
 As step $t$ becomes larger the data sample $x_0$ gradually loses its distinguishable features and becomes equivalent to an isotrophic Gaussian function namely, a noisy image. *Figure 2* points out both the forward diffusion process that gradually adds noise to the image as well as the reverse process. In this reversed process, the true sample from a Gaussian noise input $x_T \sim \mathcal{N}(0,I)$ is recreated by sampling from $q(x_{t-1}|x_t)$. Sampling from $q(x_{t-1}|x_t)$ is hard because the entire dataset needs to be used. Therefore model $p_{\theta}$, parameterized by the next equation, needs to be learned.
 
-$$p_\theta \left( x_{t-1} \mid x_t \right) := \mathcal{N} \left( x_{t-1} ; \mu_\theta \left( x_t, t \right), \Sigma_\theta \left( x_t, t \right) \right) \qquad \qquad \text{(Equation 3)}$$
+$$p_\theta \left( x_{t-1} \mid x_t \right) := \mathcal{N} \left( x_{t-1} ; \mu_\theta \left( x_t, t \right), \Sigma_\theta \left( x_t, t \right) \right) \qquad \qquad$$
 
 <table align="center">
   <tr align="center">
@@ -44,7 +44,12 @@ $$p_\theta \left( x_{t-1} \mid x_t \right) := \mathcal{N} \left( x_{t-1} ; \mu_\
   </tr>
 </table>
 
-Building upon DDPMs, Song, Meng, and Ermon (2022) propose a different approach namely, Denoising Diffusion Implicit Models (DDIMs), which is the main DM that is used in this blogpost. DDIMs provide a more efficient class of iterative implicit probabilistic models with the same training procedure. 
+Building upon DDPMs, Song, Meng, and Ermon (2022) propose a different approach namely, Denoising Diffusion Implicit Models (DDIMs), which is the main DM that is used in this blogpost. DDIMs provide a more efficient class of iterative implicit probabilistic models with the same training procedure. In contrast to DDPM, DDIM yields an equal marginal noise distribution but deterministically maps noise back to the original data samples. This makes it possible to train the diffusion model up to any arbitrary number of forward steps but only sample from a subset of steps in the generative process. DDIM yield the following advantages compared to DDPM:
+
+- The ability to generate higher-quality samples using a much fewer number of steps.
+- The “consistency” property since the generative process is deterministic. This means that multiple samples conditioned on the same latent variable should have similar high-level features.
+- DDIM can do semantically meaningful interpolation in the latent variable because of the "consistency".
+
 
 
 
