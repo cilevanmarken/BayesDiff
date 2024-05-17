@@ -31,8 +31,9 @@ q\left( x_1, \ldots, x_T \mid x_0 \right) := \prod_{t=1}^T q \left( x_t \mid x_{
 q\left( x_t \mid x_{t-1} \right) := \mathcal{N}\left( x_t ; \sqrt{1-\beta_t} x_{t-1}, \beta_t \mathbf{I} \right) & \qquad \qquad
 \end{align}$$
 
-As step $t$ becomes larger the data sample $x_0$ gradually loses its distinguishable features and becomes equivalent to an isotrophic Gaussian function namely, a noisy image. *Figure 2* points out both the forward diffusion process that gradually adds noise to the image as well as the reverse process. In this reversed process, the true sample from a Gaussian noise input $x_T \sim \mathcal{N}(0,I)$ is recreated by sampling from $q(x_{t-1}|x_t)$.
+As step $t$ becomes larger the data sample $x_0$ gradually loses its distinguishable features and becomes equivalent to an isotrophic Gaussian function namely, a noisy image. *Figure 2* points out both the forward diffusion process that gradually adds noise to the image as well as the reverse process. In this reversed process, the true sample from a Gaussian noise input $x_T \sim \mathcal{N}(0,I)$ is recreated by sampling from $q(x_{t-1}|x_t)$. Sampling from $q(x_{t-1}|x_t)$ is hard because the entire dataset needs to be used. Therefore model $p_{\theta}$, parameterized by the next equation, needs to be learned.
 
+$$p_\theta \left( x_{t-1} \mid x_t \right) := \mathcal{N} \left( x_{t-1} ; \mu_\theta \left( x_t, t \right), \Sigma_\theta \left( x_t, t \right) \right) \qquad \qquad \text{(Equation 3)}$$
 
 <table align="center">
   <tr align="center">
