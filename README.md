@@ -27,7 +27,7 @@ Diffusion Models have shown to be capable of generating realistic samples across
 
 ### How do diffusion models work?
 
-Diffusion models are a family of probabilistic generative models that progressively destruct data by injecting noise (forward process), then learn to reverse this process for sample generation (Yang et al., 2023). This forward process uses datapoints namely $x_0 \sim q(x), sampled from a real data distribution.
+Diffusion models are a family of probabilistic generative models that progressively destruct data by injecting noise (forward process), then learn to reverse this process for sample generation (Yang et al., 2023). This forward process uses datapoints $x_0 \sim q(x)$, sampled from a real data distribution in which a small ammount of Gaussian noise is added in $T$ steps. This results in a sequence of noisy samples $x_1,...x_T$.
 
 
 <table align="center">
