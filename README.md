@@ -50,7 +50,7 @@ Building upon DDPMs, Song et al. (2020) propose a different approach namely, Den
 - The “consistency” property since the generative process is deterministic. This means that multiple samples conditioned on the same latent variable should have similar high-level features.
 - DDIM can do semantically meaningful interpolation in the latent variable because of the "consistency".
 
-## Bayesian inference
+## What is the role of Bayesian inference here?
 
 #### Laplace & Hessian
 
