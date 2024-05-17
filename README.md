@@ -56,7 +56,16 @@ Building upon DDPMs, Song et al. (2020) propose a different approach namely, Den
 
 #### Laplace & Hessian
 
-Bayesian approaches can be used for uncertainty quantification in Diffusion Models. One such Bayesian approach is Last Layer Laplace Approximation (LLLA), which can be applied to models post-hoc and is very cost-efficient. LLLA approximates the predictive posterior using a Gaussian distribution centered at a local maximum (θMAP) and a covariance matrix corresponding to the local curvature. This covariance matrix is computed by approximating the inverse of the Hessian. Using the variance of the predictive posterior, the pixel-wise uncertainty can be computed (Daxberger et al., 2022).
+Bayesian approaches can be used for uncertainty quantification in Diffusion Models. One such Bayesian approach is Last Layer Laplace Approximation (LLLA), which can be applied to models post-hoc and is very cost-efficient. LLLA approximates the predictive posterior using a Gaussian distribution centered at a local maximum denoted by $\theta_{MAP}$ and a covariance matrix corresponding to the local curvature. 
+
+This covariance matrix is computed by approximating the inverse of the Hessian. Using the variance of the predictive posterior, the pixel-wise uncertainty can be computed (Daxberger et al., 2022).
+
+
+
+
+
+
+
 
 #### Hessian free Laplace
 
