@@ -31,7 +31,7 @@ q\left( x_1, \ldots, x_T \mid x_0 \right) := \prod_{t=1}^T q \left( x_t \mid x_{
 q\left( x_t \mid x_{t-1} \right) := \mathcal{N}\left( x_t ; \sqrt{1-\beta_t} x_{t-1}, \beta_t \mathbf{I} \right) & \qquad \qquad
 \end{align}$$
 
-As step $t$ becomes larger the data sample $x_0$ gradually loses its distinguishable features and becomes equivalent to an isotrophic Gaussian function namely, a noisy image. *Figure 2* points out both the forward diffusion process that gradually adds noise to the image as well as the reverse process. In the reversed process, the true sample from a Gaussian noise input $x_T \sim \mathcal{N}(0,I)$
+As step $t$ becomes larger the data sample $x_0$ gradually loses its distinguishable features and becomes equivalent to an isotrophic Gaussian function namely, a noisy image. *Figure 2* points out both the forward diffusion process that gradually adds noise to the image as well as the reverse process. In this reversed process, the true sample from a Gaussian noise input $x_T \sim \mathcal{N}(0,I)$ is recreated by sampling from $q(x_{t-1}|x_t)$.
 
 
 <table align="center">
@@ -43,7 +43,7 @@ As step $t$ becomes larger the data sample $x_0$ gradually loses its distinguish
   </tr>
 </table>
 
-Building upon DDPMs, Song, Meng, and Ermon (2022) proposed a different approach namely, Denoising Diffusion Implicit Models (DDIMs), which is the main DM that is used in this blogpost. DDIMs provide a more efficient class of iterative implicit probabilistic models with the same training procedure. 
+Building upon DDPMs, Song, Meng, and Ermon (2022) propose a different approach namely, Denoising Diffusion Implicit Models (DDIMs), which is the main DM that is used in this blogpost. DDIMs provide a more efficient class of iterative implicit probabilistic models with the same training procedure. 
 
 
 
