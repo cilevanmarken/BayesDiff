@@ -21,15 +21,14 @@ In this blogpost we discuss our findings on enhancing the quality of images gene
 
 ## Introduction
 
-Diffusion Models have shown to be capable of generating realistic samples across diverse domains, but are also prone to producing low-quality images. Evaluation metrics such as FID and Inception Scores are not perfect to evaluate generated images, since they fall short in capturing nuanced aspects of image quality. This inherent shortcoming prompts the search for more effective methods to enhance DMs, aiming to improve diversity and rectify artifacts in generated images. This paper tries to address these shortcomings by introducing pixel-wise uncertainty as a means to improve DMs. By incorporating uncertainty estimation, the model can identify and potentially discard the most uncertain images, or even improve generated images and enhancing diversity in the generated samples.
+Diffusion Models have shown to be capable of generating realistic samples across diverse domains, but are also prone to producing low-quality images. Evaluation metrics such as FID and Inception Scores are not perfect to evaluate generated images, since they fall short in capturing nuanced aspects of image quality. This inherent shortcoming prompts the search for more effective methods to enhance DMs, aiming to improve diversity and rectify artifacts in generated images. Our aim is to address these shortcomings by introducing pixel-wise uncertainty as a means to improve DMs. By incorporating uncertainty estimation, the model can identify and potentially discard the most uncertain images, or even improve generated images and enhancing diversity in the generated samples.
 
 
 
 ### How do diffusion models work?
 
-#### DDIM
+Diffusion models are a family of probabilistic generative models that progressively destruct data by injecting noise (forward process), then learn to reverse this process for sample generation (Yang et al., 2023). Let us point out the key feautures of diffusion models.  
 
-Diffusion models are a family of probabilistic generative models that progressively destruct data by injecting noise, then learn to reverse this process for sample generation (Yang et al., 2023). First, a Denoising Diffusion Probabilistic Model (DDPM), which is the original diffusion approach, makes use of two Markov chains: a forward chain that perturbs data to noise, and a reverse chain that converts noise back to data. 
 
 <table align="center">
   <tr align="center">
@@ -43,7 +42,10 @@ Diffusion models are a family of probabilistic generative models that progressiv
 
 
 #### DDPM (niet doen)
+First, a Denoising Diffusion Probabilistic Model (DDPM), which is the original diffusion approach, makes use of two Markov chains: a forward chain that perturbs data to noise, and a reverse chain that converts noise back to data. 
 
+
+#### DDIM
 Building upon DDPMs, Song, Meng, and Ermon (2022) proposed a different approach namely, Denoising Diffusion Implicit Models (DDIMs). DDIMs provides a more efficient class of iterative implicit probabilistic models with the same training procedure.
 
 #### DPM (niet doen)
