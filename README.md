@@ -133,6 +133,16 @@ We ran a hyperparameter search over the variables sigma_noise (0-1) and prior_pr
 </table>
 
 
+<table align="center">
+  <tr align="center">
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/big_birds.png" width=600></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 3.</b>  Uncertainty maps (EVEN SETTINGS TOEVOEGEN) </td>
+  </tr>
+</table>
+
+
 ### Stable diffusion
 
 
