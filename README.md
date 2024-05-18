@@ -142,6 +142,15 @@ We ran a hyperparameter search over the variables sigma_noise (0-1) and prior_pr
   </tr>
 </table>
 
+<table align="center">
+  <tr align="center">
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/timestep_uncertainty.jpg" width=700></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 4.</b>  Uncertainty maps (EVEN SETTINGS TOEVOEGEN) </td>
+  </tr>
+</table>
+
 
 ### Stable diffusion
 
