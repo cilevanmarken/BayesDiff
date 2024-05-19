@@ -10,7 +10,6 @@ In this blogpost we discuss our findings on enhancing the quality of images gene
 
 In addition, the paper highlights the challenge of filtering out these low-quality images due to the lack of a reliable metric for assessing image quality, with traditional evaluation metrics. Often used evaluation metrics are FID and Inception Scores which are not perfect to evaluate the generated images, since they fall short in capturing nuanced aspects of image quality **(HIER NOG EVEN ONDERBOUWEN WAT ER MINDER GOED IS -> BEWIJS MET REFERENCE)**. This inherent shortcoming prompts the search for more effective methods to enhance DMs, aiming to improve diversity and rectify artifacts in generated images. Our aim is to address these shortcomings by introducing pixel-wise uncertainty as a means to improve DMs. By incorporating uncertainty estimation, the model can identify and potentially discard the most uncertain images, or even improve generated images and enhancing diversity in the generated samples. *Figure 1* points out the architecture that is used in conducting the "Bayesdiff" research paper. 
 
----
 
 <table align="center">
   <tr align="center">
@@ -22,7 +21,7 @@ In addition, the paper highlights the challenge of filtering out these low-quali
 </table>
 
 
-
+---
 
 ## How do diffusion models work?
 
@@ -33,7 +32,7 @@ q\left( x_1, \ldots, x_T \mid x_0 \right) := \prod_{t=1}^T q \left( x_t \mid x_{
 q\left( x_t \mid x_{t-1} \right) := \mathcal{N}\left( x_t ; \sqrt{1-\beta_t} x_{t-1}, \beta_t \mathbf{I} \right) & \qquad \qquad
 \end{align}$$
 
-As step $t$ becomes larger the data sample $x_0$ gradually loses its distinguishable features and becomes equivalent to an isotrophic Gaussian function namely, a noisy image. *Figure 2* points out both the forward diffusion process that gradually adds noise to the image as well as the reverse process. In this reversed process, the true sample from a Gaussian noise input $x_T \sim \mathcal{N}(0,I)$ is recreated by sampling from $q(x_{t-1}|x_t)$. Sampling from $q(x_{t-1}|x_t)$ is hard because the entire dataset needs to be used. Therefore model $p_{\theta}$, parameterized by the next equation, needs to be learned.
+As step $t$ becomes larger the data sample $x_0$ gradually loses its distinguishable features and becomes equivalent to an isotrophic Gaussian function namely, a noisy image. *Figure 2* points out both the forward diffusion process that gradually adds noise to the image as well as the reverse process. In this reversed process, the true sample from a Gaussian noise input $x_T \sim \mathcal{N}(0,I)$ is recreated by sampling from $q(x_{t-1}|x_t)$. Sampling from $q(x_{t-1}|x_t)$ is hard because the entire dataset needs to be used. The goal is to learn model $p_{\theta}$, parameterized by the next equation.
 
 $$p_\theta \left( x_{t-1} \mid x_t \right) := \mathcal{N} \left( x_{t-1} ; \mu_\theta \left( x_t, t \right), \Sigma_\theta \left( x_t, t \right) \right) \qquad \qquad$$
 
@@ -52,6 +51,8 @@ Building upon DDPMs, Song et al. (2020) propose a different approach namely, Den
 - The “consistency” property since the generative process is deterministic. This means that multiple samples conditioned on the same latent variable should have similar high-level features.
 - DDIM can do semantically meaningful interpolation in the latent variable because of the "consistency".
 
+---
+
 ## What is the role of Bayesian inference here?
 
 #### Laplace & Hessian
@@ -66,7 +67,7 @@ p\left( \epsilon_t \mid x_t, t, \mathcal{D} \right) \approx \mathcal{N} \left( \
 
 
 #### Hessian free Laplace
-In conducting our research we propose the Hessian-free Laplace (HFL) approach (McInerney and Kallus, 2024) as an alternative to the diagonal Hessian that is used in the "BayesDiff" paper. The motivation for this proposal is the computational bottleneck of LA which is the step of calculating and inverting the Hessian matrix $H$ of the log posterior. HFL uses the curvature of both the log posterior and network prediction to estimate its variance. McInerney and Kallus prove that HFL yields the same variance as LA which result in equal performance of the HFL compared to that of exact and approximate Hessians. Emphasizing the HFL architecture we point out its pseudocode.
+In conducting our research we propose the Hessian-free Laplace (HFL) approach (McInerney and Kallus, 2024) as an alternative to the diagonal Hessian that is used in the "BayesDiff" paper. The motivation for this proposal is the computational bottleneck of LA which is the step of calculating and inverting the Hessian matrix $H$ of the log posterior. In contrast to original Hessian approach, HFL uses the curvature of both the log posterior and network prediction to estimate its variance. McInerney and Kallus prove that HFL yields the same variance as LA which results in equal performance of the HFL compared to that of exact and approximate Hessians. Emphasizing the HFL architecture we point out its pseudocode.
 
 <table align="center">
   <tr align="center">
@@ -78,21 +79,7 @@ In conducting our research we propose the Hessian-free Laplace (HFL) approach (M
 </table>
 
 
-
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
+---
 
 ## Evaluating images 
 
