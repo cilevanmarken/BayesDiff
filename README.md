@@ -68,26 +68,14 @@ p\left( \epsilon_t \mid x_t, t, \mathcal{D} \right) \approx \mathcal{N} \left( \
 #### Hessian free Laplace
 In conducting our research we propose the Hessian-free Laplace (HFL) approach (McInerney and Kallus, 2024) as an alternative to the diagonal Hessian that is used in the "BayesDiff" paper. The motivation for this proposal is the computational bottleneck of LA which is the step of calculating and inverting the Hessian matrix $H$ of the log posterior. HFL uses the curvature of both the log posterior and network prediction to estimate its variance. McInerney and Kallus prove that HFL yields the same variance as LA which result in equal performance of the HFL compared to that of exact and approximate Hessians. Emphasizing the HFL architecture we point out its pseudocode.
 
----
-### HFL-algorithm
----
-**Input:** 
-- Network $f_{\theta}$, fitted MAP $\hat{\theta}$, training data $\mathcal{D}$ of size $\mathcal{n}$, evaluation input $x$, scalar $\lambda$, step size schedule $\gamma(\cdot)$
-
-**Warm start:** $\hat{\theta}^{(x,\lambda)} \leftarrow \hat{\theta}$
-
-**Initialize step counter:** $j = 0$
-
-**Repeat:**
-1. Sample training example $(x_i, y_i) \sim \mathcal{D}$
-2. Follow stochastic gradient $\hat{\theta}(x, \lambda) \leftarrow \hat{\theta}(x, \lambda) + n \gamma(j) \nabla_{\theta} \tilde{L}(x, \lambda)(x_i, y_i) \)$
-3. $j \leftarrow j + 1$
-
-**Until:** $\hat{\theta}(x, \lambda)$ converges
-
-**Return:** predictive variance $\hat{\sigma}_f^2(x)$ := $\frac{1}{\lambda} \left| f_{\hat{\theta}(x, \lambda)}(x) - f_{\hat{\theta}}(x)|$
-
----
+<table align="center">
+  <tr align="center">
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/HFL_pseudo.png" width=800></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 3.</b>  Hessian-free Laplace in pseudocode (McInerney and Kallus, 2024).</td>
+  </tr>
+</table>
 
 
 
@@ -151,7 +139,7 @@ We ran a hyperparameter search over the variables sigma_noise (0-1) and prior_pr
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/hyperparameter_DDIM_guided.jpg" width=600></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 3.</b>  Hyperparameter tuning on the DDIM model.</td>
+    <td colspan=2><b>Figure 4.</b>  Hyperparameter tuning on the DDIM model.</td>
   </tr>
 </table>
 
@@ -161,7 +149,7 @@ We ran a hyperparameter search over the variables sigma_noise (0-1) and prior_pr
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/big_birds.png" width=1200></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 4.</b>  Uncertainty maps (EVEN SETTINGS TOEVOEGEN) </td>
+    <td colspan=2><b>Figure 5.</b>  Uncertainty maps (EVEN SETTINGS TOEVOEGEN) </td>
   </tr>
 </table>
 
