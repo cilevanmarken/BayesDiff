@@ -81,11 +81,11 @@ In conducting our research we propose the Hessian-free Laplace (HFL) approach (M
 **Repeat:**
 1. Sample training example $(x_i, y_i) \sim \mathcal{D}$
 2. Follow stochastic gradient $\hat{\theta}(x, \lambda) \leftarrow \hat{\theta}(x, \lambda) + n \gamma(j) \nabla_{\theta} \tilde{L}(x, \lambda)(x_i, y_i) \)$
-3. $ j \leftarrow j + 1 $
+3. $j \leftarrow j + 1$
 
-**Until:** $ \hat{\theta}(x, \lambda) $ converges
+**Until:** $\hat{\theta}(x, \lambda)$ converges
 
-**Return:** predictive variance $\hat{\sigma}_f^2(x) := \frac{1}{\lambda} \left| f_{\hat{\theta}(x, \lambda)}(x) - f_{\hat{\theta}}(x) \right|$
+**Return:** predictive variance $\hat{\sigma}_f^2(x)$ := $\frac{1}{\lambda} \left| f_{\hat{\theta}(x, \lambda)}(x) - f_{\hat{\theta}}(x)|$
 
 ---
 
