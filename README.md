@@ -66,7 +66,8 @@ p\left( \epsilon_t \mid x_t, t, \mathcal{D} \right) \approx \mathcal{N} \left( \
 
 
 #### Hessian free Laplace
-In conducting our research we propose a Hessian free approach instead of the diagonal Hessian that is used in the "BayesDiff" paper.....
+In conducting our research we propose the Hessian-free Laplace (HFL) approach (McInerney and Kallus, 2024) as an alternative to the diagonal Hessian that is used in the "BayesDiff" paper. The motivation for this proposal is the computational bottleneck of LA which is the step of calculating and inverting the Hessian matrix $H$ of the log posterior. HFL uses the curvature of both the log posterior and network prediction to estimate its variance. McInerney and Kallus prove that HFL yields the same variance as LA which result in equal performance of the HFL compared to that of exact and approximate Hessians.
+
 
 \\
 \\
