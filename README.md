@@ -116,6 +116,18 @@ Recent research has highlighted limitations of FID, particularly its inconsisten
 ### CMMD
 We want to utilize CMMD, which is not dependent on the sample size, as a more robust metric, suitable for evaluation of our generated images (Jayasumana et al., 2024).
 
+
+
+
+<table align="center">
+  <tr align="center">
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/CMMD.png" width=600></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 4.</b>  Behaviour of FID and CMMD under distortions. CMMD increases with a higher distortion level, identifying the degradation in image quality with increasing distortions. FID improves (goes down) for the first few distortion levels, suggesting that quality improves when these more subtle distortions are applied (Jayasumana et al., 2024).</td>
+  </tr>
+</table>
+
 ---
 
 ## Reproduction of the experiments
