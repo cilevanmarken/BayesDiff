@@ -127,6 +127,8 @@ Recent research has highlighted limitations of FID, particularly its inconsisten
 ### CMMD
 We want to utilize CMMD, which is not dependent on the sample size, as a more robust metric, suitable for evaluation of our generated images. Jayasumana et al. propose a new metric to evaluate image generation models, using CLIP embeddings and the Maximum Mean Discrepancy (MMD) distance, with a Gaussian RBF kernel. The CMMD (CLIP-MMD) metric is the squared MMD distance between CLIP embeddings of the reference (real) image set and the generated image set. CLIP embeddings are better suited for complex content such as images, because it trains an image encoder and a text encoder jointly using 400 million image-text pairs containing complex scenes. A disadvantage of FID compared to CMMD is that FID is estimated from a finite sample and has a bias that is dependant on the model that is being evaluated, to the extent that the sample size can lead to different rankings of the models being evaluated. In contrast to FID, the CMMD-estimator is unbiased.
 
+> Add mathematical CMMD info
+
 
 ---
 
