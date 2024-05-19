@@ -110,23 +110,21 @@ $$\begin{align}
 d^2((m, C), (m_w, C_w)) = || m - m_w ||_2^2 + \text{Tr}(C + C_w - 2(C C_w)^{1/2})
 \end{align}$$
 
-Recent research has highlighted limitations of FID, particularly its inconsistency with human perception in certain cases. For instance, FID may inaccurately assess image quality under progressive distortions, leading to misleading results (Jayasumana et al., 2024). To adress these shortcomings Jayasuma et al. propose a different metric namely CMMD.
-
-
-### CMMD
-We want to utilize CMMD, which is not dependent on the sample size, as a more robust metric, suitable for evaluation of our generated images (Jayasumana et al., 2024).
-
-
-
+Recent research has highlighted limitations of FID, particularly its inconsistency with human perception in certain cases. For instance, FID may inaccurately assess image quality under progressive distortions, leading to misleading results (Jayasumana et al., 2024). As can be seen, Figure 4 emphasizes their main findings in which FID does not reflect progressive distortion applied to images. To adress these shortcomings Jayasuma et al. propose a different metric namely CMMD.
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/CMMD.png" width=600></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/CMMD.png" width=500></td>
   </tr>
   <tr align="left">
     <td colspan=2><b>Figure 4.</b>  Behaviour of FID and CMMD under distortions. CMMD increases with a higher distortion level, identifying the degradation in image quality with increasing distortions. FID improves (goes down) for the first few distortion levels, suggesting that quality improves when these more subtle distortions are applied (Jayasumana et al., 2024).</td>
   </tr>
 </table>
+
+
+### CMMD
+We want to utilize CMMD, which is not dependent on the sample size, as a more robust metric, suitable for evaluation of our generated images (Jayasumana et al., 2024).
+
 
 ---
 
