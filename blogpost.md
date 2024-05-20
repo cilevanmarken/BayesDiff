@@ -32,18 +32,15 @@ In addition, the paper highlights the challenge of filtering out these low-quali
 
 ## *How do diffusion models work?*
 
-Diffusion models are a family of probabilistic generative models that progressively destruct data by injecting noise, then learn to reverse this process for sample generation [Yang et al., 2023]. This forward process, parameterizd by $q$ in the left equation, uses datapoints $x_0 \sim q(x)$, sampled from a real data distribution in which a small ammount of Gaussian noise, with a variance of $\beta_t \in (0,1)$, is added in $T$ steps. This results in a sequence of noisy samples $x_1,...,x_T$ parameterized by the equation below. 
+Diffusion Models (DMs) are a family of probabilistic generative models that progressively destruct data by injecting noise, then learn to reverse this process for sample generation [Yang et al., 2023]. This forward process, parameterizd by $q$ in the left equation, uses datapoints $x_0 \sim q(x)$, sampled from a real data distribution in which a small ammount of Gaussian noise, with a variance of $\beta_t \in (0,1)$, is added in $T$ steps. This results in a sequence of noisy samples $x_1,...,x_T$ parameterized by the equation below. 
 
-> "Diffusion models are a family of": ik zou hier aangeven dat we DMs in het vervolg van de blogpost aanduiden met (DM)
 
 $$\begin{align} 
 q\left( x_1, \ldots, x_T \mid x_0 \right) := \prod_{t=1}^T q \left( x_t \mid x_{t-1} \right) & \qquad \qquad 
 q\left( x_t \mid x_{t-1} \right) := \mathcal{N}\left( x_t ; \sqrt{1-\beta_t} x_{t-1}, \beta_t \mathbf{I} \right) & \qquad \qquad
 \end{align}$$
 
-As step $t$ becomes larger the data sample $x_0$ gradually loses its distinguishable features and becomes equivalent to an isotrophic Gaussian function namely, a noisy image. *Figure 2* points out both the forward diffusion process that gradually adds noise to the image as well as the reversed process. In this reversed process, the true sample from a Gaussian noise input $x_T \sim \mathcal{N}(0,I)$ is recreated by sampling from $q(x_{t-1}|x_t)$. Sampling from $q(x_{t-1}|x_t)$ is hard because the entire dataset needs to be used. The goal is to learn model $p_{\theta}$, parameterized by the next equation.
-
->  "to an isotrophic Gaussian function namely, a noisy image.": klopt de komma daar? ik zou eerder zeggen , namely a noisy image
+As step $t$ becomes larger the data sample $x_0$ gradually loses its distinguishable features and becomes equivalent to an isotrophic Gaussian function, namely a noisy image. *Figure 2* points out both the forward diffusion process that gradually adds noise to the image as well as the reversed process. In this reversed process, the true sample from a Gaussian noise input $x_T \sim \mathcal{N}(0,I)$ is recreated by sampling from $q(x_{t-1}|x_t)$. Sampling from $q(x_{t-1}|x_t)$ is hard because the entire dataset needs to be used. The goal is to learn model $p_{\theta}$, parameterized by the next equation.
 
 $$p_\theta \left( x_{t-1} \mid x_t \right) := \mathcal{N} \left( x_{t-1} ; \mu_\theta \left( x_t, t \right), \Sigma_\theta \left( x_t, t \right) \right) \qquad \qquad$$
 
@@ -56,20 +53,18 @@ $$p_\theta \left( x_{t-1} \mid x_t \right) := \mathcal{N} \left( x_{t-1} ; \mu_\
   </tr>
 </table>
 
-Building upon DDPMs, Song et al. (2020) propose a different approach namely, Denoising Diffusion Implicit Models (DDIMs), which is the main DM that is used in this blogpost. DDIMs provide a more efficient class of iterative implicit probabilistic models with the same training procedure. In contrast to DDPM, DDIM yields an equal marginal noise distribution but deterministically maps noise back to the original data samples. This makes it possible to train the diffusion model up to any arbitrary number of forward steps but only sample from a subset of steps in the generative process. DDIM yields the following advantages compared to DDPM:
+Building upon Denoising Diffusion Probabilistic Models (DDPMs), Song et al.(2020) propose a different approach namely, Denoising Diffusion Implicit Models (DDIMs), which is the main DM that is used in this blogpost. DDIMs provide a more efficient class of iterative implicit probabilistic models with the same training procedure. In contrast to DDPM, DDIM yields an equal marginal noise distribution but deterministically maps noise back to the original data samples. This makes it possible to train the diffusion model up to any arbitrary number of forward steps but only sample from a subset of steps in the generative process. DDIM yields the following advantages compared to DDPM:
 
 > DDPMs mag misschien in 1 zin worden uitgelicht (of iig de afkorting uitgeschreven), het komt nu een beetje plots uit de lucht vallen
 
-- The ability to generate higher-quality samples using a much fewer number of steps.
-- The “consistency” property since the generative process is deterministic. This means that multiple samples conditioned on the same latent variable should have similar high-level features.
-- DDIM can do semantically meaningful interpolation in the latent variable because of the "consistency".
+- The ability to generate higher-quality samples using less steps.
+- Because the generative process is deterministic it yields the “consistency” property. This means that multiple samples conditioned on the same latent variable should have similar high-level features.
+- Because of the "consistency" property, DDIM can do semantically meaningful interpolation in the latent variable.
 
-> "a much fewer number of steps": dit leest niet zo lekker, misschien 'using less steps' of 'significantly fewer steps'
 
 ---
 
 ## *What is the role of Bayesian inference here?*
-> Heel nice kopje, loopt mooi door en neemt de lezer mee
 
 #### *Laplace & Hessian*
 
@@ -107,9 +102,7 @@ The motivation for this proposal, and to not use LA, is the computational bottle
 
 ## *How do we evaluate Diffusion Models?*
 
-As in many ML problems, a robust evaluation metric is key for examining results. Unfortunately, we find that the Frechet Inception Distance (FID) may react different in some cases than the gold standard, human raters [Jayasumana et al., 2024]. Therefore, we propose to evaluate the images with three different evaluation metrics namely,"Inception score" (IS), "Frechet Inception Distance" (FID) and "CLIP embeddings Maximum Mean Discrepancy" (CMMD). Despite each of this metrics containing advantages and disadvantages in capturing the uncertainty of generated images, we propose to compare their results. 
-
-> ik denk weer dat het ', namely' is. 
+As in many ML problems, a robust evaluation metric is key for examining results. Unfortunately, we find that the Frechet Inception Distance (FID) may react different in some cases than the gold standard, human raters [Jayasumana et al., 2024]. Therefore, we propose to evaluate the images with three different evaluation metrics, namely "Inception score" (IS), "Frechet Inception Distance" (FID) and "CLIP embeddings Maximum Mean Discrepancy" (CMMD). Despite each of this metrics containing advantages and disadvantages in capturing the uncertainty of generated images, we propose to compare their results. 
 
 ### *IS*
 
