@@ -135,7 +135,7 @@ def parse_args_and_config():
         "--config", type=str, default=r"imagenet128_guided.yml", help="Path to the config file"
     )
     parser.add_argument('--device', type=int, default=0)
-    parser.add_argument("--seed", type=int, default=1234, help="Random seed")
+    parser.add_argument("--seed", type=int, default=123, help="Random seed")
     parser.add_argument(
         "--exp", type=str, default="exp", help="Path for saving running related data."
     )
@@ -179,7 +179,7 @@ def parse_args_and_config():
         help="base samples for upsampling, *.npz",
     )
     parser.add_argument(
-        "--timesteps", type=int, default=50, help="number of steps involved"
+        "--timesteps", type=int, default=100, help="number of steps involved"
     )
     parser.add_argument(
         "--dpm_solver_order", type=int, default=3, help="order of dpm-solver"
@@ -191,7 +191,7 @@ def parse_args_and_config():
         help="eta used to control the variances of sigma",
     )
     parser.add_argument(
-        "--fixed_class", type=int, default=51, help="fixed class label for conditional sampling"
+        "--fixed_class", type=int, default=10, help="fixed class label for conditional sampling"
     )
     parser.add_argument(
         "--dpm_solver_atol", type=float, default=0.0078, help="atol for adaptive step size algorithm"
@@ -220,9 +220,9 @@ def parse_args_and_config():
     parser.add_argument("--train_la_batch_size", type=int, default=32)
 
     parser.add_argument("--mc_size", type=int, default=10)
-    parser.add_argument("--sample_batch_size", type=int, default=2)
-    parser.add_argument("--train_la_data_size", type=int, default=200)
-    parser.add_argument("--total_n_sample", type=int, default=6)
+    parser.add_argument("--sample_batch_size", type=int, default=16)
+    parser.add_argument("--train_la_data_size", type=int, default=400000)
+    parser.add_argument("--total_n_sample", type=int, default=16)
 
     # NOTE: added for tuning the parameters of the LLLA
     parser.add_argument('--sigma_noise', type=float, default=1.0, help='Noise level for Laplace approximation.')

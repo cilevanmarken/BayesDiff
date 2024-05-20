@@ -14,8 +14,6 @@ from torchvision.utils import make_grid
 import logging
 import time
 import tqdm
-# import wandb
-from visualize import visualize_uncertainty
 from ddimUQ_utils import inverse_data_transform, compute_alpha, singlestep_ddim_sample, \
 var_iteration, exp_iteration, sample_from_gaussion, parse_args_and_config
 
@@ -41,9 +39,6 @@ def conditioned_var_iteration(diffusion, var_xt, cov_xt_epst, var_epst, seq, tim
     
 def main():
     args, config = parse_args_and_config()
-
-    # initiate WANDB
-    # wandb.init(project="HyperparamTuning", entity="BayesDiff", config=args)
 
     device = f'cuda:{args.device}' if torch.cuda.is_available() else 'cpu'
     device = torch.device(device)
@@ -146,19 +141,17 @@ def main():
     #########   get skip UQ rules  ##########  
     # if uq_array[i] == False, then we use origin_dpmsolver_update from t_seq[i] to t_seq[i-1]
     uq_array = [False] * (args.timesteps)
-    for i in range(args.timesteps-1, 0, -5):
+    for i in range(args.timesteps-1, 0, -1):
         uq_array[i] = True
     
     var_sum = torch.zeros((args.sample_batch_size, n_rounds)).to(device)
     img_id = 1000000
     sample_x = []
-    exp_dir = f'./exp/{diffusion.config.data.dataset}/ddim_fixed_class{args.fixed_class}_train%{args.train_la_data_size}_step{args.timesteps}_S{args.mc_size}/'
+    exp_dir = f'./exp/{diffusion.config.data.dataset}/ddim_fixed_skip_{skip}_train%{args.train_la_data_size}_step{args.timesteps}_S{args.mc_size}/'
     os.makedirs(exp_dir, exist_ok=True)
     samle_batch_size = args.sample_batch_size
     with torch.no_grad():
-        for loop in tqdm.tqdm(
-            range(n_rounds), desc="Generating image samples for FID evaluation."
-        ):
+        for loop in tqdm.tqdm(range(n_rounds)):
 
             if diffusion.config.sampling.cond_class:
                 classes = fixed_classes[:, loop].to(device)
@@ -246,59 +239,8 @@ def main():
         tvu.save_image(var_xt_next.cpu().float()*700, os.path.join(exp_dir, f"visualize_var.png"))
         tvu.save_image(x.cpu().float(), os.path.join(exp_dir, "visualize_sample.png"))
 
-            # # save E(z0) and Var(Z0) for each sample
-            # if timestep == 1:
-
-            #     # convert E(z0) and Var(Z0) to float16
-            #     exp_xt_next = exp_xt_next.to(torch.float16)
-            #     var_xt_next = var_xt_next.to(torch.float16)
-
-            #     # print("Saving Exp and Var at Z0")
-            #     for i in range(args.sample_batch_size):
-
-            #         # create directories
-            #         os.makedirs(os.path.join(exp_dir, "z_exp"), exist_ok=True)
-            #         os.makedirs(os.path.join(exp_dir, "z_var"), exist_ok=True)
-            #         os.makedirs(os.path.join(exp_dir, "imgs"), exist_ok=True)
-
-            #         # save image
-            #         path = os.path.join(exp_dir, f"imgs/{img_id}.png")
-            #         tvu.save_image(x[i].cpu().float(), path)
-
-            #         # log to wandb
-            #         wandb.log({f"sample_image_{i}": wandb.Image(path)})
-
-            #         # save as .pt file
-            #         torch.save(exp_xt_next[i], os.path.join(exp_dir, f"z_exp/{img_id}_{args.sigma_noise}_{args.prior_precision}.pth"))
-            #         torch.save(var_xt_next[i], os.path.join(exp_dir, f"z_var/{img_id}_{args.sigma_noise}_{args.prior_precision}.pth"))
-
-            #         img_id += 1
-
-        sample_x = torch.concat(sample_x, dim=0)
-        var = []
-        for j in range(n_rounds):
-            var.append(var_sum[:, j])
-        var = torch.concat(var, dim=0)
-
-        # # sort images based on variance
-        # sorted_var, sorted_indices = torch.sort(var, descending=True)
-
-        # # save sorted indeces
-        # torch.save(sorted_indices, os.path.join(exp_dir, "sorted_indices.pt"))
-
-        # reordered_sample_x = torch.index_select(sample_x, dim=0, index=sorted_indices.int())
-        # grid_sample_x = make_grid(reordered_sample_x, nrow=12, padding=1)
-        # tvu.save_image(grid_sample_x.cpu().float(), os.path.join(exp_dir, "sorted_sample.png"))
-
-    # # loop over ids and visualize and save uncertainty map per sample
-    # for f in os.listdir(os.path.join(exp_dir, "z_exp")):
-    #     id = f.strip(".pth")
-    #     print(id)
-    #     img = visualize_uncertainty(exp_dir, id)
-
-        # wandb.log({f"uncertainty_map_{id.split('_')[0]}": wandb.Image(img)})
-
-    # wandb.finish()
+        # save variance as grayscale
+        tvu.save_image(var_xt_next.cpu().float().mean(dim=1, keepdim=True)*700, os.path.join(exp_dir, f"visualize_var_gray.png"))
 
 
 if __name__ == "__main__":
