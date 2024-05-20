@@ -22,7 +22,6 @@ In addition, the paper highlights the challenge of filtering out these low-quali
 </table>
 
 ## TL;DR
-> TODO
 
 
 ---
