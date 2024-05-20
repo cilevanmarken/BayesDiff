@@ -236,11 +236,11 @@ def main():
             sample_x.append(x)
 
         # multiply scale to make var visible
-        tvu.save_image(var_xt_next.cpu().float()*700, os.path.join(exp_dir, f"visualize_var.png"))
+        tvu.save_image(var_xt_next.cpu().float()*700, os.path.join(exp_dir, f"visualize_var_s{args.sigma_noise}_p{args.prior_precision}.png"))
         tvu.save_image(x.cpu().float(), os.path.join(exp_dir, "visualize_sample.png"))
 
         # save variance as grayscale
-        tvu.save_image(var_xt_next.cpu().float().mean(dim=1, keepdim=True)*700, os.path.join(exp_dir, f"visualize_var_gray.png"))
+        tvu.save_image(var_xt_next.cpu().float().mean(dim=1, keepdim=True)*700, os.path.join(exp_dir, f"visualize_var_gray_s{args.sigma_noise}_p{args.prior_precision}.png"))
 
 
 if __name__ == "__main__":
