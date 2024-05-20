@@ -159,6 +159,17 @@ We ran a hyperparameter search over the variables sigma_noise (0-1) and prior_pr
   </tr>
 </table>
 
+<table align="center">
+  <tr align="center">
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/CMMD_sample_sizes.jpg" width=500></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 4.</b> Sample size motivation for FID and CMMD.Top: absolute values of the metrics. Bottom: values relative to the value at 30k sample size.</td>
+  </tr>
+</table>
+
+
+
 
 <table align="center">
   <tr align="center">
