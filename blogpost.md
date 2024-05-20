@@ -53,7 +53,7 @@ $$p_\theta \left( x_{t-1} \mid x_t \right) := \mathcal{N} \left( x_{t-1} ; \mu_\
   </tr>
 </table>
 
-Building upon Denoising Diffusion Probabilistic Models (DDPMs), Song et al.(2020) propose a different approach namely, Denoising Diffusion Implicit Models (DDIMs), which is the main DM that is used in this blogpost. DDIMs provide a more efficient class of iterative implicit probabilistic models with the same training procedure. In contrast to DDPM, DDIM yields an equal marginal noise distribution but deterministically maps noise back to the original data samples. This makes it possible to train the diffusion model up to any arbitrary number of forward steps but only sample from a subset of steps in the generative process. DDIM yields the following advantages compared to DDPM:
+Building upon Denoising Diffusion Probabilistic Models (DDPMs)[Ho et al., 2020], Song et al.(2020) propose a different approach namely, Denoising Diffusion Implicit Models (DDIMs), which is the main DM that is used in this blogpost. DDIMs provide a more efficient class of iterative implicit probabilistic models with the same training procedure. In contrast to DDPM, DDIM yields an equal marginal noise distribution but deterministically maps noise back to the original data samples. This makes it possible to train the diffusion model up to any arbitrary number of forward steps but only sample from a subset of steps in the generative process. DDIM yields the following advantages compared to DDPM:
 
 > DDPMs mag misschien in 1 zin worden uitgelicht (of iig de afkorting uitgeschreven), het komt nu een beetje plots uit de lucht vallen
 
