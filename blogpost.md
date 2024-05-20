@@ -10,7 +10,7 @@ In this blogpost we discuss our findings on enhancing the quality of images gene
 
 > HIER NOG EVEN ONDERBOUWEN WAT ER MINDER GOED IS -> BEWIJS MET REFERENCE
 
-In addition, the paper highlights the challenge of filtering out these low-quality images due to the lack of a reliable metric for assessing image quality, with traditional evaluation metrics. Often used evaluation metrics are FID and Inception Scores which are not perfect to evaluate the generated images, since they fall short in capturing nuanced aspects of image quality. This inherent shortcoming prompts the search for more effective methods to enhance DMs, aiming to improve diversity and rectify artifacts in generated images. Our aim is to address these shortcomings by introducing pixel-wise uncertainty as a means to improve DMs. By incorporating uncertainty estimation, the model can identify and potentially discard the most uncertain images, or even improve generated images and enhancing diversity in the generated samples. *Figure 1* points out the architecture that is used in conducting the "Bayesdiff" research paper. 
+In addition, the paper highlights the challenge of filtering out these low-quality images due to the lack of a reliable metric for assessing image quality, with traditional evaluation metrics. Often used evaluation metrics are FID and Inception Scores which are not perfect to evaluate the generated images, since they fall short in capturing nuanced aspects of image quality. This inherent shortcoming prompts the search for more effective methods to enhance DMs, aiming to improve diversity and rectify artifacts in generated images. The authors' aim is to address these shortcomings by introducing pixel-wise uncertainty as a means to improve DMs. By incorporating uncertainty estimation, the model can identify and potentially discard the most uncertain images, or even improve generated images and enhancing diversity in the generated samples. *Figure 1* points out the architecture that is used in conducting the "Bayesdiff" research paper. 
 
 <table align="center">
   <tr align="center">
@@ -28,7 +28,7 @@ In addition, the paper highlights the challenge of filtering out these low-quali
 
 ## *How do diffusion models work?*
 
-Diffusion models are a family of probabilistic generative models that progressively destruct data by injecting noise, then learn to reverse this process for sample generation [Yang et al., 2023]. This forward process, parameterizd by $q$ in the left equation, uses datapoints $x_0 \sim q(x)$, sampled from a real data distribution in which a small ammount of Gaussian noise, with a variance of $\beta_t \in (0,1)$, is added in $T$ steps. This results in a sequence of noisy samples $x_1,...,x_T$ parameterized by the right equation below. 
+Diffusion models are a family of probabilistic generative models that progressively destruct data by injecting noise, then learn to reverse this process for sample generation [Yang et al., 2023]. This forward process, parameterizd by $q$ in the left equation, uses datapoints $x_0 \sim q(x)$, sampled from a real data distribution in which a small ammount of Gaussian noise, with a variance of $\beta_t \in (0,1)$, is added in $T$ steps. This results in a sequence of noisy samples $x_1,...,x_T$ parameterized by the equation below. 
 
 $$\begin{align} 
 q\left( x_1, \ldots, x_T \mid x_0 \right) := \prod_{t=1}^T q \left( x_t \mid x_{t-1} \right) & \qquad \qquad 
