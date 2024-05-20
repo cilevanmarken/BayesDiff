@@ -28,7 +28,7 @@ In addition, the paper highlights the challenge of filtering out these low-quali
 
 ## *How do diffusion models work?*
 
-Diffusion models are a family of probabilistic generative models that progressively destruct data by injecting noise, then learn to reverse this process for sample generation (Yang et al., 2023). This forward process, parameterizd by $q$ in the left equation, uses datapoints $x_0 \sim q(x)$, sampled from a real data distribution in which a small ammount of Gaussian noise, with a variance of $\beta_t \in (0,1)$, is added in $T$ steps. This results in a sequence of noisy samples $x_1,...,x_T$ parameterized by the right equation below. 
+Diffusion models are a family of probabilistic generative models that progressively destruct data by injecting noise, then learn to reverse this process for sample generation [Yang et al., 2023]. This forward process, parameterizd by $q$ in the left equation, uses datapoints $x_0 \sim q(x)$, sampled from a real data distribution in which a small ammount of Gaussian noise, with a variance of $\beta_t \in (0,1)$, is added in $T$ steps. This results in a sequence of noisy samples $x_1,...,x_T$ parameterized by the right equation below. 
 
 $$\begin{align} 
 q\left( x_1, \ldots, x_T \mid x_0 \right) := \prod_{t=1}^T q \left( x_t \mid x_{t-1} \right) & \qquad \qquad 
@@ -60,7 +60,7 @@ Building upon DDPMs, Song et al. (2020) propose a different approach namely, Den
 
 #### *Laplace & Hessian*
 
-Bayesian inference can be used for uncertainty quantification in Diffusion Models by turning a deterministic neural network into a Bayesian Neural Network (BNN). One such Bayesian approach that is used in the "BayesDiff" paper is Last Layer Laplace Approximation (LLLA)(Daxberger et al., 2022). This approach can be applied to models post-hoc and is very cost-efficient. In order to get the posterior of the weight of the last layer, LLLA is performed by a Laplace approximation of the weight of the last layer $\theta$, while assuming the previous layer to be fixed. Let us denote $p(\theta|\mathcal{D}) = \mathcal{N}(\theta|\theta_{MAP}, H^{-1})$ where $H$ is the Hessian of the negative log-posterior w.r.t. $\theta$ at $\theta_{MAP}$ (Kristiadi et al., 2020). 
+Bayesian inference can be used for uncertainty quantification in Diffusion Models by turning a deterministic neural network into a Bayesian Neural Network (BNN). One such Bayesian approach that is used in the "BayesDiff" paper is Last Layer Laplace Approximation (LLLA)[Daxberger et al., 2022]. This approach can be applied to models post-hoc and is very cost-efficient. In order to get the posterior of the weight of the last layer, LLLA is performed by a Laplace approximation of the weight of the last layer $\theta$, while assuming the previous layer to be fixed. Let us denote $p(\theta|\mathcal{D}) = \mathcal{N}(\theta|\theta_{MAP}, H^{-1})$ where $H$ is the Hessian of the negative log-posterior w.r.t. $\theta$ at $\theta_{MAP}$ [Kristiadi et al., 2020]. 
 
 LLLA approximates the predictive posterior using a Gaussian distribution centered at a local maximum denoted by $\theta_{MAP}$ and a covariance matrix corresponding to the local curvature. This covariance matrix is computed by approximating the inverse of the Hessian denoted by $H^{-1}$. Using the variance of the predictive posterior, the pixel-wise uncertainty can be computed. In the context of our research, LLLA is incorporated into the noise prediction model in DMs for uncertainty measurements at a single timestep. The noise prediction model is trained to minimize the next equation $p$ under a weight decay reguralizer that corresponds to the Gaussian prior on the NN parameters. Emphasized by the "Bayesdiff" paper, the Gaussian approximate posterior distribution on the parameters directly leads to a Gaussian posterior predictive: 
 
@@ -71,10 +71,10 @@ p\left( \epsilon_t \mid x_t, t, \mathcal{D} \right) \approx \mathcal{N} \left( \
 
 #### *Hessian free Laplace*
 
-In conducting our research we propose the Hessian-free Laplace (HFL) approach (McInerney & Kallus, 2024)  as an alternative to the diagonal Hessian that is used in the "BayesDiff" paper. To make their research computationally less heavy, the authors make use of diagonal factorization, ignoring all off-diagonal elements of the Hessian. However, diagonal approximations of the Hessian are outperformed significantly by the KFAC approach, which offers greater expressiveness as mentioned by (Daxberger et al., 2022) in exchange for more computation. As this might enhance the resulting uncertainty maps, we propose replacing diagonal factorization of the Hessian with KFAC factorization. 
+In conducting our research we propose the Hessian-free Laplace (HFL) approach [McInerney & Kallus, 2024] as an alternative to the diagonal Hessian that is used in the "BayesDiff" paper. To make their research computationally less heavy, the authors make use of diagonal factorization, ignoring all off-diagonal elements of the Hessian. However, diagonal approximations of the Hessian are outperformed significantly by the KFAC approach, which offers greater expressiveness as mentioned by [Daxberger et al., 2022] in exchange for more computation. As this might enhance the resulting uncertainty maps, we propose replacing diagonal factorization of the Hessian with KFAC factorization. 
 > Remove KFAC???
 
-Additionally, (McInerney & Kallus, 2024) demonstrate that computing the Hessian might not even be necessary using the Hessian-free Laplace (HFL). Should the HFL lead to similar results as the LLLA, computing the pixel-wise uncertainty could be achieved with significantly less computation. In contrast to original Hessian approach, HFL uses the curvature of both the log posterior and network prediction to estimate its variance. McInerney and Kallus prove that HFL yields the same variance as LA which results in equal performance of the HFL compared to that of exact and approximate Hessians. Emphasizing the HFL architecture we point out its pseudocode.
+Additionally, [McInerney & Kallus, 2024] demonstrate that computing the Hessian might not even be necessary using the Hessian-free Laplace (HFL). Should the HFL lead to similar results as the LLLA, computing the pixel-wise uncertainty could be achieved with significantly less computation. In contrast to original Hessian approach, HFL uses the curvature of both the log posterior and network prediction to estimate its variance. McInerney and Kallus prove that HFL yields the same variance as LA which results in equal performance of the HFL compared to that of exact and approximate Hessians. Emphasizing the HFL architecture we point out its pseudocode.
 
 <table align="center">
   <tr align="center">
@@ -97,7 +97,7 @@ As in many ML problems, a robust evaluation metric is key for examining results.
 
 ### *IS*
 
-The Inception Score (IS) measures variety in images and that each image distinctly looks like something. A higher IS means a better image quality (Barratt & Sharma, 2018). IS has been used in the field of generative modeling as a benchmark for assessing the performance of GANs and related algorithms (Salimans et al., 2016). For general application IS is denoted by,
+The Inception Score (IS) measures variety in images and that each image distinctly looks like something. A higher IS means a better image quality [Barratt & Sharma, 2018]. IS has been used in the field of generative modeling as a benchmark for assessing the performance of GANs and related algorithms [Salimans et al., 2016]. For general application IS is denoted by,
 
 $$\begin{align} 
 \text{IS} = \exp(\mathbb{E}_x[KL(p(y|x) || p(y))])
@@ -107,20 +107,20 @@ where $\mathbb{E}_x$ represents the expectation over images $x$ generated by the
 
 ### *FID*
 
-FID is a widely used evaluation metric for assessing the quality of generated images compared to real ones (Heusel et al., 2018). It quantifies the dissimilarity between the distributions of features extracted from real images and those generated by an algorithm. Let us examin the key components of FID, where $m$ and $m_w$ are the means of the feature representations of the real and generated images respectively, $C$ and $C_w$ are the covariance matrices of the feature representations of the real and generated images.
+FID is a widely used evaluation metric for assessing the quality of generated images compared to real ones [Heusel et al., 2018]. It quantifies the dissimilarity between the distributions of features extracted from real images and those generated by an algorithm. Let us examin the key components of FID, where $m$ and $m_w$ are the means of the feature representations of the real and generated images respectively, $C$ and $C_w$ are the covariance matrices of the feature representations of the real and generated images.
 
 $$\begin{align} 
 d^2((m, C), (m_w, C_w)) = || m - m_w ||_2^2 + \text{Tr}(C + C_w - 2(C C_w)^{1/2})
 \end{align}$$
 
-Recent research has highlighted limitations of FID, particularly its inconsistency with human perception in certain cases. For instance, FID may inaccurately assess image quality under progressive distortions, leading to misleading results (Jayasumana et al., 2024). Figure 4 emphasizes their main findings in which FID does not reflect progressive distortion applied to images. To adress these shortcomings Jayasuma et al. propose a different metric namely CMMD. A disadvantage of FID compared to CMMD is that FID is estimated from a finite sample and has a bias that is dependant on the model that is being evaluated, to the extent that the sample size can lead to different rankings of the models being evaluated. In contrast to FID, the CMMD-estimator is unbiased.
+Recent research has highlighted limitations of FID, particularly its inconsistency with human perception in certain cases. For instance, FID may inaccurately assess image quality under progressive distortions, leading to misleading results [Jayasumana et al., 2024]. *Figure 4* emphasizes their main findings in which FID does not reflect progressive distortion applied to images. To adress these shortcomings Jayasuma et al. propose a different metric namely CMMD. A disadvantage of FID compared to CMMD is that FID is estimated from a finite sample and has a bias that is dependant on the model that is being evaluated, to the extent that the sample size can lead to different rankings of the models being evaluated. In contrast to FID, the CMMD-estimator is unbiased.
 
 <table align="center">
   <tr align="center">
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/CMMD.png" width=500></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 4.</b>  Behaviour of FID and CMMD under distortions. CMMD increases with a higher distortion level, identifying the degradation in image quality with increasing distortions. FID improves (goes down) for the first few distortion levels, suggesting that quality improves when these more subtle distortions are applied (Jayasumana et al., 2024).</td>
+    <td colspan=2><b>Figure 4.</b>  Behaviour of FID and CMMD under distortions. CMMD increases with a higher distortion level, identifying the degradation in image quality with increasing distortions. FID improves (goes down) for the first few distortion levels, suggesting that quality improves when these more subtle distortions are applied [Jayasumana et al., 2024].</td>
   </tr>
 </table>
 
