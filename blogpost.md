@@ -107,7 +107,7 @@ The motivation for this proposal, and to not use LA, is the computational bottle
 
 ## *How do we evaluate Diffusion Models?*
 
-As in many ML problems, a robust evaluation metric is key for examining results. Unfortunately, we find that the Frechet Inception Distance (FID) may react different in some cases than the gold standard, human raters. Therefore, we propose to evaluate the images with three different evaluation metrics namely,"Inception score" (IS), "Frechet Inception Distance" (FID) and "CLIP embeddings Maximum Mean Discrepancy" (CMMD). Despite each of this metrics containing advantages and disadvantages in capturing the uncertainty of generated images, we propose to compare their results. 
+As in many ML problems, a robust evaluation metric is key for examining results. Unfortunately, we find that the Frechet Inception Distance (FID) may react different in some cases than the gold standard, human raters [Jayasumana et al., 2024]. Therefore, we propose to evaluate the images with three different evaluation metrics namely,"Inception score" (IS), "Frechet Inception Distance" (FID) and "CLIP embeddings Maximum Mean Discrepancy" (CMMD). Despite each of this metrics containing advantages and disadvantages in capturing the uncertainty of generated images, we propose to compare their results. 
 
 > ik denk weer dat het ', namely' is. 
 
