@@ -164,7 +164,7 @@ We ran a hyperparameter search over the variables sigma_noise (0-1) and prior_pr
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/hyperparameter_DDIM_guided.jpg" width=600></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 4.</b>  Hyperparameter tuning on the DDIM model.</td>
+    <td colspan=2><b>Figure 5.</b>  Hyperparameter tuning on the DDIM model.</td>
   </tr>
 </table>
 
@@ -173,7 +173,7 @@ We ran a hyperparameter search over the variables sigma_noise (0-1) and prior_pr
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/CMMD_samplesizes.png" width=900></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 4.</b> Sample size motivation for FID and CMMD. Left: absolute values of the metrics. Right: values relative to the value at 30k sample size.</td>
+    <td colspan=2><b>Figure 6.</b> Sample size motivation for FID and CMMD. Left: absolute values of the metrics. Right: values relative to the value at 30k sample size.</td>
   </tr>
 </table>
 
@@ -185,7 +185,7 @@ We ran a hyperparameter search over the variables sigma_noise (0-1) and prior_pr
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/big_birds.png" width=1200></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 5.</b>  Uncertainty maps (EVEN SETTINGS TOEVOEGEN) </td>
+    <td colspan=2><b>Figure 7.</b>  Uncertainty maps (EVEN SETTINGS TOEVOEGEN) </td>
   </tr>
 </table>
 
@@ -194,7 +194,7 @@ We ran a hyperparameter search over the variables sigma_noise (0-1) and prior_pr
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/timestep_uncertainty.jpg" width=700></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 5.</b>  Uncertainty maps (EVEN SETTINGS TOEVOEGEN) </td>
+    <td colspan=2><b>Figure 8.</b>  Uncertainty maps (EVEN SETTINGS TOEVOEGEN) </td>
   </tr>
 </table>
 
