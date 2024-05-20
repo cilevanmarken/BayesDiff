@@ -14,7 +14,7 @@ In addition, the paper highlights the challenge of filtering out these low-quali
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/intro_00.png" width=600></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/intro_00.png" width=600></td>
   </tr>
   <tr align="left">
     <td colspan=2><b>Figure 1.</b>  Given an initial point $x_T \sim \mathcal{N}(0,I)$, the BayesDiff framework incorporates uncertainty into the denoising process and generates images with pixel-wise uncertainty estimates.</td>
@@ -42,7 +42,7 @@ $$p_\theta \left( x_{t-1} \mid x_t \right) := \mathcal{N} \left( x_{t-1} ; \mu_\
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/DDPM.png" width=600></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/DDPM.png" width=600></td>
   </tr>
   <tr align="left">
     <td colspan=2><b>Figure 2.</b>  The Markov chain of forward (and reverse) diffusion process (Ho et al. 2020).</td>
@@ -78,7 +78,7 @@ Additionally, (McInerney & Kallus, 2024) demonstrate that computing the Hessian 
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/HFL_pseudo.png" width=800></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/HFL_pseudo.png" width=800></td>
   </tr>
   <tr align="left">
     <td colspan=2><b>Figure 3.</b>  Hessian-free Laplace in pseudocode (McInerney and Kallus, 2024).</td>
@@ -116,7 +116,7 @@ Recent research has highlighted limitations of FID, particularly its inconsisten
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/CMMD.png" width=500></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/CMMD.png" width=500></td>
   </tr>
   <tr align="left">
     <td colspan=2><b>Figure 4.</b>  Behaviour of FID and CMMD under distortions. CMMD increases with a higher distortion level, identifying the degradation in image quality with increasing distortions. FID improves (goes down) for the first few distortion levels, suggesting that quality improves when these more subtle distortions are applied (Jayasumana et al., 2024).</td>
@@ -153,7 +153,7 @@ However, one would expect that the uncertainty maps would differ, when these par
 We ran a hyperparameter search over the variables sigma_noise (0-1) and prior_precision (0-1000). The results are shown below. The uncertainty maps show miniscule changes when different parameters are used. One would expect that uncertainty maps with a higher precision would be very dark compared to uncertainty maps with a lower precision, as the model is more certain with the strong prior.
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/hyperparameter_DDIM_guided.jpg" width=600></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/hyperparameter_DDIM_guided.jpg" width=600></td>
   </tr>
   <tr align="left">
     <td colspan=2><b>Figure 4.</b>  Hyperparameter tuning on the DDIM model.</td>
@@ -163,7 +163,7 @@ We ran a hyperparameter search over the variables sigma_noise (0-1) and prior_pr
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/big_birds.png" width=1200></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/big_birds.png" width=1200></td>
   </tr>
   <tr align="left">
     <td colspan=2><b>Figure 5.</b>  Uncertainty maps (EVEN SETTINGS TOEVOEGEN) </td>
@@ -172,7 +172,7 @@ We ran a hyperparameter search over the variables sigma_noise (0-1) and prior_pr
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/timestep_uncertainty.jpg" width=700></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/timestep_uncertainty.jpg" width=700></td>
   </tr>
   <tr align="left">
     <td colspan=2><b>Figure 5.</b>  Uncertainty maps (EVEN SETTINGS TOEVOEGEN) </td>
