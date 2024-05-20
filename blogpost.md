@@ -134,9 +134,7 @@ Recent research has highlighted limitations of FID, particularly its inconsisten
 
 ### *CMMD*
 
-We want to utilize CMMD, which is not dependent on the sample size, as a more robust metric, suitable for evaluation of our generated images. Jayasumana et al. propose a new metric to evaluate image generation models, using CLIP embeddings and the Maximum Mean Discrepancy (MMD) distance, with a Gaussian RBF kernel. The CMMD (CLIP-MMD) metric is the squared MMD distance between CLIP embeddings of the reference (real) image set and the generated image set. CLIP embeddings are better suited for complex content such as images, because it trains an image encoder and a text encoder jointly using 400 million image-text pairs containing complex scenes. To compute the CMMD [Jayasumana et al., 2024], the Maximum Mean Discrepancy (MMD) between the CLIP embeddings has to be obtained which is denoted by:
-
-> "We want to utilize CMMD, which is not dependent on the sample size, as a more robust metric": Ik zou hier eerst een een verantwoording doen, dus 'As CMMD is a more robust metric ... we want to utilize this measure for image evaluation.'
+As CMMD is a more robust metric that is not dependent on the sample size, we think this metric suitable to utilize for image evaluation. Jayasumana et al. propose a new metric to evaluate image generation models, using CLIP embeddings and the Maximum Mean Discrepancy (MMD) distance, with a Gaussian RBF kernel. The CMMD (CLIP-MMD) metric is the squared MMD distance between CLIP embeddings of the reference (real) image set and the generated image set. CLIP embeddings are better suited for complex content such as images, because it trains an image encoder and a text encoder jointly using 400 million image-text pairs containing complex scenes. To compute the CMMD [Jayasumana et al., 2024], the Maximum Mean Discrepancy (MMD) between the CLIP embeddings has to be obtained which is denoted by:
 
 $$\begin{align} 
 dist^2_{MMD}(P, Q) = \mathbb{E}\_{x,x'}\[k(x, x')\] + \mathbb{E}\_{y,y'}\[k(y, y')\] - 2\mathbb{E}\_{x,y}\[k(x, y)\] & \qquad \qquad 
