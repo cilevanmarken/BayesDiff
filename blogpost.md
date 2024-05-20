@@ -124,9 +124,11 @@ Recent research has highlighted limitations of FID, particularly its inconsisten
 
 
 ### CMMD
-We want to utilize CMMD, which is not dependent on the sample size, as a more robust metric, suitable for evaluation of our generated images. Jayasumana et al. propose a new metric to evaluate image generation models, using CLIP embeddings and the Maximum Mean Discrepancy (MMD) distance, with a Gaussian RBF kernel. The CMMD (CLIP-MMD) metric is the squared MMD distance between CLIP embeddings of the reference (real) image set and the generated image set. CLIP embeddings are better suited for complex content such as images, because it trains an image encoder and a text encoder jointly using 400 million image-text pairs containing complex scenes. 
+We want to utilize CMMD, which is not dependent on the sample size, as a more robust metric, suitable for evaluation of our generated images. Jayasumana et al. propose a new metric to evaluate image generation models, using CLIP embeddings and the Maximum Mean Discrepancy (MMD) distance, with a Gaussian RBF kernel. The CMMD (CLIP-MMD) metric is the squared MMD distance between CLIP embeddings of the reference (real) image set and the generated image set. CLIP embeddings are better suited for complex content such as images, because it trains an image encoder and a text encoder jointly using 400 million image-text pairs containing complex scenes. To compute the CMMD, the Maximum Mean Discrepancy (MMD) between the CLIP embeddings has to be obtained which is denoted by
 
-> Add mathematical CMMD info
+$$\begin{align} 
+dist^2_{MMD}(P, Q) = \mathbb{E}\_{x,x'}\[k(x, x')\] + \mathbb{E}\_{y,y'}\[k(y, y')\] - 2\mathbb{E}\_{x,y}\[k(x, y)\]
+\end{align}$$
 
 
 ---
@@ -263,7 +265,6 @@ of images
 [Yang et al., 2023] Yang, L., Zhang, Z., Song, Y., Hong, S., Xu, R., Zhao, Y., Zhang, W., Cui, B., & Yang, M.-H. (2023). Diffusion Models: A Comprehensive Survey of Methods and Applications. ACM Computing Surveys, 56(4), 105. https://doi.org/10.1145/3626235
 
 [Zhdanov et al., 2023] Zhdanov, M., Dereka, S., & Kolesnikov, S. (2023). Unveiling Empirical Pathologies of Laplace Approximation for Uncertainty Estimation. arXiv preprint arXiv:2312.10464
-
 
 
 
