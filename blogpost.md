@@ -137,7 +137,7 @@ where $x$ and $x′$ are independently distributed by $P$ and $y$ and $y′$ are
 
 ---
 
-## Reproduction of the experiments
+## *Reproduction of the experiments*
 
 #### *Data*
 
