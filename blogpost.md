@@ -158,24 +158,24 @@ where $x$ and $x′$ are independently distributed by $P$ and $y$ and $y′$ are
 ## *Ablation study*
 ### *Hyperparameter tuning*
 
-The Bayesian approach to uncertainty in generated images is an interesting one. Before we can extend on this idea, it is key to check whether this approach is a viable one. The Last Layer Laplacian, which is used for the uncertainty estimation, is computed using an approximation of the Hessian matrix. The authors have chosen to do a diagonal approximation of the Hessian for this. 
+The Bayesian approach to uncertainty in generated images is an interesting one. Before we can extend on this idea, it is essential to determine whether this approach is viable. The Last Layer Laplacian, used for the uncertainty estimation, is computed using an approximation of the Hessian matrix. The authors have chosen a diagonal approximation of the Hessian for this purpose.
 
-First, we propose to do hyperparameter tuning on the LLLA. Two important hyperparameters for the LLLA are:
--	The *prior precision* indicates how strongly we believe in our prior knowledge about the generated images. When we give a strong prior to the LLLA, the posterior distribution will be more narrow, indicating that the model is more certain about its generated pixel-wise values.
-When generating uncertainty maps with a high prior precision, we would expect the uncertainty maps to be darker then when generating images with a low prior precision, as the model should be more certain about its generations.
--	the *sigma noise* represents the standard deviation of the noise in the data. A high sigma noise corresponds to noisy data, which in turn would make the model more uncertain about the generated images. 
-The images generated with a high sigma noise should thus result in very light uncertainty maps, while a low sigma noise should end up in darker uncertainty maps. 
+First, we propose to perform hyperparameter tuning on the LLLA. Two important hyperparameters for the LLLA are:
+-	The **prior precision** indicates how strongly we believe in our prior knowledge about the generated images. A strong prior results in a narrower posterior distribution, meaning the model is more certain about its generated pixel-wise values. 
+When generating uncertainty maps with a high prior precision, we would expect the maps to be darker compared to those generated with a low prior precision, as the model should be more certain about its generations.
+-	the **sigma noise** represents the standard deviation of the noise in the data. A high sigma noise corresponds to noisier data, which in turn makes the model more uncertain about the generated images. Therefore, images generated with a high sigma noise should result in very light uncertainty maps, while those with a low sigma noise should result in darker uncertainty maps.
 
-The code provided with the paper shows that the authors have fixed the parameters for the prior precision and the sigma noise of the LLLA on *1.0* and *1.0*, respectively. As these two hyperparameters influence the behaviour of the LLLA and the authors have not specified why these particular values are used, fine-tuning these hyperparameters could possibly lead to more insight into how the uncertainty estimation of the LLLA works. Additionally, in the case that changing these hyperparameters doesn’t have a large impact on the resulting uncertainty maps, the question can be raised as to if a Bayesian approach to uncertainty in DMs is a valid one.
+The code provided with the paper shows that the authors have fixed the parameters for the prior precision and the sigma noise of the LLLA on *1.0* and *1.0*, respectively. As these two hyperparameters influence the behaviour of the LLLA and the authors have not specified why these particular values were chosen, fine-tuning these hyperparameters could provide more insight into how the uncertainty estimation of the LLLA works. Additionally, if changing these hyperparameters doesn’t have a large impact on the resulting uncertainty maps, the question can be raised as to if a Bayesian approach to uncertainty in DMs is a valid one.
 
-We ran a hyperparameter search with the following values:
+We conducted a hyperparameter search with the following values:
 -	Prior_precision between 0 and 1000;
 -	Sigma_noise between 0 and 1.
+
 The resulting uncertainty maps are shown below for the DDPM model with ImageNet and CelebA. 
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/prec_imgnet" width=600></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/prec_imgnet.png" width=600></td>
   </tr>
   <tr align="left">
     <td colspan=2><b>Figure 5.</b>  Hyperparameter tuning of prior_precision between 0 and 1000 compared to the original settings with the DDPM model and ImageNet </td>
@@ -184,41 +184,41 @@ The resulting uncertainty maps are shown below for the DDPM model with ImageNet 
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/sigma_imgnet" width=600></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/sigma_imgnet.png" width=600></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 5.</b>  Hyperparameter tuning of sigma_noise between 0 and 1 compared to the original settings with the DDPM model and ImageNet </td>
+    <td colspan=2><b>Figure 6.</b>  Hyperparameter tuning of sigma_noise between 0 and 1 compared to the original settings with the DDPM model and ImageNet </td>
   </tr>
 </table>
 
-The generated uncertainty maps show little to no difference for different values of the hyperparameters. However, when doing this hyperparameter search for CelebA, something interesting happens. 
+The generated uncertainty maps show little to no difference for different values of the hyperparameters. However, when performing this hyperparameter search for CelebA, something interesting happens.
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/prec_celeba" width=600></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/prec_celeba.png" width=600></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 5.</b>  Hyperparameter tuning of prior_precision between 0 and 1000 compared to the original settings with the DDPM model and CelebA </td>
+    <td colspan=2><b>Figure 7.</b>  Hyperparameter tuning of prior_precision between 0 and 1000 compared to the original settings with the DDPM model and CelebA </td>
   </tr>
 </table>
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/sigm_celeba" width=600></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/sigm_celeba.png" width=600></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 5.</b>  Hyperparameter tuning of sigma_noise between 0 and 1 compared to the original settings with the DDPM model and CelebA </td>
+    <td colspan=2><b>Figure 8.</b>  Hyperparameter tuning of sigma_noise between 0 and 1 compared to the original settings with the DDPM model and CelebA </td>
   </tr>
 </table>
 
-The uncertainty maps that are generated for the CelebA dataset do show a difference in uncertainty maps for varying hyperparameter values. The uncertainty maps show behaviour that we would expect: higher prior_precision leads to very dark uncertainty maps, where the model is very certain, while a high sigma_noise result in light uncertainty maps, which indicates that the model is less certain.
+The uncertainty maps generated for the CelebA dataset do show differences for varying hyperparameter values. The maps behave as expected: higher prior precision leads to very dark uncertainty maps, indicating that the model is very certain, while a high sigma noise results in light uncertainty maps, indicating that the model is less certain.
 
 <table align="center">
   <tr align="center">
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/CMMD_samplesizes.png" width=900></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 6.</b> Sample size motivation for FID and CMMD. Left: absolute values of the metrics. Right: values relative to the value at 30k sample size.</td>
+    <td colspan=2><b>Figure 9.</b> Sample size motivation for FID and CMMD. Left: absolute values of the metrics. Right: values relative to the value at 30k sample size.</td>
   </tr>
 </table>
 
@@ -230,7 +230,7 @@ The uncertainty maps that are generated for the CelebA dataset do show a differe
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/big_birds.png" width=1200></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 7.</b>  Uncertainty maps (EVEN SETTINGS TOEVOEGEN) </td>
+    <td colspan=2><b>Figure 10.</b>  Uncertainty maps (EVEN SETTINGS TOEVOEGEN) </td>
   </tr>
 </table>
 
@@ -239,7 +239,7 @@ The uncertainty maps that are generated for the CelebA dataset do show a differe
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/timestep_uncertainty.jpg" width=700></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 8.</b>  Uncertainty maps (EVEN SETTINGS TOEVOEGEN) </td>
+    <td colspan=2><b>Figure 11.</b>  Uncertainty maps (EVEN SETTINGS TOEVOEGEN) </td>
   </tr>
 </table>
 
