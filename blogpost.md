@@ -69,9 +69,9 @@ Bayesian inference can be used for uncertainty quantification in Diffusion Model
 
 LLLA approximates the predictive posterior using a Gaussian distribution centered at a local maximum denoted by $\theta_{MAP}$ and a covariance matrix corresponding to the local curvature. This covariance matrix is computed by approximating the inverse of the Hessian denoted by $H^{-1}$. Using the variance of the predictive posterior, the pixel-wise uncertainty can be computed. In the context of our research, LLLA is incorporated into the noise prediction model in DMs for uncertainty measurements at a single timestep. The noise prediction model is trained to minimize the next equation $p$ under a weight decay reguralizer that corresponds to the Gaussian prior on the NN parameters. Emphasized by the "Bayesdiff" paper, the Gaussian approximate posterior distribution on the parameters directly leads to a Gaussian posterior predictive: 
 
-$$\begin{align} 
+$$
 p\left( \epsilon_t \mid x_t, t, \mathcal{D} \right) \approx \mathcal{N} \left( \epsilon_{\theta}(x_t, t), diag(\gamma^2_{\theta}(x_t,t)) \right) & \qquad \qquad 
-\end{align}$$
+$$
 
 > Misschien is het wat om uit te leggen waarom LLLA post-hoc gedaan kan worden: omdat de $\theta_{MAP}$ uit de DM komt en je alleen de laatste layer gebruikt.
 
