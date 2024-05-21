@@ -75,6 +75,44 @@ p\left( \epsilon_t \mid x_t, t, \mathcal{D} \right) \approx \mathcal{N} \left( \
 
 > Misschien is het wat om uit te leggen waarom LLLA post-hoc gedaan kan worden: omdat de $\theta_{MAP}$ uit de DM komt en je alleen de laatste layer gebruikt.
 
+### Replacing the Hessian by the prior precision
+
+Bayesian methods are central to uncertainty estimation in deep learning, with the Laplace approximation being particularly notable. Traditionally, this method involves approximating the posterior \( p(\theta|D) \) with a Gaussian centered at the maximum a posteriori (MAP) estimate \( \theta_{\text{MAP}} \). The covariance of this Gaussian is the inverse of the Hessian of the negative log-likelihood, evaluated at \( \theta_{\text{MAP}} \):
+
+\[ \Sigma_\theta^{-1} \approx \nabla^2 \log p(D|\theta) \big|_{\theta_{\text{MAP}}} + \lambda I \]
+
+Here, \( \lambda I \) represents the prior precision matrix, typically assumed to be isotropic Gaussian.
+
+Calculating the Hessian in deep neural networks is computationally expensive and can introduce numerical instability. Recent research, such as the work by Zhdanov et al. (2024) and others, highlights that focusing on optimizing the prior precision alone can yield comparable or even superior results in uncertainty estimation and OOD detection, without the need for explicit Hessian computations.
+
+#### Methodological Shift: Identity Matrix for Covariance
+
+The proposed approach simplifies the Laplace approximation by replacing the diagonal Hessian with the diagonal of the identity matrix scaled by the prior precision. This reduces the computational burden and addresses the gradient instability issues often observed in deep neural networks [BRON].
+
+Formally, the authors [BRON] redefine the covariance matrix as:
+
+\[ \Sigma_\theta = \lambda I \]
+
+where \( \lambda \) is the optimized prior precision. This adjustment transforms the posterior approximation to:
+
+\[ p(\theta|D) \approx \mathcal{N}(\theta_{\text{MAP}}, \lambda^{-1} I) \]
+
+This simplification assumes that the identity matrix sufficiently captures the essential characteristics of the posterior distribution's spread.
+
+#### Implementation
+
+Implementing this simplified approach to the existing BayesDiff approach:
+
+1. **Posterior Approximation**:
+   - Approximate the posterior distribution using the identity matrix for the covariance:
+     \[
+     p(\theta|D) \approx \mathcal{N}(\theta_{\text{MAP}}, \lambda^{-1} I)
+     \]
+
+4. **Evaluation**:
+   - Perform extensive experiments to compare the uncertainty estimates and OOD detection performance with traditional methods. Key metrics include calibration scores (e.g., Expected Calibration Error, Negative Log-Likelihood, Brier score) and AUROC for OOD detection.
+
+
 #### *Hessian free Laplace*
 
 In conducting our research we propose the Hessian-free Laplace (HFL) approach [McInerney & Kallus, 2024] as an alternative to the diagonal Hessian that is used in the "BayesDiff" paper. To make their research computationally less heavy, the authors make use of diagonal factorization, ignoring all off-diagonal elements of the Hessian. However, diagonal approximations of the Hessian are outperformed significantly by the KFAC approach, which offers greater expressiveness as mentioned by [Daxberger et al., 2022] in exchange for more computation. As this might enhance the resulting uncertainty maps, we propose replacing diagonal factorization of the Hessian with KFAC factorization. 
