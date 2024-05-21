@@ -79,9 +79,11 @@ p\left( \epsilon_t \mid x_t, t, \mathcal{D} \right) \approx \mathcal{N} \left( \
 
 Bayesian methods are central to uncertainty estimation in deep learning, with the Laplace approximation being particularly notable. Traditionally, this method involves approximating the posterior \( p(\theta|D) \) with a Gaussian centered at the maximum a posteriori (MAP) estimate \( \theta_{\text{MAP}} \). The covariance of this Gaussian is the inverse of the Hessian of the negative log-likelihood, evaluated at \( \theta_{\text{MAP}} \):
 
-$$\[ \Sigma_\theta^{-1} \approx \nabla^2 \log p(D|\theta) \big|_{\theta_{\text{MAP}}} + \lambda I \]$$
+$$\begin{align} 
+  \Sigma_\theta^{-1} \approx \nabla^2 \log p(D|\theta) \big|_{\theta_{\text{MAP}}} + \lambda I
+\end{align}$$
 
-Here, \( \lambda I \) represents the prior precision matrix, typically assumed to be isotropic Gaussian.
+Here, $$ \lambda I $$ represents the prior precision matrix, typically assumed to be isotropic Gaussian.
 
 Calculating the Hessian in deep neural networks is computationally expensive and can introduce numerical instability. Recent research, such as the work by Zhdanov et al. (2024) and others, highlights that focusing on optimizing the prior precision alone can yield comparable or even superior results in uncertainty estimation and OOD detection, without the need for explicit Hessian computations.
 
