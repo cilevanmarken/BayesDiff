@@ -85,7 +85,7 @@ Here, $$ \lambda I $$ represents the prior precision matrix, typically assumed t
 
 Calculating the Hessian in deep neural networks is computationally expensive and can introduce numerical instability. Recent research, such as the work by Zhdanov et al. (2024) and others, highlights that focusing on optimizing the prior precision alone can yield comparable or even superior results in uncertainty estimation and OOD detection, without the need for explicit Hessian computations.
 
-#### Methodological Shift: Identity Matrix for Covariance
+#### Identity Matrix for Covariance
 
 The proposed approach simplifies the Laplace approximation by replacing the diagonal Hessian with the diagonal of the identity matrix scaled by the prior precision. This reduces the computational burden and addresses the gradient instability issues often observed in deep neural networks [BRON].
 
