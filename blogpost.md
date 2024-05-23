@@ -77,11 +77,15 @@ p\left( \epsilon_t \mid x_t, t, \mathcal{D} \right) \approx \mathcal{N} \left( \
 
 ### Replacing the Hessian by the prior precision
 
-Bayesian methods are central to uncertainty estimation in deep learning, with the Laplace approximation being particularly notable. Traditionally, this method involves approximating the posterior \( p(\theta|D) \) with a Gaussian centered at the maximum a posteriori (MAP) estimate \( \theta_{\text{MAP}} \). The covariance of this Gaussian is the inverse of the Hessian of the negative log-likelihood, evaluated at \( \theta_{\text{MAP}} \):
+Bayesian methods are central to uncertainty estimation in deep learning, with the Laplace approximation being particularly notable. Traditionally, this method involves approximating the posterior $p(\theta|D) \)$ with a Gaussian centered at the maximum a posteriori (MAP) estimate $\theta_{\text{MAP}}$. The covariance of this Gaussian is the inverse of the Hessian of the negative log-likelihood, evaluated at $\theta_{\text{MAP}}$:
 
-$$\Sigma_\theta^{-1} \approx \nabla^2 \log p(D|\theta) \big|_{\theta_{\text{MAP}}} + \lambda I$$
+$$\begin{align} 
+\sigma_\theta^{-1} \approx \nabla^2 \log p(D|\theta) \big|_{\theta_{\text{MAP}}} + \lambda I
+\end{align}$$
 
-Here, $$ \lambda I $$ represents the prior precision matrix, typically assumed to be isotropic Gaussian.
+
+
+Here, $\lambda I$ represents the prior precision matrix, typically assumed to be isotropic Gaussian.
 
 Calculating the Hessian in deep neural networks is computationally expensive and can introduce numerical instability. Recent research, such as the work by Zhdanov et al. (2024) and others, highlights that focusing on optimizing the prior precision alone can yield comparable or even superior results in uncertainty estimation and OOD detection, without the need for explicit Hessian computations.
 
@@ -91,11 +95,11 @@ The proposed approach simplifies the Laplace approximation by replacing the diag
 
 Formally, the authors [BRON] redefine the covariance matrix as:
 
-\[ \Sigma_\theta = \lambda I \]
+$\Sigma_\theta = \lambda I$
 
-where \( \lambda \) is the optimized prior precision. This adjustment transforms the posterior approximation to:
+where $\lambda \$ is the optimized prior precision. This adjustment transforms the posterior approximation to:
 
-\[ p(\theta|D) \approx \mathcal{N}(\theta_{\text{MAP}}, \lambda^{-1} I) \]
+$p(\theta|D) \approx \mathcal{N}(\theta_{\text{MAP}}, \lambda^{-1} I)$
 
 This simplification assumes that the identity matrix sufficiently captures the essential characteristics of the posterior distribution's spread.
 
@@ -105,9 +109,7 @@ Implementing this simplified approach to the existing BayesDiff approach:
 
 1. **Posterior Approximation**:
    - Approximate the posterior distribution using the identity matrix for the covariance:
-     \[
-     p(\theta|D) \approx \mathcal{N}(\theta_{\text{MAP}}, \lambda^{-1} I)
-     \]
+     $p(\theta|D) \approx \mathcal{N}(\theta_{\text{MAP}}, \lambda^{-1} I)$
 
 4. **Evaluation**:
    - Perform extensive experiments to compare the uncertainty estimates and OOD detection performance with traditional methods. Key metrics include calibration scores (e.g., Expected Calibration Error, Negative Log-Likelihood, Brier score) and AUROC for OOD detection.
