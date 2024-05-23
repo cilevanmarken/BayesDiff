@@ -1,0 +1,56 @@
+#!/bin/bash
+
+#SBATCH --partition=gpu
+#SBATCH --gpus=1
+#SBATCH --job-name=Eval
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=18
+#SBATCH --time=00:08:00
+#SBATCH --output=/home/output_%A.out
+
+# Load necessary modules
+module purge
+module load 2022
+module load Anaconda3/2022.05
+
+# Activate the conda environment
+source activate BayesDiff
+
+PATH_FOLDER="PATH_TO_VARIANT"
+REF_EMBED="PATH_TO_REFERENCE_EMBEDDING"
+REF_IMGS="PATH_TO_REFERENCE_IMAGES"
+
+srun python -u embed.py \
+    --variant_folder $PATH_FOLDER \
+    --image_count 1000000
+
+srun python -u aggregation.py \
+    --input_dir $PATH_FOLDER 
+
+srun python -u cmmd.py \
+    --ref_embed $REF_E \
+    --eval_folder $PATH_FOLDER 
+
+srun python -u fid.py \
+    --path1 $REF_IMGS \
+    --path2 $PATH_FOLDER  \
+    --aggregation 'all' \
+    --device cuda \
+
+srun python -u fid.py \
+    --path1 $REF_IMGS \
+    --path2 $PATH_FOLDER  \
+    --aggregation 'sum' \
+    --device cuda \
+
+srun python -u fid.py \
+    --path1 $REF_IMGS \
+    --path2 $PATH_FOLDER  \
+    --aggregation 'patch_max' \
+    --device cuda \
+
+srun python -u fid.py \
+    --path1 $REF_IMGS \
+    --path2 $PATH_FOLDER  \
+    --aggregation 'segmentation' \
+    --device cuda \
