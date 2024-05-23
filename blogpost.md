@@ -49,13 +49,14 @@ $$p_\theta \left( x_{t-1} \mid x_t \right) := \mathcal{N} \left( x_{t-1} ; \mu_\
   </tr>
 </table>
 
-The Denoising Diffusion Probabilistic Model (DDPM)[Ho et al., 2020] lies in the category of standard DMs as discussed above. Building upon these standard DMs, Song et al.(2020) propose an alternative approach, namely Denoising Diffusion Implicit Models (DDIMs), which is the main DM that is used in this blogpost. DDIMs provide a more efficient class of iterative implicit probabilistic models with the same training procedure. In contrast to DDPM, DDIM yields an equal marginal noise distribution but deterministically maps noise back to the original data samples. This makes it possible to train the diffusion model up to any arbitrary number of forward steps but only sample from a subset of steps in the generative process. DDIM yields the following advantages compared to DDPM:
+The Denoising Diffusion Probabilistic Model (DDPM)[Ho et al., 2020] lies in the category of standard DMs as discussed above. Building upon these standard DMs, Song et al.(2020) propose an alternative approach, namely Denoising Diffusion Implicit Models (DDIMs). DDIMs provide a more efficient class of iterative implicit probabilistic models with the same training procedure. In contrast to DDPM, DDIM yields an equal marginal noise distribution but deterministically maps noise back to the original data samples. This makes it possible to train the diffusion model up to any arbitrary number of forward steps but only sample from a subset of steps in the generative process. DDIM yields the following advantages compared to DDPM:
 
 
 - The ability to generate higher-quality samples using less steps.
 - Because the generative process is deterministic it yields the “consistency” property. This means that multiple samples conditioned on the same latent variable should have similar high-level features.
 - Because of the "consistency" property, DDIM can do semantically meaningful interpolation in the latent variable.
 
+> WE MOETEN NOG EVEN BENADRUKKEN DAT WE DE DDIM SAMPLER GEBRUIKEN
 
 ---
 
