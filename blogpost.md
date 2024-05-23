@@ -233,7 +233,7 @@ The generated uncertainty maps show little to no difference for different values
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/prec_celeba.png" width=600></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/prec_celeba2.png" width=600></td>
   </tr>
   <tr align="left">
     <td colspan=2><b>Figure 7.</b>  Hyperparameter tuning of prior_precision between 0 and 1000 compared to the original settings with the DDPM model and CelebA </td>
@@ -242,7 +242,7 @@ The generated uncertainty maps show little to no difference for different values
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/sigm_celeba.png" width=600></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/sigm_celeba2.png" width=600></td>
   </tr>
   <tr align="left">
     <td colspan=2><b>Figure 8.</b>  Hyperparameter tuning of sigma_noise between 0 and 1 compared to the original settings with the DDPM model and CelebA </td>
