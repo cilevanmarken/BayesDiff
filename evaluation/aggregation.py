@@ -8,7 +8,6 @@ import os
 import argparse
 import json
 
-# python aggregation_methods.py --input_dir /Users/liangtelkamp/Documents/master_ai/dl2/ivo
 if torch.cuda.is_available():
     device = torch.device('cuda')
     print('Using GPU')
