@@ -23,8 +23,6 @@ In addition, the paper highlights the challenge of filtering out these low-quali
   </tr>
 </table>
 
-## TL;DR
-
 
 ---
 
