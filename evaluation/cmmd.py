@@ -8,7 +8,6 @@ from PIL import Image
 import torch
 from transformers import CLIPProcessor, CLIPModel
 import matplotlib.pyplot as plt
-from distance import *
 
 # Constants
 _SIGMA = 10

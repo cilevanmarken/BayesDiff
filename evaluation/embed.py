@@ -21,7 +21,7 @@ def setup_device():
     print(f'Device used is {device}')
     return device
 
-def load_model_and_processor(model_name, device):
+def load_model_and_processor(device):
     try:
         model = CLIPModel.from_pretrained("openai/clip-vit-large-patch14")
         model = model.to(device)
@@ -44,16 +44,16 @@ def load_and_preprocess_image(image_path, processor, device):
 def main():
     args = parse_arguments()
     device = setup_device()
-    model_name = args.model
     img_folder = f'{args.variant_folder}/images'
     image_number = args.image_number
     embed_size = 768  # Dimension of embeddings
+    model_name = 'vit-large-patch14'
 
     if not os.path.exists(img_folder):
         print(f"Image folder {img_folder} does not exist.")
         return
 
-    model, processor = load_model_and_processor(model_name, device)
+    model, processor = load_model_and_processor(device)
     image_files = [f for f in os.listdir(img_folder) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
     n_images = min(len(image_files), args.max_count)
     
@@ -80,7 +80,8 @@ def main():
             print(f"Error processing filename {filename}: {ve}")
 
     print(f"Embedding shape: {features.shape}")
-    out_folder = os.path.join(os.path.dirname(variant_folder), 'embedding')
+    out_folder = os.path.join(args.variant_folder, 'embedding')
+    print(f'Out_fodler {out_folder}')
     os.makedirs(out_folder, exist_ok=True)
     out_file = os.path.join(out_folder, f'{model_name}_embedding.pt')
     torch.save(features, out_file)

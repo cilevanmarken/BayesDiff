@@ -8,6 +8,7 @@ import os
 import argparse
 import json
 
+# python aggregation_methods.py --input_dir /Users/liangtelkamp/Documents/master_ai/dl2/ivo
 if torch.cuda.is_available():
     device = torch.device('cuda')
     print('Using GPU')
@@ -17,12 +18,10 @@ else:
 
 
 def sum_score(var):
-	"""Sum of variances in the tensor"""
 	return var.sum()
 
 
 def patch_avg_max_score(var, patch_size=16):
-	"""Average of the maximum value of each patch in the tensor"""
 	patches = var.unfold(0, patch_size, patch_size).unfold(1, patch_size, patch_size)
 	patches = patches.contiguous().view(-1, 16, 16)
 	patch_avg = torch.mean(patches, dim=(1, 2))
@@ -30,7 +29,6 @@ def patch_avg_max_score(var, patch_size=16):
 
 
 def get_foreground_masked_var(model, image, var):
-	"""Get the masked variance tensor using a pre-trained model"""
 	# Load a pre-trained model
 	transform = T.Compose([
 		T.ToTensor(),
@@ -49,16 +47,18 @@ def get_foreground_masked_var(model, image, var):
 	return masked_var
 
 
+
 def segmentation_sum_score(model, image, var):
 	masked_var = get_foreground_masked_var(model, image, var)
-	return sum_score(masked_var)
+	return masked_var.mean()
+
 
 
 def get_all_info_dict(var_tensor_path, image_path, segmentation=False):
 	info = {}
 	for root, dirs, files in os.walk(var_tensor_path):
 		for file in files:
-			tensor = torch.load(os.path.join(var_tensor_path, file), map_location=torch.device(device))
+			tensor = torch.load(os.path.join(var_tensor_path, file), map_location=torch.device('cpu'))
 			tensor = tensor.mean(dim=0) # remove channels and average them
 
 			# get name of image/variance
@@ -66,6 +66,7 @@ def get_all_info_dict(var_tensor_path, image_path, segmentation=False):
 			# ignore every character starting from first _
 			name = name.split("_")[0]
 
+			# save uncertainty (also image if segmentation is used)
 			# save uncertainty (also image if segmentation is used)
 			if not segmentation:
 				info[name] = [tensor, None]
@@ -79,10 +80,9 @@ def get_all_info_dict(var_tensor_path, image_path, segmentation=False):
 def get_excluded_names(info, aggregation_method, segmentation=False):
 
 	scores, name_score_dict = get_scores(info, aggregation_method, segmentation=segmentation)
-
 	for name, score in name_score_dict.items():
 		# True if score is below mean + std else False
-		name_score_dict[name] = True if score < scores.mean() + scores.std() else False
+		name_score_dict[name] = True if score < scores.mean() + scores.std() and score != 0 else False
 
 	return name_score_dict
 
@@ -138,7 +138,7 @@ def main():
 
         name_score_dict = get_excluded_names(info, aggregation_method, segmentation=segmentation)
 
-        print(name_score_dict)
+        # print(name_score_dict)
 		# Save as json
         with open(f"{args.out_dir}/{aggregation_method}.json", "w") as f:
             json.dump(name_score_dict, f)

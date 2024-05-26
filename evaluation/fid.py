@@ -55,6 +55,7 @@ def calculate_fid_for_aggregation(path1, path2, aggregation, batch_size, device)
         return None
 
     image_list = [k for k, v in sum_excluded.items() if v]
+    print(f"Length of list for {aggregation} is {len(image_list)}")
     temp_folder = create_temp_folder(path2)
 
     try:
@@ -84,7 +85,7 @@ def main():
         fid_value = calculate_fid_for_aggregation(path1, args.path2, aggregation, batch_size, device)
 
     if fid_value is not None:
-        logging.info(f"FID: {fid_value}")
+        print(f"FID: {fid_value}")
 
 if __name__ == "__main__":
     main()
