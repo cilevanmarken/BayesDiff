@@ -442,7 +442,7 @@ At last, we want to press that the practical application of the BayesDiff framew
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/empirical_distribution.png" width=800></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/CMMD_appendix.png" width=800></td>
   </tr>
   <tr align="center">
     <td colspan=2><b>Figure 13.</b>  Sample size motivation for the FID and CMMD. Left: absolute values of the metrics. Right: values relative to the value at 30k sample size. </td>
@@ -455,7 +455,15 @@ At last, we want to press that the practical application of the BayesDiff framew
 
 ### *Hessian Free Laplacian*
 
-Fig X: Uncertainty maps for CelebA in the Hessian free variant for different values of the prior precision.
+<table align="center">
+  <tr align="center">
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/CMMD_appendix.png" width=800></td>
+  </tr>
+  <tr align="center">
+    <td colspan=2><b>Figure 14.</b> Uncertainty maps for CelebA in the Hessian free variant for different values of the prior precision. </td>
+  </tr>
+</table>
+
 
 ---
 
