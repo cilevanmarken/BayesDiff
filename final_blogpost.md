@@ -195,7 +195,8 @@ We performed the experiments using the CelebA and ImageNet datasets. The CelebA 
 *Figure 4* illustrates the four images with the highest and the lowest uncertainty, out of 80 generated images using a DDPM model and DDIM sampler for ImageNet and CelebA. The results are in line with the BayesDiff paper, where the authors indicate that their image-wise uncertainty metric is ‘likely to indicate the level of clutter and the degree of subject prominence in the image’. Additionally, they note that their measure can thus be used to detect low-quality images. 
 
 A point of critique is that the images with a higher uncertainty seem to exhibit more detail, while the images with a lower uncertainty seem to be more bland or have a blurred background. Additionally, the degree of subject prominence does not seem to change between images of high and low uncertainty, leading us to question if this metric is as useful as the authors claim it to be.
-Visualizing uncertainty maps
+
+### *Visualizing uncertainty maps*
 
 <table align="center">
   <tr align="center">
@@ -225,27 +226,36 @@ The authors have introduced the BayesDiff framework as a method to filter out lo
 
 To reproduce the results, we have generated 5,024 images. When plotting the summed uncertainty values, we observed a distribution similar to a normal distribution, though slightly skewed. This skewness could be due to our sample size being one-tenth of the authors' sample. This limited sample size is due to limited computation and memory resources.
 
-We compare the FID scores of 1) the set of our generated images, 2) the set of filtered images, and 3) the set of generated images from which the same number of images as in set 2 were removed at random.
-
-The results are presented and will be discussed in Our contributions > Results.
+We compare the FID scores of 1) the set of our generated images, 2) the set of filtered images, and 3) the set of generated images from which the same number of images as in set 2 were removed at random. The results are presented and will be discussed in Our contributions > Results.
 
 
-Our contribution
-Hyperparameter search
-Before we can extend the Bayesian approach to uncertainty in generated images, it is essential to determine whether the Bayesian approach is viable. One way to test the Bayesian approach is by changing the parameters of the Last Layer Laplacian Approximation (LLLA). As mentioned before, the tuning parameters $\sigma$ and $\gamma$ need to be set. Adjusting these parameters leads to different approximations of the Hessian, and thus different distributions of our last layer weights. So, this should result in varying uncertainty maps given a well-functioning Bayesian implementation.
-Two hyperparameters that influence the LLLA are the prior precision ($\gamma$) and the sigma noise ($\sigma$):
-The prior precision (equation X) indicates how strongly we believe in our prior knowledge about the generated images. A strong prior results in a narrower posterior distribution, meaning the model is more certain about its generated pixel-wise values. When generating uncertainty maps with a high prior precision, we would expect the maps to be darker compared to those generated with a low prior precision, as the model should be more certain about its generations.
-The sigma noise (equation X) represents the standard deviation of the noise in the data. A high sigma noise corresponds to noisier data, making the model more uncertain about the generated images. Therefore, images generated with a high sigma noise should result in lighter uncertainty maps, while those with a low sigma noise should result in darker uncertainty maps.
+## *Our contribution*
+
+### *Hyperparameter search*
+
+Before we can extend the Bayesian approach to uncertainty in generated images, it is essential to determine whether the Bayesian approach is viable. One way to test the Bayesian approach is by changing the parameters of the Last Layer Laplacian Approximation (LLLA). As mentioned before, the tuning parameters $\sigma$ and $\gamma$ need to be set. Adjusting these parameters leads to different approximations of the Hessian, and thus different distributions of our last layer weights. So, this should result in varying uncertainty maps given a well-functioning Bayesian implementation. Two hyperparameters that influence the LLLA are the prior precision ($\gamma$) and the sigma noise ($\sigma$):
+
+- The prior precision (equation X) indicates how strongly we believe in our prior knowledge about the generated images. A strong prior results in a narrower posterior distribution, meaning the model is more certain about its generated pixel-wise values. When generating uncertainty maps with a high prior precision, we would expect the maps to be darker compared to those generated with a low prior precision, as the model should be more certain about its generations.
+
+- The sigma noise (equation X) represents the standard deviation of the noise in the data. A high sigma noise corresponds to noisier data, making the model more uncertain about the generated images. Therefore, images generated with a high sigma noise should result in lighter uncertainty maps, while those with a low sigma noise should result in darker uncertainty maps.
+  
 The authors have fixed the parameters for the prior precision and the sigma noise of the LLLA to 1.0 and 1.0, respectively. However, they have not specified their motivation for this. We conducted a hyperparameter search with the following values:
-Prior precision in range from 0 to 1000.
-Sigma noise between 0 and 1.
-The resulting uncertainty maps are illustrated in Appendix A for the DDPM model with the DDIM sampler for ImageNet and CelebA. For CelebA, the uncertainty maps behave as expected: higher prior precision indicates a higher certainty, and indeed the uncertainty maps are darker for higher values of prior precision. Higher values for the sigma noise also result in darker uncertainty maps, as expected. 
+
+- Prior precision in range from 0 to 1000.
+- Sigma noise between 0 and 1.
+  
+The resulting uncertainty maps are illustrated in Appendix A for the DDPM model with the DDIM sampler for ImageNet and CelebA. For CelebA, the uncertainty maps behave as expected: higher prior precision indicates a higher certainty, and indeed the uncertainty maps are darker for higher values of prior precision. Higher values for the sigma noise also result in darker uncertainty maps, as expected.
+
 However, when running the same experiment for ImageNet, the uncertainty maps do not seem to change. So far we have not been able to pinpoint why this is the case: the codebase is the same for both ImageNet and CelebA, although the diffusion backbone is different. This discrepancy suggests that the BayesDiff codebase may have issues. 
-Aggregation methods
-Another point of interest is the aggregation method used by the authors. They currently sum the pixel-wise uncertainties to determine the uncertainty value per image, which is then used to filter out low-quality images. However, this aggregation method might not fully capture the significance of different image regions in assessing overall uncertainty. For instance, an image with uniformly moderate uncertainty across all pixels would yield an equivalent score as an image characterized by highly certain and highly uncertain regions. Furthermore, this method does not differentiate between the object of interest and the background.
-To address these issues, we propose two novel aggregation methods: PatchMax and SegmentationMean.
+
+### *Aggregation methods*
+
+Another point of interest is the aggregation method used by the authors. They currently sum the pixel-wise uncertainties to determine the uncertainty value per image, which is then used to filter out low-quality images. However, this aggregation method might not fully capture the significance of different image regions in assessing overall uncertainty. For instance, an image with uniformly moderate uncertainty across all pixels would yield an equivalent score as an image characterized by highly certain and highly uncertain regions. Furthermore, this method does not differentiate between the object of interest and the background. To address these issues, we propose two novel aggregation methods: PatchMax and SegmentationMean.
+
 PatchMax: This method involves subdividing the image into 4x4 patches. We calculate the mean pixel uncertainty for each patch and then select the maximum uncertainty among all patches as the final score. This method ensures that areas of high uncertainty are accentuated, which may be critical in assessing image quality.
+
 SegmentationMean: Leveraging a segmentation model, specifically the pre-trained DeepLabV3 with a ResNet-50 backbone [Chen et al., 2017], this method applies a mask to exclude background uncertainties. The mean uncertainty of the remaining pixels is used as the final score. This method highlights uncertainty within primary objects and neglects uncertainties in complex and cluttered backgrounds. 
+
 
 Figure X: The empirical distribution of the uncertainty estimates of the aggregation methods Sum, PatchMax, and SegmentationMean.
 
