@@ -198,8 +198,8 @@ We performed the experiments using the CelebA and ImageNet datasets. The CelebA 
   <tr align="center">
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/CelebA_faces.png" width=800></td>
   </tr>
-  <tr align="left">
-    <td colspan=2><b>Figure 4.</b>  high vs low uncertainty images, generated using DDPM with a DDIM sampler, for ImageNet and CelebA.</td>
+  <tr align="center">
+    <td colspan=2><b>Figure 4.</b>  High vs low uncertainty images, generated using DDPM with a DDIM sampler,<br>for ImageNet and CelebA.</td>
   </tr>
 </table>
 
@@ -216,8 +216,8 @@ A point of critique is that the images with a higher uncertainty seem to exhibit
   <tr align="center">
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/uncertainty_comparison.png" width=800></td>
   </tr>
-  <tr align="left">
-    <td colspan=2><b>Figure 5.</b>  Visualization of the pixel-wise uncertainty for generations on CelebA using DDPM with a DDIM sampler from the BayesDiff paper (left) and our own (right). </td>
+  <tr align="center">
+    <td colspan=2><b>Figure 5.</b>  Visualization of the pixel-wise uncertainty for generations on CelebA using DDPM with a <br> DDIM sampler from the BayesDiff paper (left) and our own (right). </td>
   </tr>
 </table> 
 
@@ -236,7 +236,7 @@ The authors have introduced the BayesDiff framework as a method to filter out lo
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/distributions.png" width=700></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 6.</b>  The empirical distribution of the uncertainty estimates of the BayesDiff paper (left) and of our generated images (right). </td>
+    <td colspan=2><b>Figure 6.</b>  The empirical distribution of the uncertainty estimates of the BayesDiff paper (left) <br>and of our generated images (right). </td>
   </tr>
 </table>
 
