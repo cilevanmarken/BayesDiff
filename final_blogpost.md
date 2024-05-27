@@ -221,7 +221,7 @@ The authors have introduced the BayesDiff framework as a method to filter out lo
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/uncertainty_comparison.png" width=800></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/distributions.png" width=700></td>
   </tr>
   <tr align="left">
     <td colspan=2><b>Figure 6.</b>  The empirical distribution of the uncertainty estimates of the BayesDiff paper (left) and of our generated images (right). </td>
