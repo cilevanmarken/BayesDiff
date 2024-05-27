@@ -318,39 +318,39 @@ We tested the Hessian-free variant using different values of prior precision, wh
   </tr>
   <tr align="center">
       <th>Sum</th>
-      <th>1.744  (4376)</th>
-      <th>1.718  (4207)</th>
-      <th>1.7772  (4355)</th>
+      <th>1.744<br>(4376)</th>
+      <th>1.718<br>(4207)</th>
+      <th>1.7772<br>(4355)</th>
       <th>64.866</th>
       <th>84.567</th>
       <th>57.184</th>
   </tr>
   <tr align="center">
       <th>PatchMZ</th>
-      <th>1.739  (4475)</th>
-      <th>1.707  (4405)</th>
-      <th>1.7798 (4414)</th>
+      <th>1.739<br>(4475)</th>
+      <th>1.707<br>(4405)</th>
+      <th>1.7798<br>(4414)</th>
       <th>65.174</th>
       <th>84.304</th>
       <th>57.351</th>
   </tr>
   <tr align="center">
       <th>SegmentationMean</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th>1.747<br>(4384)</th>
+      <th>1.711<br>(4265)</th>
+      <th>1.78<br>(4323)</th>
+      <th>64.25</th>
+      <th>85.082</th>
+      <th>56.924</th>
   </tr>
   <tr align="center">
       <th>random(4400)</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th>1.729</th>
+      <th>1.698</th>
+      <th>1.7846</th>
+      <th>62.705</th>
+      <th>85.339</th>
+      <th>56.4681</th>
   </tr>
   <tr align="center">
     <td colspan=7><b>Table 1.</b> Evaluating the image quality of DDIM Guided with dataset CelebA.</td>
