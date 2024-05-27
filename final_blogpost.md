@@ -261,11 +261,19 @@ PatchMax: This method involves subdividing the image into 4x4 patches. We calcul
 
 SegmentationMean: Leveraging a segmentation model, specifically the pre-trained DeepLabV3 with a ResNet-50 backbone [Chen et al., 2017], this method applies a mask to exclude background uncertainties. The mean uncertainty of the remaining pixels is used as the final score. This method highlights uncertainty within primary objects and neglects uncertainties in complex and cluttered backgrounds. 
 
+<table align="center">
+  <tr align="center">
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/emperical_distribution.png" width=700></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 7.</b>  The empirical distribution of the uncertainty estimates of the aggregation methods Sum, PatchMax, and SegmentationMean. </td>
+  </tr>
+</table>
 
-Figure X: The empirical distribution of the uncertainty estimates of the aggregation methods Sum, PatchMax, and SegmentationMean.
+Figure 7 illustrates that all aggregation methods roughly follow a (slightly skewed) Gaussian distribution, which indicates that we may remove outliers by removing the images with an uncertainty higher than . The results are illustrated and discussed in the Results section.
 
-Figure X illustrates that all aggregation methods roughly follow a (slightly skewed) Gaussian distribution, which indicates that we may remove outliers by removing the images with an uncertainty higher than . The results are illustrated and discussed in the Results section.
-Hessian Free Laplacian
+### *Hessian Free Laplacian*
+
 We tested the Hessian-free variant using different values of prior precision, which resulted in varying uncertainty maps. Higher precision values produced more confident (darker) uncertainty maps. We selected a prior precision of 3, as it revealed some facial contours in the uncertainty maps and generated reasonable images, comparable to those from the normal and adversarial variants.
 
 ---
