@@ -402,7 +402,7 @@ At last, we want to press that the practical application of the BayesDiff framew
   <tr align="center">
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/prec_imgnet.png" width=800></td>
   </tr>
-  <tr align="left">
+  <tr align="center">
     <td colspan=2><b>Figure 9.</b>  Hyperparameter tuning of prior_precision between 0 and 1000 compared to the <br> original settings with the DDPM model and ImageNet </td>
   </tr>
 </table>
@@ -413,7 +413,7 @@ At last, we want to press that the practical application of the BayesDiff framew
   <tr align="center">
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/sigma_imgnet.png" width=800></td>
   </tr>
-  <tr align="left">
+  <tr align="center">
     <td colspan=2><b>Figure 10.</b>  Hyperparameter tuning of sigma_noise between 0 and 1 compared to the original settings with the DDPM model and ImageNet. </td>
   </tr>
 </table>
@@ -424,8 +424,18 @@ At last, we want to press that the practical application of the BayesDiff framew
   <tr align="center">
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/prec_celeba2.png" width=800></td>
   </tr>
-  <tr align="left">
+  <tr align="center">
     <td colspan=2><b>Figure 11.</b>  Hyperparameter tuning of prior_precision between 0 and 1000 compared to the original settings with the DDPM model and CelebA. </td>
+  </tr>
+</table>
+
+
+<table align="center">
+  <tr align="center">
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/sigm_celeba2.png" width=800></td>
+  </tr>
+  <tr align="center">
+    <td colspan=2><b>Figure 12.</b>  Hyperparameter tuning of sigma_noise between 0 and 1 compared to the original settings with the DDPM model and CelebA. </td>
   </tr>
 </table>
 
@@ -434,17 +444,7 @@ At last, we want to press that the practical application of the BayesDiff framew
   <tr align="center">
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/empirical_distribution.png" width=800></td>
   </tr>
-  <tr align="left">
-    <td colspan=2><b>Figure 12.</b>  Hyperparameter tuning of sigma_noise between 0 and 1 compared to the original settings with the DDPM model and CelebA. </td>
-  </tr>
-</table>
-
-
-table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/empirical_distribution.png" width=800></td>
-  </tr>
-  <tr align="left">
     <td colspan=2><b>Figure 13.</b>  Sample size motivation for the FID and CMMD. Left: absolute values of the metrics. Right: values relative to the value at 30k sample size. </td>
   </tr>
 </table>
