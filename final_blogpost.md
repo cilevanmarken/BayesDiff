@@ -39,12 +39,16 @@ As $𝑡$ in $T$ becomes larger the data sample $𝑥_0$ gradually loses its dis
 
 
 $$\begin{align} 
-q\left( x_1, \ldots, x_T \mid x_0 \right) := \prod_{t=1}^T q \left( x_t \mid x_{t-1} \right) & \qquad \qquad 
-q\left( x_t \mid x_{t-1} \right) := \mathcal{N}\left( x_t ; \sqrt{1-\beta_t} x_{t-1}, \beta_t \mathbf{I} \right) & \qquad \qquad
+p_\theta \left( x_{t-1} \mid x_t \right) := \mathcal{N} \left( x_{t-1} ; \mu_\theta \left( x_t, t \right), \Sigma_\theta \left( x_t, t \right) \right) \qquad \qquad
 \text{[Equation 2]}
 \end{align}$$
 
-Here 𝜇𝜃 and Σ𝜃 refer to the mean predictor and covariance predictor respectively. Instead of predicting the mean of the distribution in equation 2, in reality a noise predictor network, ϵθ, predicts the noise component at step t, a linear combination of xt and this noise component than forms the mean. The noise predictor network is trained by minimizing: 
+Here $\mu_\theta$ and $\Sigma_\theta$ refer to the mean predictor and covariance predictor respectively. Instead of predicting the mean of the distribution in equation 2, in reality a noise predictor network, $\epsilon_\theta$, predicts the noise component at step $t$, a linear combination of $x_t$ and this noise component than forms the mean. The noise predictor network is trained by minimizing:
+
+$$\begin{align} 
+\mathbb{E}_{x \sim q(x), \epsilon \sim \mathcal{N}(0, \mathbb{I}), t \sim \mathcal{U}(0, T)} [w(t) \parallel  (\alpha_t x + \sigma_t \epsilon, t) - \epsilon \parallel_2^2]
+\end{align}$$
+
 
  
 The BayesDiff paper utilizes different types of Diffusion models. However, in our reproduction we focus on DPPMs and Guided Diffusion. Guided Diffusion enhances upon DDPMs by incorporating additional guidance during the sampling process, allowing to steer the sampling process to generate samples belonging to a specific class. 
