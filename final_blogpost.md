@@ -154,25 +154,33 @@ Recent research has highlighted the limitations of the FID, particularly its inc
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/CMMD_plot.png" width=500></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 4.</b>  Behavior of FID and CMMD under different sample sizes. Absolute values of the metrics [Jayasumana et al., 2024].</td>
+    <td colspan=2><b>Figure 3.</b>  Behavior of FID and CMMD under different sample sizes. Absolute values of the metrics [Jayasumana et al., 2024].</td>
   </tr>
 </table>
 
 
 Due to the usage of CLIP embeddings CMMD is a metric that is less dependent on sample size than FID. Given the sample size for image evaluation due to limited resources in our research, CMMD might be the best metric. Jayasumana et al. propose a new metric to evaluate image generation models, using CLIP embeddings and the Maximum Mean Discrepancy (MMD) distance, with a Gaussian RBF kernel. The CMMD (CLIP-MMD) metric is the squared MMD distance between CLIP embeddings of the reference (real) image set and the generated image set. CLIP embeddings are better suited for complex content such as images, because it trains an image encoder and a text encoder jointly using 400 million image-text pairs containing complex scenes. To compute the CMMD [Jayasumana et al., 2024], the Maximum Mean Discrepancy (MMD) between the CLIP embeddings has to be obtained which is denoted by:
-𝑑𝑖𝑠𝑡𝑀𝑀𝐷2(𝑃,𝑄)=𝐸𝑥,𝑥′[𝑘(𝑥,𝑥′)]+𝐸𝑦,𝑦′[𝑘(𝑦,𝑦′)]−2𝐸𝑥,𝑦[𝑘(𝑥,𝑦)]𝑘(𝑥,𝑦)=𝑒𝑥𝑝(−||𝑥−𝑦||2/2𝜎2)
-where 𝑥 and 𝑥′ are independently distributed by 𝑃 and 𝑦 and 𝑦′ are independently distributed by 𝑄. Furthermore, the MMD kernel is denoted by 𝑘(𝑥,𝑦).
 
+$$\begin{align} 
+dist^2_{MMD}(P, Q) = \mathbb{E}\_{x,x'}\[k(x, x')\] + \mathbb{E}\_{y,y'}\[k(y, y')\] - 2\mathbb{E}\_{x,y}\[k(x, y)\] & \qquad \qquad 
+k(x, y) = exp(-||x - y||^2 / 2σ^2) & \qquad \qquad 
+\end{align}$$
 
+where $x$ and $x′$ are independently distributed by $P$ and $y$ and $y′$ are independently distributed by $Q$. Furthermore, the MMD kernel is denoted by $k(x, y)$.
 
 
 We evaluate the performance by generating 5,000 images, following the guidelines from "Rethinking FID," which indicate that the CMMD score stabilizes with this number of images. It is crucial to note that for CMMD, the number of generated images should equal the number of reference images used to calculate the distance.
+
 We also evaluate the models using the FID score. While we lack the computational resources to generate over 20,000 images for a more extensive FID analysis, the FID score can still be used for comparison purposes.
+
 Aggregation methods lead to a reduction in the number of images, which can affect both the CMMD and FID scores. To ensure a fair comparison among the aggregation methods, we randomly select 4,400 images and compute the CMMD and FID scores for this subset. This approach helps to soften the impact of image loss due to aggregation on the evaluation metrics.
 
-Reproduction of the experiments
+## *Reproduction of the experiments*
+
 Now that we are acquainted with the theory behind the research, it is time to try to reproduce the BayesDiff paper. The BayesDiff paper utilizes five different DMs (DDPM, Guided Diffusion, Stable Diffusion, U-ViT and ADM) and two different sampling methods (the DDIM sampler and DPM-solver). For reproduction, we focused on the Guided diffusion and DDPM model in combination with the DDIM sampler. 
+
 We performed the experiments using the CelebA and ImageNet datasets. The CelebA dataset (CelebFaces Attributes Dataset) [Yang et al., 2015] contains more than 200.000 images (image quality: 64x64) with the faces of celebrities. ImageNet consists of over 1 million images in 1000 different classes [Deng et al., 2009].
+
 High vs low uncertainty images
 
 Figure X: high vs low uncertainty images, generated using DDPM with a DDIM sampler, for ImageNet and CelebA.
