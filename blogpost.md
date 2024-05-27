@@ -15,7 +15,7 @@ The BayesDiff paper acknowledges this challenge of filtering out low-quality ima
   <tr align="center">
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/Uncertainty_maps.png" width=950></td>
   </tr>
-  <tr align="left">
+  <tr align="center">
     <td colspan=2><b>Figure 1.</b> Visualization of the pixel-wise uncertainty from the BayesDiff paper</td>
   </tr>
 </table>
@@ -56,9 +56,9 @@ The BayesDiff paper utilizes different types of Diffusion models. However, in ou
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/DDPM.png" width=600></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/DDPM.png" width=800></td>
   </tr>
-  <tr align="left">
+  <tr align="center">
     <td colspan=2><b>Figure 2.</b>  The Markov chain of forward (and reverse) diffusion process (DDPM) [Ho et al. 2020].</td>
   </tr>
 </table>
@@ -160,8 +160,8 @@ Recent research has highlighted the limitations of the FID, particularly its inc
   <tr align="center">
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/CMMD_plot.png" width=500></td>
   </tr>
-  <tr align="left">
-    <td colspan=2><b>Figure 3.</b>  Behavior of FID and CMMD under different sample sizes. Absolute values of the metrics [Jayasumana et al., 2024].</td>
+  <tr align="center">
+    <td colspan=2><b>Figure 3.</b>  Behavior of FID and CMMD under different sample sizes.<br>Absolute values of the metrics [Jayasumana et al., 2024].</td>
   </tr>
 </table>
 
