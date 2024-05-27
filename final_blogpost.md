@@ -95,7 +95,7 @@ With this prior we regularize the model by forcing the weights to be centered ar
 The real posterior $p(\Theta | D)$ is known to be intractable. We thus make use of an approximation in order to find an appropriate distribution over our weights, e.g., $q(\Theta | D).$
 
 
-### Last Layer Laplace Approximation (LLLA)
+### *Last Layer Laplace Approximation (LLLA)*
 
 One of those approximations is the last layer Laplace approximation. The Last Layer Laplace Approximation aims to find a Gaussian approximation to the predictive posterior over the weights of the last layer MAP estimate $\Theta_{MAP}$ of a model, while assuming the previous layers to be fixed. Defined by equation \[6]:
 
@@ -120,7 +120,7 @@ The Hessian describes the local curvature around the MAP estimate, and its inver
 
 A Monte Carlo method is adopted to approximate the variance in the output. The method samples 100 images with different weights drawn from our approximated distribution, much like an ensemble method. The variance and expected values may be derived from the generated samples. The variance will be the final pixel-wise uncertainty that drives this research.
 
-### Hessian-free Laplace
+### *Hessian-free Laplace*
 
 The Hessian is the computational bottleneck of LLLA, which is the step of calculating and inverting the Hessian matrix 𝐻 of the log posterior. Recent research, such as the work by Zhdanov et al. (2024) highlights that focusing on optimizing the prior precision alone can yield comparable or even superior results in uncertainty estimation and OOD detection, without the need for explicit Hessian computations.
 
@@ -133,6 +133,8 @@ $$\begin{align}
 
 Here, $𝜆𝐼$ represents the prior precision matrix.
 Bypassing the Hessian might eliminate the need for the skip model and allow uncertainties to be calculated at every step to improve uncertainty estimates. This method presents an alternative to  maintain or even enhance uncertainty estimates without the computational burden of the Hessian approximation.
+
+---
 
 ## *How do we evaluate Diffusion Models?*
 
@@ -175,6 +177,8 @@ We evaluate the performance by generating 5,000 images, following the guidelines
 We also evaluate the models using the FID score. While we lack the computational resources to generate over 20,000 images for a more extensive FID analysis, the FID score can still be used for comparison purposes.
 
 Aggregation methods lead to a reduction in the number of images, which can affect both the CMMD and FID scores. To ensure a fair comparison among the aggregation methods, we randomly select 4,400 images and compute the CMMD and FID scores for this subset. This approach helps to soften the impact of image loss due to aggregation on the evaluation metrics.
+
+---
 
 ## *Reproduction of the experiments*
 
@@ -228,6 +232,7 @@ To reproduce the results, we have generated 5,024 images. When plotting the summ
 
 We compare the FID scores of 1) the set of our generated images, 2) the set of filtered images, and 3) the set of generated images from which the same number of images as in set 2 were removed at random. The results are presented and will be discussed in Our contributions > Results.
 
+---
 
 ## *Our contribution*
 
@@ -263,8 +268,9 @@ Figure X illustrates that all aggregation methods roughly follow a (slightly ske
 Hessian Free Laplacian
 We tested the Hessian-free variant using different values of prior precision, which resulted in varying uncertainty maps. Higher precision values produced more confident (darker) uncertainty maps. We selected a prior precision of 3, as it revealed some facial contours in the uncertainty maps and generated reasonable images, comparable to those from the normal and adversarial variants.
 
+---
 
-Results
+## *Results*
 
 Aggregation
 Bayesdiff (1,1)
