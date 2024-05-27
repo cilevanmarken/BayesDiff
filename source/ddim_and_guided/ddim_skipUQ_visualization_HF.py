@@ -1,5 +1,5 @@
 import numpy as np
-from la_train_datasets_liang import celeba_dataset, imagenet_dataset
+from la_train_datasets_HF import celeba_dataset, imagenet_dataset
 from pytorch_lightning import seed_everything
 import os
 import torch
@@ -8,7 +8,7 @@ from models.diffusion import Model, flattened_Model
 from models.improved_ddpm.unet import UNetModel as ImprovedDDPM_Model
 from models.guided_diffusion.unet import UNetModel as GuidedDiffusion_Model
 from models.ema import EMAHelper
-from custom_model_liang import CustomModel
+from custom_model_HF import CustomModel
 import torchvision.utils as tvu
 from torchvision.utils import make_grid
 import logging
@@ -149,7 +149,7 @@ def main():
     sample_x = [] 
     
     #exp_dir = f'./exp/{diffusion.config.data.dataset}/ddim_fixed_skip_{skip}_train%{args.train_la_data_size}_step{args.timesteps}_S{args.mc_size}/'
-    exp_dir = f'/home/scur0387/liang/{diffusion.config.data.dataset}/ddim_fixed_skip_{skip}_train%{args.train_la_data_size}_step{args.timesteps}_S{args.mc_size}_sigma{args.sigma_noise}_precision{args.prior_precision}_samples{args.total_n_sample}_CM/'
+    exp_dir = f'/home/scur0387/{diffusion.config.data.dataset}/ddim_fixed_skip_{skip}_train%{args.train_la_data_size}_step{args.timesteps}_S{args.mc_size}_sigma{args.sigma_noise}_precision{args.prior_precision}_samples{args.total_n_sample}_HF/'
     
     os.makedirs(exp_dir, exist_ok=True)
     samle_batch_size = args.sample_batch_size

@@ -10,7 +10,7 @@ class CustomModel(nn.Module):
         super().__init__()
         self.args = args
         self.config = config
-        print('Custom Model Liang')
+        print('Custom Model Hessian Free')
         if self.config.data.dataset == "CELEBA":
             self.conv_out = diff_model.conv_out
             self.copied_cov_out = copy.deepcopy(self.conv_out)
