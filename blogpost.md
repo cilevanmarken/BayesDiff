@@ -94,6 +94,7 @@ p(\Theta) = \mathcal{N} \big( \Theta | \boldsymbol{0}, \gamma^2 \: I\big) \qquad
 With this prior we regularize the model by forcing the weights to be centered around 0. The $\gamma$ represents the variance on the weights.
 The real posterior $p(\Theta | D)$ is known to be intractable. We thus make use of an approximation in order to find an appropriate distribution over our weights, e.g., $q(\Theta | D).$
 
+---
 
 ### *Last Layer Laplace Approximation (LLLA)*
 
@@ -120,6 +121,8 @@ The Hessian describes the local curvature around the MAP estimate, and its inver
 
 A Monte Carlo method is adopted to approximate the variance in the output. The method samples 100 images with different weights drawn from our approximated distribution, much like an ensemble method. The variance and expected values may be derived from the generated samples. The variance will be the final pixel-wise uncertainty that drives this research.
 
+---
+
 ### *Hessian-free Laplace*
 
 The Hessian is the computational bottleneck of LLLA, which is the step of calculating and inverting the Hessian matrix 𝐻 of the log posterior. Recent research, such as the work by Zhdanov et al. (2024) highlights that focusing on optimizing the prior precision alone can yield comparable or even superior results in uncertainty estimation and OOD detection, without the need for explicit Hessian computations.
@@ -139,6 +142,8 @@ Bypassing the Hessian might eliminate the need for the skip model and allow unce
 ## *How do we evaluate Diffusion Models?*
 
 The authors make use of the Frechet Inception Distance (FID) to quantify their results. Despite its widespread use in the domain of image generation, the FID may perform differently from the gold standard, human raters [Jayasumana et al., 2024] by categorizing unrealistic or malformed images as qualitative. Therefore, this research proposes to evaluate the images with an additional evaluation metric, namely CLIP embeddings Maximum Mean Discrepancy (CMMD). As a means to motivate this choice, we explain both metrics:
+
+---
 
 ### *FID*
 
@@ -160,6 +165,9 @@ Recent research has highlighted the limitations of the FID, particularly its inc
   </tr>
 </table>
 
+---
+
+### *CMMD*
 
 Due to the usage of CLIP embeddings CMMD is a metric that is less dependent on sample size than FID. Given the sample size for image evaluation due to limited resources in our research, CMMD might be the best metric. Jayasumana et al. propose a new metric to evaluate image generation models, using CLIP embeddings and the Maximum Mean Discrepancy (MMD) distance, with a Gaussian RBF kernel. The CMMD (CLIP-MMD) metric is the squared MMD distance between CLIP embeddings of the reference (real) image set and the generated image set. CLIP embeddings are better suited for complex content such as images, because it trains an image encoder and a text encoder jointly using 400 million image-text pairs containing complex scenes. To compute the CMMD [Jayasumana et al., 2024], the Maximum Mean Discrepancy (MMD) between the CLIP embeddings has to be obtained which is denoted by:
 
@@ -200,6 +208,8 @@ We performed the experiments using the CelebA and ImageNet datasets. The CelebA 
 
 A point of critique is that the images with a higher uncertainty seem to exhibit more detail, while the images with a lower uncertainty seem to be more bland or have a blurred background. Additionally, the degree of subject prominence does not seem to change between images of high and low uncertainty, leading us to question if this metric is as useful as the authors claim it to be.
 
+---
+
 ### *Visualizing uncertainty maps*
 
 <table align="center">
@@ -214,6 +224,8 @@ A point of critique is that the images with a higher uncertainty seem to exhibit
 To intuitively better understand how the BayesDiff pixel-wise uncertainty works, the authors visualized the uncertainty maps. The pixel-wise uncertainty is defined as the variance. Pixels with higher variance are more unstable and thus more uncertain, which is indicated by a lighter color on the uncertainty map.
 
 Our uncertainty maps are overall consistent with those presented in the BayesDiff paper: we observe more uncertainty around facial features, such as the eyes and mouth. However, there are differences between the uncertainty maps, despite them being generated with the same specifications. Our uncertainty maps seem to contain more noise, with a larger contrast between certain and uncertain pixels.
+
+---
 
 ### *Low-quality image filtering*
 
@@ -253,6 +265,8 @@ The resulting uncertainty maps are illustrated in Appendix A for the DDPM model 
 
 However, when running the same experiment for ImageNet, the uncertainty maps do not seem to change. So far we have not been able to pinpoint why this is the case: the codebase is the same for both ImageNet and CelebA, although the diffusion backbone is different. This discrepancy suggests that the BayesDiff codebase may have issues. 
 
+---
+
 ### *Aggregation methods*
 
 Another point of interest is the aggregation method used by the authors. They currently sum the pixel-wise uncertainties to determine the uncertainty value per image, which is then used to filter out low-quality images. However, this aggregation method might not fully capture the significance of different image regions in assessing overall uncertainty. For instance, an image with uniformly moderate uncertainty across all pixels would yield an equivalent score as an image characterized by highly certain and highly uncertain regions. Furthermore, this method does not differentiate between the object of interest and the background. To address these issues, we propose two novel aggregation methods: PatchMax and SegmentationMean.
@@ -271,6 +285,8 @@ SegmentationMean: Leveraging a segmentation model, specifically the pre-trained 
 </table>
 
 Figure 7 illustrates that all aggregation methods roughly follow a (slightly skewed) Gaussian distribution, which indicates that we may remove outliers by removing the images with an uncertainty higher than . The results are illustrated and discussed in the Results section.
+
+---
 
 ### *Hessian Free Laplacian*
 
