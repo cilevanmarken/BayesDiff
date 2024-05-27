@@ -46,7 +46,8 @@ p_\theta \left( x_{t-1} \mid x_t \right) := \mathcal{N} \left( x_{t-1} ; \mu_\th
 Here $\mu_\theta$ and $\Sigma_\theta$ refer to the mean predictor and covariance predictor respectively. Instead of predicting the mean of the distribution in equation 2, in reality a noise predictor network, $\epsilon_\theta$, predicts the noise component at step $t$, a linear combination of $x_t$ and this noise component than forms the mean. The noise predictor network is trained by minimizing:
 
 $$\begin{align} 
-\mathbb{E}_{x \sim q(x), \epsilon \sim \mathcal{N}(0, \mathbb{I}), t \sim \mathcal{U}(0, T)} [w(t) \parallel  (\alpha_t x + \sigma_t \epsilon, t) - \epsilon \parallel_2^2]
+\mathbb{E}_{x \sim q(x), \epsilon \sim \mathcal{N}(0, \mathbb{I}), t \sim \mathcal{U}(0, T)} [w(t) \parallel \epsilon_θ \left( \alpha_t x + \sigma_t \epsilon, t \right) - \epsilon \parallel_2^2] \qquad \qquad
+\text{[Equation 3]}
 \end{align}$$
 
 
