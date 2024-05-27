@@ -252,14 +252,14 @@ We compare the FID scores of 1) the set of our generated images, 2) the set of f
 
 Before we can extend the Bayesian approach to uncertainty in generated images, it is essential to determine whether the Bayesian approach is viable. One way to test the Bayesian approach is by changing the parameters of the Last Layer Laplacian Approximation (LLLA). As mentioned before, the tuning parameters $\sigma$ and $\gamma$ need to be set. Adjusting these parameters leads to different approximations of the Hessian, and thus different distributions of our last layer weights. So, this should result in varying uncertainty maps given a well-functioning Bayesian implementation. Two hyperparameters that influence the LLLA are the prior precision ($\gamma$) and the sigma noise ($\sigma$):
 
-- The prior precision (equation X) indicates how strongly we believe in our prior knowledge about the generated images. A strong prior results in a narrower posterior distribution, meaning the model is more certain about its generated pixel-wise values. When generating uncertainty maps with a high prior precision, we would expect the maps to be darker compared to those generated with a low prior precision, as the model should be more certain about its generations.
+- **The prior precision:** indicates how strongly we believe in our prior knowledge about the generated images. A strong prior results in a narrower posterior distribution, meaning the model is more certain about its generated pixel-wise values. When generating uncertainty maps with a high prior precision, we would expect the maps to be darker compared to those generated with a low prior precision, as the model should be more certain about its generations.
 
-- The sigma noise (equation X) represents the standard deviation of the noise in the data. A high sigma noise corresponds to noisier data, making the model more uncertain about the generated images. Therefore, images generated with a high sigma noise should result in lighter uncertainty maps, while those with a low sigma noise should result in darker uncertainty maps.
+- **The sigma noise:** represents the standard deviation of the noise in the data. A high sigma noise corresponds to noisier data, making the model more uncertain about the generated images. Therefore, images generated with a high sigma noise should result in lighter uncertainty maps, while those with a low sigma noise should result in darker uncertainty maps.
   
 The authors have fixed the parameters for the prior precision and the sigma noise of the LLLA to 1.0 and 1.0, respectively. However, they have not specified their motivation for this. We conducted a hyperparameter search with the following values:
 
-- Prior precision in range from 0 to 1000.
-- Sigma noise between 0 and 1.
+- **Prior precision** in range from 0 to 1000.
+- **Sigma noise** between 0 and 1.
   
 The resulting uncertainty maps are illustrated in Appendix A for the DDPM model with the DDIM sampler for ImageNet and CelebA. For CelebA, the uncertainty maps behave as expected: higher prior precision indicates a higher certainty, and indeed the uncertainty maps are darker for higher values of prior precision. Higher values for the sigma noise also result in darker uncertainty maps, as expected.
 
@@ -271,9 +271,9 @@ However, when running the same experiment for ImageNet, the uncertainty maps do 
 
 Another point of interest is the aggregation method used by the authors. They currently sum the pixel-wise uncertainties to determine the uncertainty value per image, which is then used to filter out low-quality images. However, this aggregation method might not fully capture the significance of different image regions in assessing overall uncertainty. For instance, an image with uniformly moderate uncertainty across all pixels would yield an equivalent score as an image characterized by highly certain and highly uncertain regions. Furthermore, this method does not differentiate between the object of interest and the background. To address these issues, we propose two novel aggregation methods: PatchMax and SegmentationMean.
 
-PatchMax: This method involves subdividing the image into 4x4 patches. We calculate the mean pixel uncertainty for each patch and then select the maximum uncertainty among all patches as the final score. This method ensures that areas of high uncertainty are accentuated, which may be critical in assessing image quality.
+- **PatchMax:** This method involves subdividing the image into 4x4 patches. We calculate the mean pixel uncertainty for each patch and then select the maximum uncertainty among all patches as the final score. This method ensures that areas of high uncertainty are accentuated, which may be critical in assessing image quality.
 
-SegmentationMean: Leveraging a segmentation model, specifically the pre-trained DeepLabV3 with a ResNet-50 backbone [Chen et al., 2017], this method applies a mask to exclude background uncertainties. The mean uncertainty of the remaining pixels is used as the final score. This method highlights uncertainty within primary objects and neglects uncertainties in complex and cluttered backgrounds. 
+- **SegmentationMean:** Leveraging a segmentation model, specifically the pre-trained DeepLabV3 with a ResNet-50 backbone [Chen et al., 2017], this method applies a mask to exclude background uncertainties. The mean uncertainty of the remaining pixels is used as the final score. This method highlights uncertainty within primary objects and neglects uncertainties in complex and cluttered backgrounds. 
 
 <table align="center">
   <tr align="center">
