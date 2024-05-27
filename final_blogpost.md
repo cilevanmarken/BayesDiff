@@ -26,7 +26,7 @@ The BayesDiff paper acknowledges this challenge of filtering out low-quality ima
 
 Diffusion Models (DMs) are a family of probabilistic generative models that progressively destruct data by injecting noise (forward process), and then learn to reverse this process by denoising the data to generate new samples (backward process) [Yang et al., 2023]. There exists many variants of diffusion models and in the Bayesdiff paper Diffusion Denoising Probabilistic Models (DDPMs) are used [Ho et al., 2020] and models built upon it including Guided Diffusion, Stable Diffusion and Adversarial Diffusion Models (ADMs). In this section we will explain the method behind DDPMs.
 
-In diffusion models, the forward process, parameterized by 𝑞 in equation [1] uses data points 𝑥0∼𝑞(𝑥), sampled from a real data distribution in which a small amount of Gaussian noise, with a variance of 𝛽𝑡∈(0,1), is added in 𝑇 steps. This results in a sequence of noisy samples 𝑥1,...,𝑥𝑇 parameterized by the equation [1].
+In diffusion models, the forward process, parameterized by $𝑞$ in equation [1] uses data points $x_0 \sim q(x)$, sampled from a real data distribution in which a small amount of Gaussian noise, with a variance of $\beta_t \in (0,1)$, is added in $𝑇$ steps. This results in a sequence of noisy samples $x_1,...,x_T$ parameterized by the equation [1].
 
 $$\begin{align} 
 q\left( x_1, \ldots, x_T \mid x_0 \right) := \prod_{t=1}^T q \left( x_t \mid x_{t-1} \right) & \qquad \qquad 
