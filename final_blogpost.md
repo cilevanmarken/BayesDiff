@@ -31,9 +31,10 @@ In diffusion models, the forward process, parameterized by 𝑞 in equation [1] 
 $$\begin{align} 
 q\left( x_1, \ldots, x_T \mid x_0 \right) := \prod_{t=1}^T q \left( x_t \mid x_{t-1} \right) & \qquad \qquad 
 q\left( x_t \mid x_{t-1} \right) := \mathcal{N}\left( x_t ; \sqrt{1-\beta_t} x_{t-1}, \beta_t \mathbf{I} \right) & \qquad \qquad
+\text{(Equation 1)}
 \end{align}$$   
 
-[equation 1]
+
 
 
 As 𝑡 (t \in T) becomes larger the data sample 𝑥0 gradually loses its distinguishable features and becomes equivalent to an isotropic Gaussian distribution. Figure 2 illustrates both the forward diffusion process that gradually adds noise to the image and the reversed process. In this reversed process, the true noise sample from a Gaussian noise input 𝑥𝑇∼𝑁(0,𝐼) is recreated by sampling from 𝑞(𝑥𝑡−1|𝑥𝑡). What the model learns is the reversed process 𝑝𝜃, parameterized by equation [2].
