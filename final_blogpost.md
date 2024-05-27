@@ -13,18 +13,29 @@ The BayesDiff paper acknowledges this challenge of filtering out low-quality ima
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/Uncertainty_maps.png" width=600></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/Uncertainty_maps.png" width=950></td>
   </tr>
   <tr align="left">
     <td colspan=2><b>Figure 1.</b> Visualization of the pixel-wise uncertainty from the BayesDiff paper</td>
   </tr>
 </table>
 
+---
 
-How do diffusion models work?
-Diffusion Models (DMs) are a family of probabilistic generative models that progressively destruct data by injecting noise (forward process), and then learn to reverse this process by denoising the data to generate new samples (backward process) [Yang et al., 2023]. There exists many variants of diffusion models and in the Bayesdiff paper Diffusion Denoising Probabilistic Models (DDPMs) are used [Ho et al., 2020] and models built upon it including Guided Diffusion, Stable Diffusion and Adversarial Diffusion Models (ADMs). In this section we will explain the method behind DDPMs. 
+## *How do diffusion models work?*
+
+Diffusion Models (DMs) are a family of probabilistic generative models that progressively destruct data by injecting noise (forward process), and then learn to reverse this process by denoising the data to generate new samples (backward process) [Yang et al., 2023]. There exists many variants of diffusion models and in the Bayesdiff paper Diffusion Denoising Probabilistic Models (DDPMs) are used [Ho et al., 2020] and models built upon it including Guided Diffusion, Stable Diffusion and Adversarial Diffusion Models (ADMs). In this section we will explain the method behind DDPMs.
+
 In diffusion models, the forward process, parameterized by 𝑞 in equation [1] uses data points 𝑥0∼𝑞(𝑥), sampled from a real data distribution in which a small amount of Gaussian noise, with a variance of 𝛽𝑡∈(0,1), is added in 𝑇 steps. This results in a sequence of noisy samples 𝑥1,...,𝑥𝑇 parameterized by the equation [1].
-𝑞(𝑥1,…,𝑥𝑇∣𝑥0):=∏𝑡=1𝑇𝑞(𝑥𝑡∣𝑥𝑡−1)𝑞(𝑥𝑡∣𝑥𝑡−1):=𝑁(𝑥𝑡;1−𝛽𝑡𝑥𝑡−1,𝛽𝑡𝐼)     [equation 1]
+
+$$\begin{align} 
+q\left( x_1, \ldots, x_T \mid x_0 \right) := \prod_{t=1}^T q \left( x_t \mid x_{t-1} \right) & \qquad \qquad 
+q\left( x_t \mid x_{t-1} \right) := \mathcal{N}\left( x_t ; \sqrt{1-\beta_t} x_{t-1}, \beta_t \mathbf{I} \right) & \qquad \qquad
+\end{align}$$   
+
+[equation 1]
+
+
 As 𝑡 (t \in T) becomes larger the data sample 𝑥0 gradually loses its distinguishable features and becomes equivalent to an isotropic Gaussian distribution. Figure 2 illustrates both the forward diffusion process that gradually adds noise to the image and the reversed process. In this reversed process, the true noise sample from a Gaussian noise input 𝑥𝑇∼𝑁(0,𝐼) is recreated by sampling from 𝑞(𝑥𝑡−1|𝑥𝑡). What the model learns is the reversed process 𝑝𝜃, parameterized by equation [2].
 𝑝𝜃(𝑥𝑡−1∣𝑥𝑡):=𝑁( 𝑥𝑡−1;𝜇𝜃(𝑥𝑡,𝑡),Σ𝜃(𝑥𝑡,𝑡))           [equation 2]
 Here 𝜇𝜃 and Σ𝜃 refer to the mean predictor and covariance predictor respectively. Instead of predicting the mean of the distribution in equation 2, in reality a noise predictor network, ϵθ, predicts the noise component at step t, a linear combination of xt and this noise component than forms the mean. The noise predictor network is trained by minimizing: 
