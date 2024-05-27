@@ -292,29 +292,29 @@ We tested the Hessian-free variant using different values of prior precision, wh
 <table align="center">
   <tr align="center">
       <th>Aggregation</th>
-      <th>BayesDiff (1,1)</th>
-      <th>Adverserial (0.001,1000)</th>
-      <th>Hessian free (1,3)</th>
-      <th>Bayesdiff (1,1)</th>
-      <th>Adversarial (0.001, 1000)</th>
-      <th>Hessianfree (1,3)</th>
+      <th>BayesDiff   (1,1)</th>
+      <th>Adverserial    (0.001,1000)</th>
+      <th>Hessian free    (1,3)</th>
+      <th>Bayesdiff    (1,1)</th>
+      <th>Adversarial<br>(0.001,1000)</th>
+      <th>Hessianfree    (1,3)</th>
   </tr>
   <tr align="center">
       <th>Eval metric</th>
-      <th>CMMD \downarrow</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th>CMMD $\downarrow$</th>
+      <th>CMMD $\downarrow$</th>
+      <th>CMMD $\downarrow$</th>
+      <th>FID $\downarrow$</th>
+      <th>FID $\downarrow$</th>
+      <th>FID $\downarrow$</th>
   <tr align="center">
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th>None</th>
+      <th>1.739</th>
+      <th>1.708</th>
+      <th>1.7879</th>
+      <th>62.525</th>
+      <th>83.726</th>
+      <th>56.256</th>
   </tr>
   <tr align="center">
       <th></th>
