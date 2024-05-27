@@ -365,7 +365,7 @@ Conversely, the CMMD scores for the Hessian-Free variant are slightly higher tha
 
 ---
 
-## **Final thoughts**
+## *Final thoughts*
 In this blogpost we have reproduced the paper "BayesDiff: Estimating Pixel-wise Uncertainty in Diffusion via Bayesian Inference", that proposes a new Bayesian framework for pixel-wise uncertainty estimation. The authors claim that this estimated uncertainty can be used to identify and potentially discard the most uncertain images, or improve generated images by enhancing the diversity or rectifying artifacts in the generated samples. 
 
 We have attempted to reproduce the results from the BayesDiff paper. However, we did not obtain the same results. Furthermore, we have extended the idea of the BayesDiff framework by testing the Bayesian approach, introducing CMMD, an additional metric, for assessing the quality of generated images, and experimenting with different aggregation methods for the uncertainty value per image.
