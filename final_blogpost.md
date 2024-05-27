@@ -31,14 +31,19 @@ In diffusion models, the forward process, parameterized by 𝑞 in equation [1] 
 $$\begin{align} 
 q\left( x_1, \ldots, x_T \mid x_0 \right) := \prod_{t=1}^T q \left( x_t \mid x_{t-1} \right) & \qquad \qquad 
 q\left( x_t \mid x_{t-1} \right) := \mathcal{N}\left( x_t ; \sqrt{1-\beta_t} x_{t-1}, \beta_t \mathbf{I} \right) & \qquad \qquad
-\text{(Equation 1)}
+\text{[Equation 1]}
 \end{align}$$   
 
 
+As $𝑡$ in $T$ becomes larger the data sample $𝑥_0$ gradually loses its distinguishable features and becomes equivalent to an isotropic Gaussian distribution. *Figure 2* illustrates both the forward diffusion process that gradually adds noise to the image and the reversed process. In this reversed process, the true noise sample from a Gaussian noise input $x_T \sim \mathcal{N}(0,I)$ is recreated by sampling from $q(x_{t-1}|x_t)$. What the model learns is the reversed process $p_{\theta}$, parameterized by equation [2].
 
 
-As 𝑡 (t \in T) becomes larger the data sample 𝑥0 gradually loses its distinguishable features and becomes equivalent to an isotropic Gaussian distribution. Figure 2 illustrates both the forward diffusion process that gradually adds noise to the image and the reversed process. In this reversed process, the true noise sample from a Gaussian noise input 𝑥𝑇∼𝑁(0,𝐼) is recreated by sampling from 𝑞(𝑥𝑡−1|𝑥𝑡). What the model learns is the reversed process 𝑝𝜃, parameterized by equation [2].
-𝑝𝜃(𝑥𝑡−1∣𝑥𝑡):=𝑁( 𝑥𝑡−1;𝜇𝜃(𝑥𝑡,𝑡),Σ𝜃(𝑥𝑡,𝑡))           [equation 2]
+$$\begin{align} 
+q\left( x_1, \ldots, x_T \mid x_0 \right) := \prod_{t=1}^T q \left( x_t \mid x_{t-1} \right) & \qquad \qquad 
+q\left( x_t \mid x_{t-1} \right) := \mathcal{N}\left( x_t ; \sqrt{1-\beta_t} x_{t-1}, \beta_t \mathbf{I} \right) & \qquad \qquad
+\text{[Equation 2]}
+\end{align}$$
+
 Here 𝜇𝜃 and Σ𝜃 refer to the mean predictor and covariance predictor respectively. Instead of predicting the mean of the distribution in equation 2, in reality a noise predictor network, ϵθ, predicts the noise component at step t, a linear combination of xt and this noise component than forms the mean. The noise predictor network is trained by minimizing: 
 
  
