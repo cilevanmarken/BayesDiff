@@ -235,7 +235,7 @@ The authors have introduced the BayesDiff framework as a method to filter out lo
   <tr align="center">
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/distributions.png" width=700></td>
   </tr>
-  <tr align="left">
+  <tr align="center">
     <td colspan=2><b>Figure 6.</b>  The empirical distribution of the uncertainty estimates of the BayesDiff paper (left) <br>and of our generated images (right). </td>
   </tr>
 </table>
@@ -279,8 +279,8 @@ SegmentationMean: Leveraging a segmentation model, specifically the pre-trained 
   <tr align="center">
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/empirical_distribution.png" width=800></td>
   </tr>
-  <tr align="left">
-    <td colspan=2><b>Figure 7.</b>  The empirical distribution of the uncertainty estimates of the aggregation methods Sum, PatchMax, and SegmentationMean. </td>
+  <tr align="center">
+    <td colspan=2><b>Figure 7.</b>  The empirical distribution of the uncertainty estimates of the aggregation methods Sum,<br> PatchMax, and SegmentationMean. </td>
   </tr>
 </table>
 
@@ -296,7 +296,7 @@ We tested the Hessian-free variant using different values of prior precision, wh
   <tr align="center">
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/Hessian_free_generations.png" width=800></td>
   </tr>
-  <tr align="left">
+  <tr align="center">
     <td colspan=2><b>Figure 8.</b> Hessian-free variant using different prior precision value of 3.</td>
   </tr>
 </table>
@@ -414,7 +414,7 @@ At last, we want to press that the practical application of the BayesDiff framew
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/sigma_imgnet.png" width=800></td>
   </tr>
   <tr align="center">
-    <td colspan=2><b>Figure 10.</b>  Hyperparameter tuning of sigma_noise between 0 and 1 compared to the original settings with the DDPM model and ImageNet. </td>
+    <td colspan=2><b>Figure 10.</b>  Hyperparameter tuning of sigma_noise between 0 and 1 compared to the original settings<br> with the DDPM model and ImageNet. </td>
   </tr>
 </table>
 
@@ -425,7 +425,7 @@ At last, we want to press that the practical application of the BayesDiff framew
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/prec_celeba2.png" width=800></td>
   </tr>
   <tr align="center">
-    <td colspan=2><b>Figure 11.</b>  Hyperparameter tuning of prior_precision between 0 and 1000 compared to the original settings with the DDPM model and CelebA. </td>
+    <td colspan=2><b>Figure 11.</b>  Hyperparameter tuning of prior_precision between 0 and 1000 compared to the original settings<br> with the DDPM model and CelebA. </td>
   </tr>
 </table>
 
@@ -435,7 +435,7 @@ At last, we want to press that the practical application of the BayesDiff framew
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/sigm_celeba2.png" width=800></td>
   </tr>
   <tr align="center">
-    <td colspan=2><b>Figure 12.</b>  Hyperparameter tuning of sigma_noise between 0 and 1 compared to the original settings with the DDPM model and CelebA. </td>
+    <td colspan=2><b>Figure 12.</b>  Hyperparameter tuning of sigma_noise between 0 and 1 compared to the original settings<br> with the DDPM model and CelebA. </td>
   </tr>
 </table>
 
@@ -445,7 +445,7 @@ At last, we want to press that the practical application of the BayesDiff framew
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/CMMD_appendix.png" width=800></td>
   </tr>
   <tr align="center">
-    <td colspan=2><b>Figure 13.</b>  Sample size motivation for the FID and CMMD. Left: absolute values of the metrics. Right: values relative to the value at 30k sample size. </td>
+    <td colspan=2><b>Figure 13.</b>  Sample size motivation for the FID and CMMD. Left: absolute values of the metrics. <br>Right: values relative to the value at 30k sample size. </td>
   </tr>
 </table>
 
