@@ -54,46 +54,37 @@ $$\begin{align}
  
 The BayesDiff paper utilizes different types of Diffusion models. However, in our reproduction we focus on DPPMs and Guided Diffusion. Guided Diffusion enhances upon DDPMs by incorporating additional guidance during the sampling process, allowing to steer the sampling process to generate samples belonging to a specific class. 
 
-Figure 2. The Markov chain of forward (and reverse) diffusion process (DDPM) [Ho et al. 2020].
-
-
-
-
-
-
-
-
+<table align="center">
+  <tr align="center">
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/DDPM.png" width=600></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 2.</b>  The Markov chain of forward (and reverse) diffusion process (DDPM) [Ho et al. 2020].</td>
+  </tr>
+</table>
 
 Building upon DDPMs, Song et al. (2020) propose an alternative sampling method in their method: Denoising Diffusion Implicit Models (DDIMs). DDIMs provide a more efficient class of iterative implicit probabilistic models with the same training procedure as DDPMs. DDIM sampling yields an equal marginal noise distribution. However, deterministically maps noise back to the original data samples. This allows the model to train for an arbitrary number of forward steps, while allowing sampling from only a specific subset of these steps, during the generative process. DDIM sampling yields the following advantages:
-The ability to generate higher-quality samples using fewer steps.
-Because the generative process is deterministic it yields the “consistency” property. This means that multiple samples conditioned on the same latent variable should have similar high-level features.
-Because of the "consistency" property, DDIM can do semantically meaningful interpolation in the latent variable.
+
+- The ability to generate higher-quality samples using fewer steps.
+- Because the generative process is deterministic it yields the “consistency” property. This means that multiple samples conditioned on the same latent variable should have similar high-level features.
+- Because of the "consistency" property, DDIM can do semantically meaningful interpolation in the latent variable.
+
 In conducting the research of this blogpost we utilize DDPM with the DDIM sampling. Despite the improvements in DMs, challenges such as uncertainty in generated images and the presence of artifacts persist. To address these issues, Bayesian inference can be utilized in enhancing the robustness and reliability of DMs by estimating pixel-wise uncertainty for assessing the quality of generated images.
 
+---
 
+## *What is the role of Bayesian inference here?*
 
+Bayesian inference can be used for uncertainty quantification in Diffusion Models by turning a deterministic neural network into a Bayesian Neural Network (BNN). The Bayesian approach that is used in the BayesDiff paper is the Last Layer Laplace Approximation (LLLA) [Daxberger et al., 2022].
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-What is the role of Bayesian inference here?
-Bayesian inference can be used for uncertainty quantification in Diffusion Models by turning a deterministic neural network into a Bayesian Neural Network (BNN). The Bayesian approach that is used in the BayesDiff paper is the Last Layer Laplace Approximation (LLLA) [Daxberger et al., 2022]. 
 We define the likelihood as the probability of observing the noise $\boldsymbol{\epsilon}_t$ given the noisy image $\boldsymbol{x}_t$ and the model parameters $\Theta$. This can be modeled by a Gaussian:
-$p(\boldsymbol{\epsilon}_t | f(\boldsymbol{x}_t ; \Theta) ) = \mathcal{N}(\boldsymbol{\epsilon}_t | f(\boldsymbol{x}_t ; \Theta), \sigma^2 \: I_{HWC \times HWC})$,
+
+$$\begin{align} 
+p(\boldsymbol{\epsilon}_t | f(\boldsymbol{x}_t ; \Theta) ) = \mathcal{N}(\boldsymbol{\epsilon}_t | f(\boldsymbol{x}_t ; \Theta),  \sigma^2 \: I\_{\text{HWC} \times \text{HWC}})
+\end{align}$$
+
+
+
 where $f(\boldsymbol{x}_t;\Theta)$ is the mean of the distribution representing the predicted noise of the model. $\sigma$ represents the variance of the noise. Larger values will regularize the model by making it more robust against noise, whereas lower values increase the influence of noise on the model's predictions. 
 Likewise we define the prior over the weights by the following normal:
 $p(\Theta) = \mathcal{N} \big( \Theta | \boldsymbol{0}, \gamma^2 \: I\big)$
