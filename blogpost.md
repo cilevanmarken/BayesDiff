@@ -454,7 +454,11 @@ Writing the general parts of the tutorial: Sebastiaan & Liang will be involved w
 
 [Chen et al., 2014] Chen, T., Fox, E., & Guestrin, C. (2014). Stochastic Gradient Hamiltonian Monte Carlo. In Proceedings of the 31st International Conference on Machine Learning (pp. 1683-1691). PMLR. http://proceedings.mlr.press/v32/cheni14.pdf
 
+[Chen et al., 2017] Chen, L. C., Papandreou, G., Schroff, F., & Adam, H. (2017). Rethinking atrous convolution for semantic image segmentation. arXiv preprint arXiv:1706.05587.
+
 [Daxberger et al., 2022] Daxberger, E., Kristiadi, A., Immer, A., Eschenhagen, R., Bauer, M., & Hennig, P. (2022). Laplace Redux -- Effortless Bayesian Deep Learning. arXiv preprint arXiv:2106.14806
+
+[Deng et al., 2009] Deng, J., Dong, W., Socher, R., Li, L. J., Li, K., & Fei-Fei, L. (2009, June). Imagenet: A large-scale hierarchical image database. In 2009 IEEE conference on computer vision and pattern recognition (pp. 248-255). Ieee.
 
 [Heusel et al., 2018] Heusel, M., Ramsauer, H., Unterthiner, T., Nessler, B., & Hochreiter, S. (2018). GANs Trained by a Two Time-Scale Update Rule Converge to a Local Nash Equilibrium. arXiv preprint arXiv:1706.08500
 
@@ -465,6 +469,8 @@ Writing the general parts of the tutorial: Sebastiaan & Liang will be involved w
 [Kou et al., 2024] Kou, S., Gan, L., Wang, D., Li, C., & Deng, Z. (2024). BayesDiff: Estimating Pixel-wise Uncertainty in Diffusion via Bayesian Inference. arXiv preprint arXiv:2310.11142
 
 [Kristiadi et al., 2020] Kristiadi, A., Hein, M., & Hennig, P. (2020). Being Bayesian, Even Just a Bit, Fixes Overconfidence in ReLU Networks. arXiv preprint arXiv:2002.10118.
+
+[Liu et al., 2018] Liu, Z., Luo, P., Wang, X., & Tang, X. (2018). Large-scale celebfaces attributes (CelebA) dataset. Retrieved August, 15(2018), 11.
 
 [McInerney and Kallus, 2024] McInerney, J., & Kallus, N. (2024). Hessian-Free Laplace in Bayesian Deep Learning. arXiv preprint arXiv:2403.10671
 
