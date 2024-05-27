@@ -422,7 +422,7 @@ At last, we want to press that the practical application of the BayesDiff framew
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/empirical_distribution.png" width=800></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/prec_celeba2.png" width=800></td>
   </tr>
   <tr align="left">
     <td colspan=2><b>Figure 11.</b>  Hyperparameter tuning of prior_precision between 0 and 1000 compared to the original settings with the DDPM model and CelebA. </td>
