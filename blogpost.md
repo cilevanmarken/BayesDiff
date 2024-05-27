@@ -457,7 +457,7 @@ At last, we want to press that the practical application of the BayesDiff framew
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/CMMD_appendix.png" width=800></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/HFL_imgnet.png" width=800></td>
   </tr>
   <tr align="center">
     <td colspan=2><b>Figure 14.</b> Uncertainty maps for CelebA in the Hessian free variant for different values of the prior precision. </td>
