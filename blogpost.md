@@ -428,39 +428,66 @@ Figure 8. Hyperparameter tuning of sigma_noise between 0 and 1 compared to the o
 
 Figure 9. Sample size motivation for the FID and CMMD. Left: absolute values of the metrics. Right: values relative to the value at 30k sample size.
 
-Hessian Free Laplacian
+---
+
+### *Hessian Free Laplacian*
 
 Fig X: Uncertainty maps for CelebA in the Hessian free variant for different values of the prior precision.
 
-Authors' Contributions
-Literature review: Sebastiaan will be taking charge over the literature review. Although each member contributes to it.
+---
+
+## *Authors' Contributions*
+
+- **Literature review:** Sebastiaan will be taking charge over the literature review. Although each member contributes to it.
 Writing the general parts of the tutorial: Sebastiaan & Liang will be involved with the general sections of the tutorial, such as introduction, background, relevancy, etc.
-Reproduce the findings: Jesse will work on reproducing the qualitative and quantitative results of the paper.
-Hyperparameter tuning: Cile will be taking charge in tuning the hyperparameters of the Laplacian, therefore she will also write the part of the background, experiment setup, results, etc.
-Replace the Hessian by KFAC & Making the Laplacian Hessian-Free: This is one of our extensions, Cile and Ivo will be looking into this part.
-Implement a variant of the aggregation mechanism: Ivo will work on applying a variety of aggregation methods on the uncertainty estimates.
-Replace the evaluation metrics: Liang will do further research on different metrics and will report results on replacing the FID with the CMMD.
-Writing the tutorial will be divided amongst all members, since the tutorial is highly dependent on the execution of the code. Each member that engaged in a specific experiment will write that part of the tutorial.
+- **Reproduce the findings:** Jesse will work on reproducing the qualitative and quantitative results of the paper.
+- **Hyperparameter tuning:** Cile will be taking charge in tuning the hyperparameters of the Laplacian, therefore she will also write the part of the background, experiment setup, results, etc.
+- **Replace the Hessian by KFAC & Making the Laplacian Hessian-Free:** This is one of our extensions, Cile and Ivo will be looking into this part.
+- **Implement a variant of the aggregation mechanism:** Ivo will work on applying a variety of aggregation methods on the uncertainty estimates.
+- **Replace the evaluation metrics:** Liang will do further research on different metrics and will report results on replacing the FID with the CMMD.
+- Writing the tutorial will be divided amongst all members, since the tutorial is highly dependent on the execution of the code. Each member that engaged in a specific experiment will write that part of the tutorial.
 
 
-References
+## *References*
+
 [Barratt and Sharma, 2018] Barratt, S., & Sharma, R. (2018). A Note on the Inception Score. arXiv preprint arXiv:1801.01973
+
 [Chen et al., 2014] Chen, T., Fox, E., & Guestrin, C. (2014). Stochastic Gradient Hamiltonian Monte Carlo. In Proceedings of the 31st International Conference on Machine Learning (pp. 1683-1691). PMLR. http://proceedings.mlr.press/v32/cheni14.pdf
-[Chen et al., 2017] Chen, L. C., Papandreou, G., Schroff, F., & Adam, H. (2017). Rethinking atrous convolution for semantic image segmentation. arXiv preprint arXiv:1706.05587.
-[Daxberger et al., 2022] Daxberger, E., Kristiadi, A., Immer, A., Eschenhagen, R., Bauer, M., & Hennig, P. (2022). Laplace Redux -- Effortless Bayesian Deep Learning. arXiv preprint arXiv:2106.14806. 
-[Deng et al., 2009] Deng, J., Dong, W., Socher, R., Li, L. J., Li, K., & Fei-Fei, L. (2009, June). Imagenet: A large-scale hierarchical image database. In 2009 IEEE conference on computer vision and pattern recognition (pp. 248-255). Ieee.
+
+[Daxberger et al., 2022] Daxberger, E., Kristiadi, A., Immer, A., Eschenhagen, R., Bauer, M., & Hennig, P. (2022). Laplace Redux -- Effortless Bayesian Deep Learning. arXiv preprint arXiv:2106.14806
+
 [Heusel et al., 2018] Heusel, M., Ramsauer, H., Unterthiner, T., Nessler, B., & Hochreiter, S. (2018). GANs Trained by a Two Time-Scale Update Rule Converge to a Local Nash Equilibrium. arXiv preprint arXiv:1706.08500
+
 [Ho et al., 2020] Ho, J., Jain, A., & Abbeel, P. (2020). Denoising Diffusion Probabilistic Models. arXiv preprint arXiv:2006.11239
+
 [Jayasumana et al., 2024] Jayasumana, S., Ramalingam, S., Veit, A., Glasner, D., Chakrabarti, A., & Kumar, S. (2024). Rethinking FID: Towards a Better Evaluation Metric for Image Generation. arXiv preprint arXiv:2401.09603
+
 [Kou et al., 2024] Kou, S., Gan, L., Wang, D., Li, C., & Deng, Z. (2024). BayesDiff: Estimating Pixel-wise Uncertainty in Diffusion via Bayesian Inference. arXiv preprint arXiv:2310.11142
+
 [Kristiadi et al., 2020] Kristiadi, A., Hein, M., & Hennig, P. (2020). Being Bayesian, Even Just a Bit, Fixes Overconfidence in ReLU Networks. arXiv preprint arXiv:2002.10118.
-[Liu et al., 2018] Liu, Z., Luo, P., Wang, X., & Tang, X. (2018). Large-scale celebfaces attributes (CelebA) dataset. Retrieved August, 15(2018), 11.
+
 [McInerney and Kallus, 2024] McInerney, J., & Kallus, N. (2024). Hessian-Free Laplace in Bayesian Deep Learning. arXiv preprint arXiv:2403.10671
+
 [Obukhov and Krasnyanskiy, 2020] Obukhov, A., & Krasnyanskiy, M. (2020). Quality assessment method for GAN based on modified metrics inception score and Fréchet inception distance. In Software Engineering Perspectives in Intelligent Systems: Proceedings of 4th Computational Methods in Systems and Software 2020, Vol. 1 4 (pp. 102-114). Springer.
+
 [Sauer et al., 2023] Sauer, A., Lorenz, D., Blattmann, A., & Rombach, R. (2023). Adversarial diffusion distillation. arXiv preprint arXiv:2311.17042
+
 [Salimans et al., 2016] Salimans, T., Goodfellow, I., Zaremba, W., Cheung, V., Radford, A., & Chen, X. (2016). Improved Techniques for Training GANs. arXiv preprint arXiv:1606.03498
+
 [Song et al., 2020] Song, J., Meng, C., & Ermon, S. (2022). Denoising Diffusion Implicit Models. arXiv preprint arXiv:2010.02502
+
 [Wenzel et al., 2020] Wenzel, F., Roth, K., Veeling, B. S., Świątkowski, J., Tran, L., Mandt, S., Snoek, J., Jenatton, R., & Nowozin, S. (2020). How Good is the Bayes Posterior in Deep Neural Networks Really? arXiv preprint arXiv:2002.02405
+
 [Yang et al., 2023] Yang, L., Zhang, Z., Song, Y., Hong, S., Xu, R., Zhao, Y., Zhang, W., Cui, B., & Yang, M.-H. (2023). Diffusion Models: A Comprehensive Survey of Methods and Applications. ACM Computing Surveys, 56(4), 105. https://doi.org/10.1145/3626235
+
 [Zhdanov et al., 2023] Zhdanov, M., Dereka, S., & Kolesnikov, S. (2023). Unveiling Empirical Pathologies of Laplace Approximation for Uncertainty Estimation. arXiv preprint arXiv:2312.10464
+
+
+
+
+
+
+
+
+
 
