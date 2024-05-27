@@ -284,7 +284,7 @@ Another point of interest is the aggregation method used by the authors. They cu
   </tr>
 </table>
 
-Figure 7 illustrates that all aggregation methods roughly follow a (slightly skewed) Gaussian distribution, which indicates that we may remove outliers by removing the images with an uncertainty higher than . The results are illustrated and discussed in the Results section.
+*Figure 7* illustrates that all aggregation methods roughly follow a (slightly skewed) Gaussian distribution, which indicates that we may remove outliers by removing the images with an uncertainty higher than $\mu + \sigma$. The results are illustrated and discussed in the Results section.
 
 ---
 
