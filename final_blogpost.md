@@ -144,7 +144,7 @@ The Fréchet inception distance (FID) is a widely used evaluation metric for ass
 
 $$\begin{align} 
 d^2((m, C), (m_w, C_w)) = || m - m_w ||_2^2 + \text{Tr}(C + C_w - 2(C C_w)^{1/2}) \qquad \qquad
-\text{[Equation 8]}
+\text{[Equation 9]}
 \end{align}$$
 
 Recent research has highlighted the limitations of the FID, particularly its inconsistency with human perception in certain cases. For instance, the FID may inaccurately assess image quality under progressive distortions, leading to misleading results [Jayasumana et al., 2024]. Figure 4 emphasizes their main findings in which the FID does not reflect progressive distortion applied to images. To address these shortcomings Jayasuma et al. propose a different metric named CMMD. A disadvantage of the FID compared to CMMD is that the FID has a bias that is dependent on the number of images that is being evaluated, to the extent that the sample size can lead to different rankings of the models being evaluated. In contrast to the FID, the CMMD metric is unbiased.
@@ -162,8 +162,9 @@ Recent research has highlighted the limitations of the FID, particularly its inc
 Due to the usage of CLIP embeddings CMMD is a metric that is less dependent on sample size than FID. Given the sample size for image evaluation due to limited resources in our research, CMMD might be the best metric. Jayasumana et al. propose a new metric to evaluate image generation models, using CLIP embeddings and the Maximum Mean Discrepancy (MMD) distance, with a Gaussian RBF kernel. The CMMD (CLIP-MMD) metric is the squared MMD distance between CLIP embeddings of the reference (real) image set and the generated image set. CLIP embeddings are better suited for complex content such as images, because it trains an image encoder and a text encoder jointly using 400 million image-text pairs containing complex scenes. To compute the CMMD [Jayasumana et al., 2024], the Maximum Mean Discrepancy (MMD) between the CLIP embeddings has to be obtained which is denoted by:
 
 $$\begin{align} 
-dist^2_{MMD}(P, Q) = \mathbb{E}\_{x,x'}\[k(x, x')\] + \mathbb{E}\_{y,y'}\[k(y, y')\] - 2\mathbb{E}\_{x,y}\[k(x, y)\] & \qquad \qquad 
-k(x, y) = exp(-||x - y||^2 / 2σ^2) & \qquad \qquad 
+dist^2_{MMD}(P, Q) = \mathbb{E}\_{x,x'}\[k(x, x')\] + \mathbb{E}\_{y,y'}\[k(y, y')\] - 2\mathbb{E}\_{x,y}\[k(x, y)\] & \qquad 
+k(x, y) = exp(-||x - y||^2 / 2σ^2) & \qquad
+\text{[Equation 10]}
 \end{align}$$
 
 where $x$ and $x′$ are independently distributed by $P$ and $y$ and $y′$ are independently distributed by $Q$. Furthermore, the MMD kernel is denoted by $k(x, y)$.
@@ -181,11 +182,17 @@ Now that we are acquainted with the theory behind the research, it is time to tr
 
 We performed the experiments using the CelebA and ImageNet datasets. The CelebA dataset (CelebFaces Attributes Dataset) [Yang et al., 2015] contains more than 200.000 images (image quality: 64x64) with the faces of celebrities. ImageNet consists of over 1 million images in 1000 different classes [Deng et al., 2009].
 
-High vs low uncertainty images
+<table align="center">
+  <tr align="center">
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/CelebA_faces.png" width=800></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 4.</b>  high vs low uncertainty images, generated using DDPM with a DDIM sampler, for ImageNet and CelebA.</td>
+  </tr>
+</table>
 
-Figure X: high vs low uncertainty images, generated using DDPM with a DDIM sampler, for ImageNet and CelebA.
 
-Figure X illustrates the four images with the highest and the lowest uncertainty, out of 80 generated images using a DDPM model and DDIM sampler for ImageNet and CelebA. The results are in line with the BayesDiff paper, where the authors indicate that their image-wise uncertainty metric is ‘likely to indicate the level of clutter and the degree of subject prominence in the image’. Additionally, they note that their measure can thus be used to detect low-quality images. 
+*Figure 4* illustrates the four images with the highest and the lowest uncertainty, out of 80 generated images using a DDPM model and DDIM sampler for ImageNet and CelebA. The results are in line with the BayesDiff paper, where the authors indicate that their image-wise uncertainty metric is ‘likely to indicate the level of clutter and the degree of subject prominence in the image’. Additionally, they note that their measure can thus be used to detect low-quality images. 
 
 A point of critique is that the images with a higher uncertainty seem to exhibit more detail, while the images with a lower uncertainty seem to be more bland or have a blurred background. Additionally, the degree of subject prominence does not seem to change between images of high and low uncertainty, leading us to question if this metric is as useful as the authors claim it to be.
 Visualizing uncertainty maps
