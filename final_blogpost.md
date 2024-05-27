@@ -197,7 +197,14 @@ We performed the experiments using the CelebA and ImageNet datasets. The CelebA 
 A point of critique is that the images with a higher uncertainty seem to exhibit more detail, while the images with a lower uncertainty seem to be more bland or have a blurred background. Additionally, the degree of subject prominence does not seem to change between images of high and low uncertainty, leading us to question if this metric is as useful as the authors claim it to be.
 Visualizing uncertainty maps
 
-Figure X: Visualization of the pixel-wise uncertainty for generations on CelebA using DDPM with a DDIM sampler from the BayesDiff paper (left) and our own (right). 
+<table align="center">
+  <tr align="center">
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/uncertainty_comparison.png" width=800></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 4.</b>  Visualization of the pixel-wise uncertainty for generations on CelebA using DDPM with a DDIM sampler from the BayesDiff paper (left) and our own (right). </td>
+  </tr>
+</table> 
 
 To intuitively better understand how the BayesDiff pixel-wise uncertainty works, the authors visualized the uncertainty maps. The pixel-wise uncertainty is defined as the variance. Pixels with higher variance are more unstable and thus more uncertain, which is indicated by a lighter color on the uncertainty map.
 
