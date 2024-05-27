@@ -278,7 +278,7 @@ We tested the Hessian-free variant using different values of prior precision, wh
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/Hessian_free_generations.png" width=700></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/Hessian_free_generations.png" width=800></td>
   </tr>
   <tr align="left">
     <td colspan=2><b>Figure 8.</b> Hessian-free variant using different prior precision value of 3.</td>
@@ -288,6 +288,76 @@ We tested the Hessian-free variant using different values of prior precision, wh
 ---
 
 ## *Results*
+
+<table align="center">
+  <tr align="center">
+      <th>Aggregation</th>
+      <th>BayesDiff (1,1)</th>
+      <th>Adverserial (0.001,1000)</th>
+      <th>Hessian free (1,3)</th>
+      <th>Bayesdiff (1,1)</th>
+      <th>Adversarial (0.001, 1000)</th>
+      <th>Hessianfree (1,3)</th>
+  </tr>
+  <tr align="center">
+      <th>Eval metric</th>
+      <th>CMMD \downarrow</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+  <tr align="center">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+  </tr>
+  <tr align="center">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+  </tr>
+  <tr align="center">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+  </tr>
+  <tr align="center">
+      <th></th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+  </tr>
+  <tr align="center">
+      <th></th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+  </tr>
+  <tr align="center">
+    <td colspan=7><b>Table 1.</b> Evaluating the image quality of DDIM Guided with dataset CelebA.</td>
+  </tr>
+</table>
+
+
 
 Aggregation
 Bayesdiff (1,1)
