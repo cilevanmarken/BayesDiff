@@ -368,17 +368,19 @@ Conversely, the CMMD scores for the Hessian-Free variant are slightly higher tha
 ## *Final thoughts*
 In this blogpost we have reproduced the paper *["BayesDiff: Estimating Pixel-wise Uncertainty in Diffusion via Bayesian Inference"](https://arxiv.org/abs/2310.11142)*, that proposes a new Bayesian framework for pixel-wise uncertainty estimation. The authors claim that this estimated uncertainty can be used to identify and potentially discard the most uncertain images, or improve generated images by enhancing the diversity or rectifying artifacts in the generated samples. 
 
-We have attempted to reproduce the results from the BayesDiff paper. However, we did not obtain the same results. Furthermore, we have extended the idea of the BayesDiff framework by testing the Bayesian approach, introducing CMMD, an additional metric, for assessing the quality of generated images, and experimenting with different aggregation methods for the uncertainty value per image.
+Initially, we have attempted to reproduce the results from the BayesDiff paper. However, we did not obtain the same results. Furthermore, we have extended the idea of the BayesDiff framework by testing the Bayesian approach, introducing CMMD, an additional metric, for assessing the quality of generated images, and experimenting with different aggregation methods for the uncertainty value per image.
 
-We have found that the BayesDiff framework might not work as well as the authors present in their paper. Firstly, the uncertainty maps for ImageNet don’t seem to be affected by changing hyperparameters which are valid for the LLLA, pointing to a problem in either the Bayesian method or its implementation. Secondly, we did not observe an improvement in image quality when filtering out low-quality images with the current aggregation method. This might suggest that the uncertainty predictions for images are not as meaningful as previously proposed. We have extended upon this issue by introducing two new aggregation methods, PatchMax and SegmentationMean. The alternate aggregation methods did not drastically change performance, either due to meaningless uncertainty or lesser added benefit through image composition.
+Thereafter, we have found that the BayesDiff framework might not work as well as the authors present in their paper. Firstly, the uncertainty maps for ImageNet don’t seem to be affected by changing hyperparameters which are valid for the LLLA, pointing to a problem in either the Bayesian method or its implementation. Secondly, we did not observe an improvement in image quality when filtering out low-quality images with the current aggregation method. This might suggest that the uncertainty predictions for images are not as meaningful as previously proposed. We have extended upon this issue by introducing two new aggregation methods, PatchMax and SegmentationMean. The alternate aggregation methods did not drastically change performance, either due to meaningless uncertainty or lesser added benefit through image composition.
 
 Since BayesDiff can be computationally costly, we attempted to replace the Hessian with the diagonal of the prior precision. The Hessian-free variant demonstrated competitive CMMD scores and better FID scores compared to both the standard and extreme BayesDiffs. This suggests that the Hessian-free approach is a potentially preferable method for improving computational efficiency while maintaining or enhancing image quality.
 
-Lastly, we want to press that the practical application of the BayesDiff framework might not work as expected. The authors introduce the BayesDiff framework as a way of filtering out low-quality images. However, images with a high uncertainty value are not necessarily of low quality. They merely exhibit more detail or more complex textures. Filtering these out will result in less diverse set of generations, which may not be desirable. 
+At last, we want to press that the practical application of the BayesDiff framework might not work as expected. The authors introduce the BayesDiff framework as a way of filtering out low-quality images. However, images with a high uncertainty value are not necessarily of low quality. They merely exhibit more detail or more complex textures. Filtering these out will result in less diverse set of generations, which may not be desirable. 
 
-Appendix
+---
 
-Hyperparameter tuning
+## *Appendix*
+
+### *Hyperparameter tuning*
 
 
 
