@@ -49,6 +49,12 @@ def main():
     embed_size = 768  # Dimension of embeddings
     model_name = 'vit-large-patch14'
 
+    out_file = os.path.join(out_folder, f'{model_name}_embedding.pt')
+    # Check if file already exists, if print and quit if it does
+    if os.path.exists(out_file):
+        print(f"Embedding file {out_file} already exists.")
+        return
+    
     if not os.path.exists(img_folder):
         print(f"Image folder {img_folder} does not exist.")
         return
