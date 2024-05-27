@@ -263,7 +263,7 @@ SegmentationMean: Leveraging a segmentation model, specifically the pre-trained 
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/emperical_distribution.png" width=700></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/empirical_distribution.png" width=700></td>
   </tr>
   <tr align="left">
     <td colspan=2><b>Figure 7.</b>  The empirical distribution of the uncertainty estimates of the aggregation methods Sum, PatchMax, and SegmentationMean. </td>
