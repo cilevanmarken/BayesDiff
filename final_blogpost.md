@@ -202,18 +202,26 @@ Visualizing uncertainty maps
       <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/uncertainty_comparison.png" width=800></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 4.</b>  Visualization of the pixel-wise uncertainty for generations on CelebA using DDPM with a DDIM sampler from the BayesDiff paper (left) and our own (right). </td>
+    <td colspan=2><b>Figure 5.</b>  Visualization of the pixel-wise uncertainty for generations on CelebA using DDPM with a DDIM sampler from the BayesDiff paper (left) and our own (right). </td>
   </tr>
 </table> 
 
 To intuitively better understand how the BayesDiff pixel-wise uncertainty works, the authors visualized the uncertainty maps. The pixel-wise uncertainty is defined as the variance. Pixels with higher variance are more unstable and thus more uncertain, which is indicated by a lighter color on the uncertainty map.
 
 Our uncertainty maps are overall consistent with those presented in the BayesDiff paper: we observe more uncertainty around facial features, such as the eyes and mouth. However, there are differences between the uncertainty maps, despite them being generated with the same specifications. Our uncertainty maps seem to contain more noise, with a larger contrast between certain and uncertain pixels.
-Low-quality image filtering
+
+### *Low-quality image filtering*
+
 The authors have introduced the BayesDiff framework as a method to filter out low-quality generations. They demonstrate that the distribution of the summed uncertainty of a set of 50,000 generated images approximately follows a normal distribution, as illustrated in Figure X. Outliers can thus be filtered by eliminating images with an uncertainty higher than . The authors test the effectiveness of their filter method by comparing the FID scores of the set of the full set of generated images with the set of filtered images.
 
-
-Figure X: The empirical distribution of the uncertainty estimates of the BayesDiff paper (left) and of our generated images (right).
+<table align="center">
+  <tr align="center">
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/uncertainty_comparison.png" width=800></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 6.</b>  The empirical distribution of the uncertainty estimates of the BayesDiff paper (left) and of our generated images (right). </td>
+  </tr>
+</table>
 
 To reproduce the results, we have generated 5,024 images. When plotting the summed uncertainty values, we observed a distribution similar to a normal distribution, though slightly skewed. This skewness could be due to our sample size being one-tenth of the authors' sample. This limited sample size is due to limited computation and memory resources.
 
