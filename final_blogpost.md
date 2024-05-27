@@ -276,6 +276,15 @@ Figure 7 illustrates that all aggregation methods roughly follow a (slightly ske
 
 We tested the Hessian-free variant using different values of prior precision, which resulted in varying uncertainty maps. Higher precision values produced more confident (darker) uncertainty maps. We selected a prior precision of 3, as it revealed some facial contours in the uncertainty maps and generated reasonable images, comparable to those from the normal and adversarial variants.
 
+<table align="center">
+  <tr align="center">
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/Hessian_free_generations.png" width=700></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 8.</b> Hessian-free variant using different prior precision value of 3.</td>
+  </tr>
+</table>
+
 ---
 
 ## *Results*
