@@ -1,0 +1,38 @@
+#!/bin/bash
+
+#SBATCH --partition=gpu
+#SBATCH --gpus=1
+#SBATCH --job-name=Liang
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=18
+#SBATCH --time=00:01:30
+#SBATCH --output=/home/scur0387/liang/outputs/test_filenames.out
+
+module purge
+module load 2022
+module load Anaconda3/2022.05
+
+source activate BayesDiff
+
+cd ddpm_and_guided
+
+# ddimUQ.py's IMAGENET128
+DEVICES="5"
+data="celeba"
+steps="100"
+mc_size="10"
+sample_batch_size="16"
+total_n_sample="16"
+train_la_data_size="5000"
+DIS="uniform"
+fixed_class="10"
+prior_precision="3"
+sigma_noise="0.5"
+seed=123
+
+CUDA_VISIBLE_DEVICES=$DEVICES srun python -u ddim_skipUQ_visualization_HF.py \
+--config $data".yml" --timesteps=$steps --skip_type=$DIS --train_la_batch_size 32 \
+--mc_size=$mc_size --sample_batch_size=$sample_batch_size --fixed_class=$fixed_class --train_la_data_size=$train_la_data_size --prior_precision=$prior_precision \
+--sigma_noise=$sigma_noise \
+--total_n_sample=$total_n_sample --fixed_class=$fixed_class --seed=$seed
+
