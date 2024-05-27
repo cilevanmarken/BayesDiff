@@ -13,14 +13,12 @@ The BayesDiff paper acknowledges this challenge of filtering out low-quality ima
 
 <table align="center">
   <tr align="center">
-      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/intro_00.png" width=600></td>
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/Uncertainty_maps.png" width=600></td>
   </tr>
   <tr align="left">
-    <td colspan=2><b>Figure 1.</b>  Given an initial point $x_T \sim \mathcal{N}(0,I)$, the BayesDiff framework incorporates uncertainty into the denoising process and generates images with pixel-wise uncertainty estimates.</td>
+    <td colspan=2><b>Figure 1.</b> Visualization of the pixel-wise uncertainty from the BayesDiff paper</td>
   </tr>
 </table>
-
-Figure 1: Visualization of the pixel-wise uncertainty from the BayesDiff paper
 
 
 How do diffusion models work?
