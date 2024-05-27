@@ -84,8 +84,6 @@ p(\boldsymbol{\epsilon}_t | f(\boldsymbol{x}_t ; \Theta) ) = \mathcal{N}(\boldsy
 \text{[Equation 4]}
 \end{align}$$
 
-
-
 where $f(\boldsymbol{x}_t;\Theta)$ is the mean of the distribution representing the predicted noise of the model. $\sigma$ represents the variance of the noise. Larger values will regularize the model by making it more robust against noise, whereas lower values increase the influence of noise on the model's predictions. Likewise we define the prior over the weights by the following normal:
 
 $$\begin{align}
@@ -151,8 +149,16 @@ d^2((m, C), (m_w, C_w)) = || m - m_w ||_2^2 + \text{Tr}(C + C_w - 2(C C_w)^{1/2}
 
 Recent research has highlighted the limitations of the FID, particularly its inconsistency with human perception in certain cases. For instance, the FID may inaccurately assess image quality under progressive distortions, leading to misleading results [Jayasumana et al., 2024]. Figure 4 emphasizes their main findings in which the FID does not reflect progressive distortion applied to images. To address these shortcomings Jayasuma et al. propose a different metric named CMMD. A disadvantage of the FID compared to CMMD is that the FID has a bias that is dependent on the number of images that is being evaluated, to the extent that the sample size can lead to different rankings of the models being evaluated. In contrast to the FID, the CMMD metric is unbiased.
 
-Figure 8. Behavior of FID and CMMD under different sample sizes. Absolute values of the metrics [Jayasumana et al., 2024]
-CMMD
+<table align="center">
+  <tr align="center">
+      <td><img src="https://github.com/cilevanmarken/BayesDiff/raw/main/images/CMMD_plot.png" width=500></td>
+  </tr>
+  <tr align="left">
+    <td colspan=2><b>Figure 4.</b>  Behavior of FID and CMMD under different sample sizes. Absolute values of the metrics [Jayasumana et al., 2024].</td>
+  </tr>
+</table>
+
+
 Due to the usage of CLIP embeddings CMMD is a metric that is less dependent on sample size than FID. Given the sample size for image evaluation due to limited resources in our research, CMMD might be the best metric. Jayasumana et al. propose a new metric to evaluate image generation models, using CLIP embeddings and the Maximum Mean Discrepancy (MMD) distance, with a Gaussian RBF kernel. The CMMD (CLIP-MMD) metric is the squared MMD distance between CLIP embeddings of the reference (real) image set and the generated image set. CLIP embeddings are better suited for complex content such as images, because it trains an image encoder and a text encoder jointly using 400 million image-text pairs containing complex scenes. To compute the CMMD [Jayasumana et al., 2024], the Maximum Mean Discrepancy (MMD) between the CLIP embeddings has to be obtained which is denoted by:
 𝑑𝑖𝑠𝑡𝑀𝑀𝐷2(𝑃,𝑄)=𝐸𝑥,𝑥′[𝑘(𝑥,𝑥′)]+𝐸𝑦,𝑦′[𝑘(𝑦,𝑦′)]−2𝐸𝑥,𝑦[𝑘(𝑥,𝑦)]𝑘(𝑥,𝑦)=𝑒𝑥𝑝(−||𝑥−𝑦||2/2𝜎2)
 where 𝑥 and 𝑥′ are independently distributed by 𝑃 and 𝑦 and 𝑦′ are independently distributed by 𝑄. Furthermore, the MMD kernel is denoted by 𝑘(𝑥,𝑦).
