@@ -80,19 +80,33 @@ Bayesian inference can be used for uncertainty quantification in Diffusion Model
 We define the likelihood as the probability of observing the noise $\boldsymbol{\epsilon}_t$ given the noisy image $\boldsymbol{x}_t$ and the model parameters $\Theta$. This can be modeled by a Gaussian:
 
 $$\begin{align} 
-p(\boldsymbol{\epsilon}_t | f(\boldsymbol{x}_t ; \Theta) ) = \mathcal{N}(\boldsymbol{\epsilon}_t | f(\boldsymbol{x}_t ; \Theta),  \sigma^2 \: I\_{\text{HWC} \times \text{HWC}})
+p(\boldsymbol{\epsilon}_t | f(\boldsymbol{x}_t ; \Theta) ) = \mathcal{N}(\boldsymbol{\epsilon}_t | f(\boldsymbol{x}_t ; \Theta),  \sigma^2 \: I\_{\text{HWC} \times \text{HWC}}) \qquad \qquad
+\text{[Equation 4]}
 \end{align}$$
 
 
 
-where $f(\boldsymbol{x}_t;\Theta)$ is the mean of the distribution representing the predicted noise of the model. $\sigma$ represents the variance of the noise. Larger values will regularize the model by making it more robust against noise, whereas lower values increase the influence of noise on the model's predictions. 
-Likewise we define the prior over the weights by the following normal:
-$p(\Theta) = \mathcal{N} \big( \Theta | \boldsymbol{0}, \gamma^2 \: I\big)$
+where $f(\boldsymbol{x}_t;\Theta)$ is the mean of the distribution representing the predicted noise of the model. $\sigma$ represents the variance of the noise. Larger values will regularize the model by making it more robust against noise, whereas lower values increase the influence of noise on the model's predictions. Likewise we define the prior over the weights by the following normal:
+
+$$\begin{align}
+p(\Theta) = \mathcal{N} \big( \Theta | \boldsymbol{0}, \gamma^2 \: I\big) \qquad \qquad
+\text{[Equation 5]}
+\end{align}$$
+
 With this prior we regularize the model by forcing the weights to be centered around 0. The $\gamma$ represents the variance on the weights.
 The real posterior $p(\Theta | D)$ is known to be intractable. We thus make use of an approximation in order to find an appropriate distribution over our weights, e.g., $q(\Theta | D).$
-# Last Layer Laplace Approximation (LLLA)
-One of those approximations is the last layer Laplace approximation. The Last Layer Laplace Approximation aims to find a Gaussian approximation to the predictive posterior over the weights of the last layer MAP estimate $\Theta_{MAP}$ of a model, while assuming the previous layers to be fixed. Defined by equation \[x]:
-$q(\Theta | D) = \mathcal{N}(\Theta | \Theta_{MAP}, \Sigma)$
+
+
+### Last Layer Laplace Approximation (LLLA)
+
+One of those approximations is the last layer Laplace approximation. The Last Layer Laplace Approximation aims to find a Gaussian approximation to the predictive posterior over the weights of the last layer MAP estimate $\Theta_{MAP}$ of a model, while assuming the previous layers to be fixed. Defined by equation \[6]:
+
+$$\begin{align}
+q(\Theta | D) = \mathcal{N}(\Theta | \Theta_{MAP}, \Sigma) \qquad \qquad
+\text{[Equation 6]}
+\end{align}$$
+
+
 The $\Theta_{MAP}$ are the weights that maximize the posterior distribution, e.g., the pre-trained weights of a diffusion model. The $\Sigma$, however, is the inverse Hessian that must still be computed \[Kristiadi et al., 2020]. The Hessian matrix calculated at the MAP estimate is depicted in equation \[x].
 $\nabla_{\Theta}^2 \mathcal{L}(\mathcal{D} ; \Theta) \bigg|_{\Theta = \Theta_{MAP}} = - \gamma^{-2} I - \sum_{n=1}^N \nabla_{\Theta}^2 \; \log p\big(\boldsymbol{\epsilon}_{t, n} | f(\boldsymbol{x}_{t,n} ; \Theta) \big) \bigg|_{\Theta = \Theta_{MAP}}$
 Clearly, this Hessian is influenced by $\gamma$ and the Gaussian Log Likelihood. As mentioned before, the $\sigma$ defines the variance of the model's predictions in the likelihood. Consequently, this raises a vital question. How are these tuning parameters, $\gamma$ and $\sigma$ determined in the original work? We will tackle this in our ablation study later on.
