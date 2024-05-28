@@ -61,8 +61,9 @@ For evaluation there are multiple python scripts to execute
 ```shell
 cd /src/evaluation
 
+PATH_FOLDER = PATH/TO/FOLDER-WITH-THE-IMAGES-AND-VARIANCES
 python -u aggregation.py \
-    --input_dir PATH/TO/FOLDER-WITH-THE-IMAGES-AND-VARIANCES
+    --input_dir $PATH_FOLDER 
 
 python -u embed.py --variant_folder $PATH_FOLDER \
     --image_number 1000000 \ 
