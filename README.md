@@ -39,7 +39,7 @@ In order for the code to work, some additional files are reuired.
 1) Download [imagenet 128x128 ckpt of Guided Diffusion](https://openaipublic.blob.core.windows.net/diffusion/jul-2021/128x128_diffusion.pt) to `...`
 2) Download [Imagenet](https://www.image-net.org/download.php) to `...`.
 3) Download the [CelebA ckpt](https://drive.google.com/file/d/1R_H-fJYXSH79wfSKs9D-fuKQVan5L-GR/view) to `...`
-4) Download the [CelebA dataset](https://www.kaggle.com/datasets/jessicali9530/celeba-dataset) to `...`.
+4) Download the [CelebA dataset](https://www.kaggle.com/datasets/jessicali9530/celeba-dataset) to `/src/ddpm_and_guided/datasets`.
 
 
 ## Usage
@@ -57,7 +57,7 @@ For every image that is generated, the code visualizes the uncertainty. These un
 We have performed a hyperparameter search over the sigma noise and prior precision of the LLLA layer. To reproduce these findings, the following command can be executed:
 
 ### Evaluation
-For evaluation there are multiple python scripts to execute
+For evaluation there are multiple python scripts to execute. For CelebA, we have created a test dataset of 22000 images, which we placed in /src/
 ```shell
 cd /src/evaluation
 
