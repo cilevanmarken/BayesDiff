@@ -36,9 +36,9 @@ BayesDiff
 
 ## Setup
 In order for the code to work, some additional files are reuired.
-1) Download [imagenet 128x128 ckpt of Guided Diffusion](https://openaipublic.blob.core.windows.net/diffusion/jul-2021/128x128_diffusion.pt) to `...`
+1) Download [imagenet 128x128 ckpt of Guided Diffusion](https://openaipublic.blob.core.windows.net/diffusion/jul-2021/128x128_diffusion.pt) to `/src/ddpm_and_guided/models`
 2) Download [Imagenet](https://www.image-net.org/download.php) to `...`.
-3) Download the [CelebA ckpt](https://drive.google.com/file/d/1R_H-fJYXSH79wfSKs9D-fuKQVan5L-GR/view) to `...`
+3) Download the [CelebA ckpt](https://drive.google.com/file/d/1R_H-fJYXSH79wfSKs9D-fuKQVan5L-GR/view) to `/src/ddpm_and_guided/models`
 4) Download the [CelebA dataset](https://www.kaggle.com/datasets/jessicali9530/celeba-dataset) to `/src/ddpm_and_guided/datasets`.
 
 
