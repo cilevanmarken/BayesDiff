@@ -61,22 +61,22 @@ For evaluation there are multiple python scripts to execute
 ```shell
 cd /src/evaluation
 
-srun python -u aggregation.py \
+python -u aggregation.py \
     --input_dir PATH/TO/FOLDER-WITH-THE-IMAGES-AND-VARIANCES
 
-srun python -u embed.py --variant_folder $PATH_FOLDER \
+python -u embed.py --variant_folder $PATH_FOLDER \
     --image_number 1000000 \ 
     --test_folder $TEST_FOLDER \
     --test_number 180001
 
-srun python -u aggregation.py \
+python -u aggregation.py \
     --input_dir $PATH_FOLDER 
 
-srun python -u cmmd.py \
+python -u cmmd.py \
     --ref_embed $TEST_FOLDER \
     --eval_folder $PATH_FOLDER 
 
-srun python -u fid.py \
+python -u fid.py \
     --path1 $TEST_FOLDER \
     --path2 $PATH_FOLDER  \
     --aggregation sum patch_max segmentation_mean random 
