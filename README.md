@@ -56,11 +56,28 @@ For every image that is generated, the code visualizes the uncertainty. These un
 ### Hyperparameter search
 We have performed a hyperparameter search over the sigma noise and prior precision of the LLLA layer. To reproduce these findings, the following command can be executed:
 
-### Aggregation methods
-To execute our two newly introduced aggregation methods, PatchMax and SegmentationMean, the following: ...
+### Evaluation
+For evaluation there are multiple python scripts to execute
 ```shell
 srun python -u aggregation.py \
-    --input_dir PATH/TO/FOLDER-WITH-THE-IMAGES-AND-VARIANCES 
+    --input_dir PATH/TO/FOLDER-WITH-THE-IMAGES-AND-VARIANCES
+
+srun python -u embed.py --variant_folder $PATH_FOLDER \
+    --image_number 1000000 \ 
+    --test_folder $TEST_FOLDER \
+    --test_number 180001
+
+srun python -u aggregation.py \
+    --input_dir $PATH_FOLDER 
+
+srun python -u cmmd.py \
+    --ref_embed $TEST_FOLDER \
+    --eval_folder $PATH_FOLDER 
+
+srun python -u fid.py \
+    --path1 $TEST_FOLDER \
+    --path2 $PATH_FOLDER  \
+    --aggregation sum patch_max segmentation_mean random 
 ```
 
 ### Plotting the distribution of the uncertainty
