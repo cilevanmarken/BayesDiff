@@ -58,6 +58,18 @@ def load_and_evaluate(ref_embed_path, eval_folder_path):
         cmmd_score = evaluate_aggregation(test_embeddings, gen_embeddings, eval_folder_path, agg)
         print(f'CMMD distance for {eval_folder_path} {agg} excluded: {cmmd_score:.4f}')
 
+    # Randomly select 4400 gen embeddings and evaluate MMD
+    random_scores = []
+    for i in range(10):
+        gen_embeddings_excluded = get_n_samples(gen_embeddings, 4400, seed=i)
+        test_embeddings_excluded = get_n_samples(test_embeddings, 4400, seed=i)
+        cmmd_score = mmd(test_embeddings_excluded, gen_embeddings_excluded)
+        random_scores.append(cmmd_score)
+        print(f'CMMD distance for {eval_folder_path} random {i}: {cmmd_score:.4f}')
+    # Print mean and std of random scores
+    print(f'Mean of random scores: {torch.tensor(random_scores).mean():.4f}')
+    print(f'Std of random scores: {torch.tensor(random_scores).std():.4f}')
+
 # Evaluate aggregation method
 def evaluate_aggregation(test_embeddings, gen_embeddings, eval_folder, aggregation):
     json_path = os.path.join(eval_folder, f'{aggregation}.json')

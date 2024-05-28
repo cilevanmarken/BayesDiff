@@ -1,7 +1,3 @@
-"""
-Embed images using CLIP model vit-large-patch14. Makes an embedding of the images in a folder and saves them to a folder in the same directory as the input folder.
-"""
-
 import argparse
 import os
 from PIL import Image
@@ -11,9 +7,11 @@ from tqdm import tqdm
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Embed images using CLIP model')
-    parser.add_argument('--variant_folder', type=str, required=True, help='Folder with images to embed')
+    parser.add_argument('--test_folder', type=str, required=True, help='Folder with test images to embed')
+    parser.add_argument('--variant_folder', type=str, required=True, help='Folder with variant images to embed')
     parser.add_argument('--max_count', type=int, default=10000000, help='Maximum number of images to embed')
     parser.add_argument('--image_number', type=int, default=1000000, help='Base number in the filenames')
+    parser.add_argument('--test_number', type=int, default=180001, help='Base number in the test filenames')
     return parser.parse_args()
 
 def setup_device():
@@ -23,8 +21,7 @@ def setup_device():
 
 def load_model_and_processor(device):
     try:
-        model = CLIPModel.from_pretrained("openai/clip-vit-large-patch14")
-        model = model.to(device)
+        model = CLIPModel.from_pretrained("openai/clip-vit-large-patch14").to(device)
         processor = CLIPProcessor.from_pretrained("openai/clip-vit-large-patch14")
         print("Loaded model and processor for vit-large-patch14")
         return model, processor
@@ -35,39 +32,31 @@ def load_model_and_processor(device):
 def load_and_preprocess_image(image_path, processor, device):
     try:
         image = Image.open(image_path).convert("RGB")
-        inputs = processor(images=image, return_tensors="pt")
-        return inputs.to(device)
+        inputs = processor(images=image, return_tensors="pt").to(device)
+        return inputs
     except Exception as e:
         print(f"Error processing image {image_path}: {e}")
         return None
 
-def main():
-    args = parse_arguments()
-    device = setup_device()
-    img_folder = f'{args.variant_folder}/images'
-    image_number = args.image_number
-    embed_size = 768  # Dimension of embeddings
-    model_name = 'vit-large-patch14'
+def save_embeddings(embeddings, folder, model_name):
+    os.makedirs(folder, exist_ok=True)
+    file_path = os.path.join(folder, f'{model_name}_embedding.pt')
+    torch.save(embeddings, file_path)
+    print(f"Saved features to {file_path}")
 
-    out_file = os.path.join(out_folder, f'{model_name}_embedding.pt')
-    # Check if file already exists, if print and quit if it does
-    if os.path.exists(out_file):
-        print(f"Embedding file {out_file} already exists.")
-        return
-    
-    if not os.path.exists(img_folder):
-        print(f"Image folder {img_folder} does not exist.")
+def embed_images(image_folder, output_folder, model, processor, device, base_number, max_count, embed_size, model_name):
+    image_files = [f for f in os.listdir(image_folder) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
+    n_images = min(len(image_files), max_count)
+
+    if n_images == 0:
+        print(f"No images found in {image_folder}.")
         return
 
-    model, processor = load_model_and_processor(device)
-    image_files = [f for f in os.listdir(img_folder) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
-    n_images = min(len(image_files), args.max_count)
-    
-    features = torch.zeros((n_images, embed_size)).to(device)
-
+    embeddings = torch.zeros((n_images, embed_size)).to(device)
     print(f"Embedding {n_images} images...")
+
     for i, filename in enumerate(tqdm(image_files[:n_images])):
-        image_path = os.path.join(img_folder, filename)
+        image_path = os.path.join(image_folder, filename)
         inputs = load_and_preprocess_image(image_path, processor, device)
         if inputs is None:
             continue
@@ -75,23 +64,35 @@ def main():
         with torch.no_grad():
             image_features = model.get_image_features(**inputs)
         image_features = image_features / image_features.norm(p=2, dim=-1, keepdim=True)
-        
+
         try:
-            index = int(filename.replace('img_', '').split('.')[0]) - image_number
+            index = int(filename.replace('img_', '').split('.')[0]) - base_number
             if 0 <= index < n_images:
-                features[index, :] = image_features
+                embeddings[index, :] = image_features
             else:
                 print(f"Skipping image with out-of-range index: {filename}")
         except ValueError as ve:
             print(f"Error processing filename {filename}: {ve}")
 
-    print(f"Embedding shape: {features.shape}")
-    out_folder = os.path.join(args.variant_folder, 'embedding')
-    print(f'Out_fodler {out_folder}')
-    os.makedirs(out_folder, exist_ok=True)
-    out_file = os.path.join(out_folder, f'{model_name}_embedding.pt')
-    torch.save(features, out_file)
-    print(f"Saved features to {out_file}")
+    print(f"Embedding shape: {embeddings.shape}")
+    save_embeddings(embeddings, output_folder, model_name)
+
+def main():
+    args = parse_arguments()
+    device = setup_device()
+    model, processor = load_model_and_processor(device)
+    embed_size = 768  # Dimension of embeddings
+    model_name = 'vit-large-patch14'
+
+    # Embedding test images
+    test_image_folder = os.path.join(args.test_folder, 'images')
+    test_output_folder = os.path.join(args.test_folder, 'embeddings')
+    embed_images(test_image_folder, test_output_folder, model, processor, device, args.test_number, args.max_count, embed_size, model_name)
+
+    # Embedding variant images
+    variant_image_folder = os.path.join(args.variant_folder, 'images')
+    variant_output_folder = os.path.join(args.variant_folder, 'embeddings')
+    embed_images(variant_image_folder, variant_output_folder, model, processor, device, args.image_number, args.max_count, embed_size, model_name)
 
 if __name__ == "__main__":
     main()
