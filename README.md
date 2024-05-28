@@ -59,6 +59,8 @@ We have performed a hyperparameter search over the sigma noise and prior precisi
 ### Evaluation
 For evaluation there are multiple python scripts to execute
 ```shell
+cd /src/evaluation
+
 srun python -u aggregation.py \
     --input_dir PATH/TO/FOLDER-WITH-THE-IMAGES-AND-VARIANCES
 
