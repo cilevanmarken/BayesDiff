@@ -58,6 +58,10 @@ We have performed a hyperparameter search over the sigma noise and prior precisi
 
 ### Aggregation methods
 To execute our two newly introduced aggregation methods, PatchMax and SegmentationMean, the following: ...
+```shell
+srun python -u aggregation.py \
+    --input_dir PATH/TO/FOLDER-WITH-THE-IMAGES-AND-VARIANCES 
+```
 
 ### Plotting the distribution of the uncertainty
 The blogpost contains the distribution of the uncertainty values per image. These distributions can be recreated using the following command:
