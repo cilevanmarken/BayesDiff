@@ -8,9 +8,10 @@ import copy
 class CustomModel(nn.Module):
     def __init__(self, diff_model, dataloader, args, config):
         super().__init__()
+        print("Using the normal Custom Model")
         self.args = args
         self.config = config
-        print('Custom Model Hessian Free')
+
         if self.config.data.dataset == "CELEBA":
             self.conv_out = diff_model.conv_out
             self.copied_cov_out = copy.deepcopy(self.conv_out)
@@ -19,8 +20,10 @@ class CustomModel(nn.Module):
             self.feature_extractor.conv_out = nn.Identity()
             
             self.conv_out_la = DiagLaplace(nn.Sequential(self.conv_out, nn.Flatten(1, -1)), likelihood='regression', 
-                                    sigma_noise=self.args.sigma_noise, prior_precision=self.args.prior_precision, prior_mean=0.0, temperature=1.0,
+                                    sigma_noise=args.sigma_noise, prior_precision=args.prior_precision, prior_mean=0.0, temperature=1.0,
                                     backend=BackPackEF)
+            print("sigma_noise in custom model: ",args.sigma_noise)
+            print("prior_precision in custom model: ",args.prior_precision)
             self.fit(dataloader)
         else:
             self.conv_out = diff_model.out[2]
@@ -30,7 +33,7 @@ class CustomModel(nn.Module):
             self.feature_extractor.out[2] = nn.Identity()
 
             self.conv_out_la = DiagLaplace(nn.Sequential(self.conv_out, nn.Flatten(1, -1)), likelihood='regression', 
-                                    sigma_noise=self.args.sigma_noise, prior_precision=self.args.prior_precision, prior_mean=0.0, temperature=1.0,
+                                    sigma_noise=1, prior_precision=1, prior_mean=0.0, temperature=1.0,
                                     backend=BackPackEF)
             self.fit(dataloader)
 
@@ -47,30 +50,70 @@ class CustomModel(nn.Module):
             online learning settings to accumulate a sequential posterior approximation.
         """
         config = self.config
-        print(f'Prior precision {self.conv_out_la.prior_precision}')
         if self.config.data.dataset == "CELEBA":
             if override:
                 self.conv_out_la._init_H()
+                self.conv_out_la.loss = 0
                 self.conv_out_la.n_data = 0
 
             self.conv_out_la.model.eval()
             self.conv_out_la.mean = parameters_to_vector(self.conv_out_la.model.parameters()).detach()
 
+            (X,t), _ = next(iter(train_loader))
+            with torch.no_grad():
+                try:
+                    out = self.conv_out_la.model(self.feature_extractor(X[:1].to(self.conv_out_la._device), t[:1].to(self.conv_out_la._device)))
+                except (TypeError, AttributeError):
+                    out = self.conv_out_la.model(self.feature_extractor(X.to(self.conv_out_la._device), t.to(self.conv_out_la._device)))
+            self.conv_out_la.n_outputs = out.shape[-1]
+            setattr(self.conv_out_la.model, 'output_size', self.conv_out_la.n_outputs)
+
             N = len(train_loader.dataset)
-            self.conv_out_la.H += torch.full((self.conv_out_la.H.shape[0],), self.conv_out_la.prior_precision[0] * N).to(self.conv_out_la._device) # Add for batch size diagonal of identity matrix (prior precision not needed becauase equal to 1)
+            i=0
+            for (X,t), y in train_loader:
+                print(i)
+                self.conv_out_la.model.zero_grad()
+                
+                X, t, y = X.to(self.conv_out_la._device), t.to(self.conv_out_la._device), y.to(self.conv_out_la._device)
+                with torch.no_grad():
+                    X = self.feature_extractor(X, t)
+                loss_batch, H_batch = self.conv_out_la._curv_closure(X, y, config, N)
+                self.conv_out_la.loss += loss_batch
+                self.conv_out_la.H += H_batch
+                i+=1
 
             self.conv_out_la.n_data += N
 
         else: 
             if override:
                 self.conv_out_la._init_H()
+                self.conv_out_la.loss = 0
                 self.conv_out_la.n_data = 0
 
             self.conv_out_la.model.eval()
             self.conv_out_la.mean = parameters_to_vector(self.conv_out_la.model.parameters()).detach()
 
-            N = len(train_loader.dataset) # 250
-            self.conv_out_la.H += torch.full((self.conv_out_la.H.shape[0],), self.conv_out_la.prior_precision[0] * N).to(self.conv_out_la._device) # Add for batch size diagonal of identity matrix (prior precision not needed becauase equal to 1)
+            (X,labels,t), _ = next(iter(train_loader))
+            model_kwargs = {"y": labels.to(self.conv_out_la._device)}
+            with torch.no_grad():
+                out = self.conv_out_la.model(self.feature_extractor(X.to(self.conv_out_la._device), t.to(self.conv_out_la._device), **model_kwargs))
+            self.conv_out_la.n_outputs = out.shape[-1]
+            setattr(self.conv_out_la.model, 'output_size', self.conv_out_la.n_outputs)
+
+            N = len(train_loader.dataset)
+            i=0
+            for (X, labels, t), y in train_loader:
+                print(i)
+                self.conv_out_la.model.zero_grad()
+                
+                X, labels, t, y = X.to(self.conv_out_la._device), labels.to(self.conv_out_la._device), t.to(self.conv_out_la._device), y.to(self.conv_out_la._device)
+                model_kwargs = {"y": labels}
+                with torch.no_grad():
+                    X = self.feature_extractor(X, t, **model_kwargs)
+                loss_batch, H_batch = self.conv_out_la._curv_closure(X, y, config, N)
+                self.conv_out_la.loss += loss_batch
+                self.conv_out_la.H += H_batch
+                i+=1
 
             self.conv_out_la.n_data += N
 
@@ -129,3 +172,50 @@ class CustomModel(nn.Module):
             acc_mean = torch.split(acc_mean, 3, dim=1)[0]          
             
             return acc_mean
+
+
+class CustomModelHF(nn.Module):
+    def __init__(self, diff_model, dataloader, args, config):
+        super(CustomModel).__init__()
+        print("Using Custom Model for the Hessian Free variant")
+
+    def fit(self, train_loader, override=True):
+        """Fit the local Laplace approximation at the parameters of the model.
+
+        Parameters
+        ----------
+        train_loader : torch.data.utils.DataLoader
+            each iterate is a training batch (X, y);
+            `train_loader.dataset` needs to be set to access \\(N\\), size of the data set
+        override : bool, default=True
+            whether to initialize H, loss, and n_data again; setting to False is useful for
+            online learning settings to accumulate a sequential posterior approximation.
+        """
+        config = self.config
+        print(f'Prior precision {self.conv_out_la.prior_precision}')
+        if self.config.data.dataset == "CELEBA":
+            if override:
+                self.conv_out_la._init_H()
+                self.conv_out_la.n_data = 0
+
+            self.conv_out_la.model.eval()
+            self.conv_out_la.mean = parameters_to_vector(self.conv_out_la.model.parameters()).detach()
+
+            N = len(train_loader.dataset)
+            self.conv_out_la.H += torch.full((self.conv_out_la.H.shape[0],), self.conv_out_la.prior_precision[0] * N).to(self.conv_out_la._device) # Add for batch size diagonal of identity matrix (prior precision not needed becauase equal to 1)
+
+            self.conv_out_la.n_data += N
+
+        else: 
+            if override:
+                self.conv_out_la._init_H()
+                self.conv_out_la.n_data = 0
+
+            self.conv_out_la.model.eval()
+            self.conv_out_la.mean = parameters_to_vector(self.conv_out_la.model.parameters()).detach()
+
+            N = len(train_loader.dataset) # 250
+            self.conv_out_la.H += torch.full((self.conv_out_la.H.shape[0],), self.conv_out_la.prior_precision[0] * N).to(self.conv_out_la._device) # Add for batch size diagonal of identity matrix (prior precision not needed becauase equal to 1)
+
+            self.conv_out_la.n_data += N
+

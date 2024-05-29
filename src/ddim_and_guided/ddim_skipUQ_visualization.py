@@ -1,6 +1,6 @@
 import numpy as np
-from la_train_datasets_HF import celeba_dataset, imagenet_dataset
 from pytorch_lightning import seed_everything
+from la_train_datasets import celeba_dataset, imagenet_dataset
 import os
 import torch
 from runners.diffusion import Diffusion
@@ -8,7 +8,7 @@ from models.diffusion import Model, flattened_Model
 from models.improved_ddpm.unet import UNetModel as ImprovedDDPM_Model
 from models.guided_diffusion.unet import UNetModel as GuidedDiffusion_Model
 from models.ema import EMAHelper
-from custom_model_HF import CustomModel
+from custom_model import CustomModel, CustomModelHF
 import torchvision.utils as tvu
 from torchvision.utils import make_grid
 import logging
@@ -39,7 +39,7 @@ def conditioned_var_iteration(diffusion, var_xt, cov_xt_epst, var_epst, seq, tim
     
 def main():
     args, config = parse_args_and_config()
-
+ 
     device = f'cuda:{args.device}' if torch.cuda.is_available() else 'cpu'
     device = torch.device(device)
     torch.backends.cudnn.benchmark = True
@@ -116,12 +116,19 @@ def main():
     if diffusion.config.data.dataset == "CELEBA":
         train_dataset= celeba_dataset(args = args, config = diffusion.config)
         train_dataloader= torch.utils.data.DataLoader(train_dataset, batch_size=args.train_la_batch_size, shuffle=True)
-        custom_model = CustomModel(model, train_dataloader, args, diffusion.config)
+
+        if args.hessian_mode == "None":
+            custom_model = CustomModelHF(model, train_dataloader, args, diffusion.config)
+        else:
+            custom_model = CustomModel(model, train_dataloader, args, diffusion.config)
 
     else:
         train_dataset= imagenet_dataset(args = args, config = diffusion.config)
         train_dataloader= torch.utils.data.DataLoader(train_dataset, batch_size=args.train_la_batch_size, shuffle=True)
-        custom_model = CustomModel(model, train_dataloader, args, diffusion.config)      
+        if args.hessian_mode == "None":
+            custom_model = CustomModelHF(model, train_dataloader, args, diffusion.config)
+        else:
+            custom_model = CustomModel(model, train_dataloader, args, diffusion.config)   
 
 ##########   get t sequence (note that t is different from timestep)  ########## 
 
@@ -148,8 +155,10 @@ def main():
     img_id = 1000000
     sample_x = [] 
     
-    #exp_dir = f'./exp/{diffusion.config.data.dataset}/ddim_fixed_skip_{skip}_train%{args.train_la_data_size}_step{args.timesteps}_S{args.mc_size}/'
-    exp_dir = f'/home/scur0387/{diffusion.config.data.dataset}/ddim_fixed_skip_{skip}_train%{args.train_la_data_size}_step{args.timesteps}_S{args.mc_size}_sigma{args.sigma_noise}_precision{args.prior_precision}_samples{args.total_n_sample}_HF/'
+    if args.hessian_mode == "None":
+        exp_dir = f'./exp/{diffusion.config.data.dataset}/ddim_fixed_skip_{skip}_train%{args.train_la_data_size}_step{args.timesteps}_S{args.mc_size}_sigma{args.sigma_noise}_precision{args.prior_precision}_samples{args.total_n_sample}_HF/'
+    else:
+        exp_dir = f'./exp/{diffusion.config.data.dataset}/ddim_fixed_skip_{skip}_train%{args.train_la_data_size}_step{args.timesteps}_S{args.mc_size}_sigma{args.sigma_noise}_precision{args.prior_precision}_samples{args.total_n_sample}/'
     
     os.makedirs(exp_dir, exist_ok=True)
     samle_batch_size = args.sample_batch_size
