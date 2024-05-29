@@ -322,8 +322,6 @@ class celeba_dataset(torch.utils.data.Dataset):
             self.attr = pandas.read_csv(f, delim_whitespace=True, header=1)
         mask = (splits[1] == 0)   
         self.filename = splits[mask].index.values
-        print(f'Self.filename {self.filename}')
-        print(f'Self.filename length {len(self.filename)}')
         self.attr = torch.as_tensor(self.attr[mask].values)
         self.attr = (self.attr + 1) // 2  # map attributes from {-1, 1} to {0, 1}
 

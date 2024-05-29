@@ -174,9 +174,9 @@ class CustomModel(nn.Module):
             return acc_mean
 
 
-class CustomModelHF(nn.Module):
+class CustomModelHF(CustomModel):
     def __init__(self, diff_model, dataloader, args, config):
-        super(CustomModel).__init__()
+        super(CustomModelHF, self).__init__(diff_model, dataloader, args, config)
         print("Using Custom Model for the Hessian Free variant")
 
     def fit(self, train_loader, override=True):
@@ -192,7 +192,6 @@ class CustomModelHF(nn.Module):
             online learning settings to accumulate a sequential posterior approximation.
         """
         config = self.config
-        print(f'Prior precision {self.conv_out_la.prior_precision}')
         if self.config.data.dataset == "CELEBA":
             if override:
                 self.conv_out_la._init_H()

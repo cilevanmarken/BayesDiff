@@ -10,8 +10,6 @@ def parse_arguments():
     parser.add_argument('--test_folder', type=str, required=True, help='Folder with test images to embed')
     parser.add_argument('--variant_folder', type=str, required=True, help='Folder with variant images to embed')
     parser.add_argument('--max_count', type=int, default=10000000, help='Maximum number of images to embed')
-    # parser.add_argument('--image_number', type=int, default=1000000, help='Base number in the filenames')
-    # parser.add_argument('--test_number', type=int, default=180001, help='Base number in the test filenames')
     return parser.parse_args()
 
 def setup_device():
@@ -44,11 +42,12 @@ def save_embeddings(embeddings, folder, model_name):
     torch.save(embeddings, file_path)
     print(f"Saved features to {file_path}")
 
-def embed_images(image_folder, output_folder, model, processor, device, base_number, max_count, embed_size, model_name):
+def embed_images(image_folder, output_folder, model, processor, device, max_count, embed_size, model_name):
     # Check if embeddings already exist
     embeddings_file_path = os.path.join(output_folder, f'{model_name}_embedding.pt')
+    print(f'Embeedings file path {embeddings_file_path}')
     if os.path.exists(embeddings_file_path):
-        print(f"Embeddings already exist at {embeddings_file_path}. Skipping embedding process.")
+        print(f"Embeddings already exist. Skipping embedding process.")
         return
 
     image_files = [f for f in os.listdir(image_folder) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
@@ -85,11 +84,15 @@ def main():
     embed_size = 768  # Dimension of embeddings
     model_name = 'vit-large-patch14'
 
+    print('================================')
+    print(f'Embedding the test images')
     # Embedding test images
     test_image_folder = os.path.join(args.test_folder, 'images')
     test_output_folder = os.path.join(args.test_folder, 'embeddings')
-    embed_images(test_image_folder, test_output_folder, model, processor, device, args.test_number, args.max_count, embed_size, model_name)
+    embed_images(test_image_folder, test_output_folder, model, processor, device, args.max_count, embed_size, model_name)
 
+    print('================================')
+    print(f'Embedding the generated images')
     # Embedding variant images
     variant_image_folder = os.path.join(args.variant_folder, 'images')
     variant_output_folder = os.path.join(args.variant_folder, 'embeddings')

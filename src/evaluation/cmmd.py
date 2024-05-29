@@ -19,7 +19,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 def parse_arguments():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(description='Evaluate the model')
-    parser.add_argument('--ref_embed', type=str, required=True, help='Embeddings of reference images')
+    parser.add_argument('--ref_embed', type=str, required=True, help='Folder containing the folder Embeddings of reference images')
     parser.add_argument('--eval_folder', type=str, required=True, help='Folder containing generated images and embeddings')
     parser.add_argument('--random', type=bool, default=True, help='Generate scores for random')
     parser.add_argument('--n_random', type=int, default=4400, help='How many images to use for random scores')
@@ -42,6 +42,8 @@ def mmd(x, y):
 
 def get_n_samples(embedding, n, seed=42):
     """Get n random samples from embeddings."""
+    if n > embedding.shape[0]:
+        raise ValueError(f"Requested sample size {n} is larger than the population size {embedding.shape[0]}")
     random.seed(seed)
     idx = random.sample(range(embedding.shape[0]), n)
     return embedding[idx, :]
@@ -64,10 +66,7 @@ def load_and_evaluate(ref_embed_path, eval_folder_path, random=True, n_random=44
     
     test_embeddings_sampled = get_n_samples(test_embeddings, gen_embeddings.shape[0])
     cmmd_normal = mmd(test_embeddings_sampled, gen_embeddings)
-    # Get dir of eval_folder_path
-    eval_folder_path = os.path.basename(eval_folder_path)
-
-    print(f'CMMD distance for {eval_folder_path}: {cmmd_normal:.4f}')
+    print(f'CMMD distance for {os.path.basename(eval_folder_path)}: {cmmd_normal:.4f}')
     
     for agg in ['sum', 'patch_max', 'segmentation_mean']:
         cmmd_score = evaluate_aggregation(test_embeddings, gen_embeddings, eval_folder_path, agg)
@@ -75,6 +74,10 @@ def load_and_evaluate(ref_embed_path, eval_folder_path, random=True, n_random=44
             print(f'CMMD distance for {eval_folder_path} {agg} excluded: {cmmd_score:.4f}')
 
     if random:
+        if n_random > gen_embeddings.shape[0] or n_random > test_embeddings.shape[0]:
+            print(f"Warning: n_random {n_random} is larger than the number of available embeddings. Reducing n_random to the smallest available size.")
+            n_random = min(gen_embeddings.shape[0], test_embeddings.shape[0])
+
         random_scores = []
         for i in range(10):
             gen_embeddings_excluded = get_n_samples(gen_embeddings, n_random, seed=i)

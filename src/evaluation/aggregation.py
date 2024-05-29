@@ -48,7 +48,7 @@ def get_foreground_masked_var(model, image, var):
 
 
 
-def segmentation_sum_score(model, image, var):
+def segmentation_mean_score(model, image, var):
 	masked_var = get_foreground_masked_var(model, image, var)
 	return masked_var.mean()
 
@@ -105,8 +105,8 @@ def get_scores(info, aggregation_method, segmentation=False):
 			#TODO: make patch_size different for smaller images?
 
 			score = patch_avg_max_score(var)
-		elif aggregation_method == "segmentation_sum":
-			score = segmentation_sum_score(model, image, var)
+		elif aggregation_method == "segmentation_mean":
+			score = segmentation_mean_score(model, image, var)
 		else:
 			raise ValueError("Invalid aggregation method")
 
@@ -130,9 +130,9 @@ def main():
     var_tensor_path = os.path.join(args.input_dir, "var_tensors")
     image_path = os.path.join(args.input_dir, "images")
 
-    for aggregation_method in ["sum", "patch_max", "segmentation_sum"]:
+    for aggregation_method in ["sum", "patch_max", "segmentation_mean"]:
         print(f"Aggregation_method: {aggregation_method}")
-        segmentation = True if aggregation_method == "segmentation_sum" else False
+        segmentation = True if aggregation_method == "segmentation_mean" else False
 
         info = get_all_info_dict(var_tensor_path, image_path, segmentation=segmentation)
 

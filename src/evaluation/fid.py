@@ -111,6 +111,8 @@ def main():
         if aggregation == 'random':
             mean_fid, std_fid = calculate_random_fid(path1, args.path2, batch_size, device)
             print(f"Random FID Mean: {mean_fid}, Std: {std_fid}")
+        elif aggregation == 'all':
+            continue
         else:
             fid_value = calculate_fid_for_aggregation(path1, args.path2, aggregation, batch_size, device)
             if fid_value is not None:
