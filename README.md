@@ -40,6 +40,7 @@ In order for the code to work, some additional files are reuired.
 2) Download [Imagenet](https://www.image-net.org/download.php) to `...`.
 3) Download the [CelebA ckpt](https://drive.google.com/file/d/1R_H-fJYXSH79wfSKs9D-fuKQVan5L-GR/view) to `/src/ddpm_and_guided/models`
 4) Download the [CelebA dataset](https://www.kaggle.com/datasets/jessicali9530/celeba-dataset) and only put the deepest img_align_celeba folder into `/src/ddpm_and_guided/datasets`.
+5) For the test data on CelebA, we have selected all the images with a basecount higher than 180000 and put them in a separate folder for evaluation.
 
 
 ## Usage
