@@ -369,7 +369,7 @@ We tested the Hessian-free variant using different values of prior precision, wh
       <th>56.657土 0.11</th>
   </tr>
   <tr align="center">
-    <td colspan=7><b>Table 1.</b> Evaluating the image quality of DDIM Guided with dataset CelebA.</td>
+    <td colspan=7><b>Table 1.</b> Evaluating the image quality of DDIM Guided with dataset CelebA. The number between the brackets denotes the number of images that are used for the evaluation.</td>
   </tr>
 </table>
 
