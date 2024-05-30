@@ -470,12 +470,12 @@ At last, we want to press that the practical application of the BayesDiff framew
 ## *Authors' Contributions*
 
 - **Literature review:** Sebastiaan will be taking charge over the literature review. Although each member contributes to it.
-Writing the general parts of the tutorial: Sebastiaan & Liang will be involved with the general sections of the tutorial, such as introduction, background, relevancy, etc.
-- **Reproduce the findings:** Jesse will work on reproducing the qualitative and quantitative results of the paper.
+Everyone is writing the general parts of the blogpost. 
+- **Reproduce the findings:** Jesse and Cile will work on reproducing the qualitative and quantitative results of the paper.
 - **Hyperparameter tuning:** Cile will be taking charge in tuning the hyperparameters of the Laplacian, therefore she will also write the part of the background, experiment setup, results, etc.
-- **Replace the Hessian by KFAC & Making the Laplacian Hessian-Free:** This is one of our extensions, Cile and Ivo will be looking into this part.
+- **Replace the Hessian by KFAC & Making the Laplacian Hessian-Free:** This is one of our extensions, Cile contributed by looking at the Kronecker variant of the Laplacian and Liang contributed to the Laplacian Hessian-Free variant.
 - **Implement a variant of the aggregation mechanism:** Ivo will work on applying a variety of aggregation methods on the uncertainty estimates.
-- **Replace the evaluation metrics:** Liang will do further research on different metrics and will report results on replacing the FID with the CMMD.
+- **Replace the evaluation metrics:** Liang will do further research on different metrics and will report results of FID and the CMMD.
 - Writing the tutorial will be divided amongst all members, since the tutorial is highly dependent on the execution of the code. Each member that engaged in a specific experiment will write that part of the tutorial.
 
 
