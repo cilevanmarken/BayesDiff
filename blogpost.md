@@ -361,12 +361,12 @@ We tested the Hessian-free variant using different values of prior precision, wh
   </tr>
   <tr align="center">
       <th>random(4400)</th>
-      <th>1.729</th>
-      <th>1.698</th>
-      <th>1.7846</th>
-      <th>62.705</th>
-      <th>85.339</th>
-      <th>56.4681</th>
+      <th>1.733 土 6.3*10^-3</th>
+      <th>1.702 土 7.0*10^-3</th>
+      <th>1.782 土 9.1*10^-3</th>
+      <th>62.907 土 0.1</th>
+      <th>84.101 土 0.19</th>
+      <th>56.657土 0.11</th>
   </tr>
   <tr align="center">
     <td colspan=7><b>Table 1.</b> Evaluating the image quality of DDIM Guided with dataset CelebA.</td>
