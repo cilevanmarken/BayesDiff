@@ -327,37 +327,37 @@ We tested the Hessian-free variant using different values of prior precision, wh
       <th>None</th>
       <th>1.739</th>
       <th>1.708</th>
-      <th>1.7879</th>
+      <th>1.788</th>
       <th>62.525</th>
       <th>83.726</th>
-      <th>56.256</th>
+      <th>56.276</th>
   </tr>
   <tr align="center">
       <th>Sum</th>
       <th>1.744<br>(4376)</th>
       <th>1.718<br>(4207)</th>
-      <th>1.7772<br>(4355)</th>
-      <th>64.866</th>
-      <th>84.567</th>
-      <th>57.184</th>
+      <th>1.778<br>(4355)</th>
+      <th>62.843</th>
+      <th>84.130</th>
+      <th>57.197</th>
   </tr>
   <tr align="center">
       <th>PatchMZ</th>
       <th>1.739<br>(4475)</th>
       <th>1.707<br>(4405)</th>
-      <th>1.7798<br>(4414)</th>
-      <th>65.174</th>
-      <th>84.304</th>
-      <th>57.351</th>
+      <th>1.780<br>(4414)</th>
+      <th>62.845</th>
+      <th>84.118</th>
+      <th>57.365</th>
   </tr>
   <tr align="center">
       <th>SegmentationMean</th>
       <th>1.747<br>(4384)</th>
       <th>1.711<br>(4265)</th>
-      <th>1.78<br>(4323)</th>
-      <th>64.25</th>
-      <th>85.082</th>
-      <th>56.924</th>
+      <th>1.782<br>(4323)</th>
+      <th>62.812</th>
+      <th>84.202</th>
+      <th>56.890</th>
   </tr>
   <tr align="center">
       <th>random(4400)</th>
